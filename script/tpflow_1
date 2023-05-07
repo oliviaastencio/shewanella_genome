@@ -1,0 +1,89 @@
+# $CDS=/mnt/home/users/pab_001_uma/pedro/proyectos/shewanella/files_to_shewanella_db/6666666.257767.fna,
+# $fln_warning=/mnt/home/users/pab_001_uma/laguilera/shewanella/patrones,
+# $transposases_database=/mnt/home/users/pab_001_uma/pedro/databases/transposases/Tpases020812,
+# $fln_iden_filter=80,
+
+# %full_lengther){
+#     . ~soft_cvi_114/initializes/init_fln
+#     rm -rf temp
+#     ?
+#     full_lengther_next -s 10.243 -w [lcpu] -z -g plant -u $prot_database/local_database/local_database -q 'd' -f $CDS -a ''
+# }
+
+# %fln_exonerate_CDS_analysis){
+#     module load exonerate
+#     rm -r exonerate_results
+#     grep -F -f $fln_warning full_lengther)/fln_results/pt_seqs > putative_altered_seq
+#     cut -f 1 putative_altered_seq  > putative_gene_altered_list
+#     cut -f 3 putative_altered_seq > putative_protein_altered_list
+#     tr "\n" '@' < get_proteins)/total_prots.fasta | sed 's/>/\n>/g' | grep -F -f putative_protein_altered_list | tr '@' "\n" > putative_protein_altered_seq.fasta
+#     tr "\n" '@' < $CDS | sed 's/>/\n>/g' | grep -F -f putative_gene_altered_list | tr '@' "\n" > putative_gene_altered_seq.fasta
+#     awk '{ if($8 >= $fln_iden_filter) print $1 "\t" $3}' putative_altered_seq > putative_altered_pairs
+#     while read -r line ; do
+#         rna=`echo -e "$line" | cut -f 1`
+#         prot=`echo -e "$line" | cut -f 2`
+#         tr "\n" '@' < putative_protein_altered_seq.fasta | sed 's/>/\n>/g' | grep $prot | tr '@' "\n" > prot.fa
+#         tr "\n" '@' < putative_gene_altered_seq.fasta | sed 's/>/\n>/g' | grep $rna | tr '@' "\n" > rna.fa
+#         ?
+#         exonerate -m protein2dna prot.fa rna.fa >> exonerate_results
+#     done < putative_altered_pairs
+#     grep " F " exonerate_results > frameshift_exonerate_results
+#     tr ' ' "\t" < frameshift_exonerate_results | cut -f 6 > fln_exonerate_frameshift_ID
+
+# }
+
+# %make_transposase_blast_db){
+#     module load blast_plus/2.2.30+
+#     ln -s $transposases_database tp_db
+#     ?
+#     makeblastdb -in tp_db  -dbtype prot
+# }
+
+all_genome_transposases_identification){
+    . ~pedro/software/ISEScan/initialize
+    ln -s $genome_seq genome_to_scan.fasta
+    ?
+    isescan.py genome_to_scan.fasta proteome hmm  
+    grep "insertion_sequence" prediction/genome_to_scan.fasta.gff | cut -f 1,4,5 > ISSCAN_genome_coordinates
+}
+  
+transposases_environment_analysis){
+     module load blast_plus/2.2.30+
+     fasta_editor.rb -i $genome_seq -c a -o all_genome_transposases_environment_seq -f $isscan_coordinates -T 2000
+     #fasta_editor.rb -i $genome_seq -c a -o all_genome_transposases_environment_seq -f all_genome_transposases_identification)/ISSCAN_genome_coordinates -T 2000
+     ?
+     blastx -query all_genome_transposases_environment_seq -db $prot_database/local_database/local_database -evalue 1e-10 -out all_genome_transposases_environment_blastx.out.txt -outfmt "6 std qlen slen"
+}
+ 
+get_definitive_transposases){
+ 	. ~soft_cvi_114/initializes/init_report_html
+ 	rm -rf results
+ 	?
+ 	transposons_finder.rb -b transposases_environment_analysis)/all_genome_transposases_environment_blastx.out.txt -i 35 -c 70 -t 250 # -i 35 filter out low identity hsps that overlaps between them at protein level, -c 70 verifies that the protein aligned against genome is a real match and not a partial coincidence. -t 250 requires the transposon length in nt to be at least 250 nt. This argument removes spureous matches not detected by ISscan.
+}
+
+tp_filtre){
+while read -r line
+do
+	module load blast_plus/2.2.30+
+	module load cdhit/4.5.4
+    mkdir -p $tp_case
+    awk '{ print $1"_"$2"_"$3 "\t" 2000 "\t" $3-$2+2000 }' all_genome_transposases_identification)/ISSCAN_genome_coordinates > $tp_case/new_tp_coordinates 
+    awk '{ print $1 }' get_definitive_transposases)/results/summary.txt | sed s'/':'/\t/g' | awk '{ print $2":"$3 }' > $tp_case/tp_transposons_finder_coordinates
+
+    while read region
+    do
+        folder='tp_'` echo $region | tr ':' '_'`
+        mkdir -p $tp_case/$folder
+        grep $region get_definitive_transposases)/results/summary.txt | cut -f 4,5 | tr ',' '\n' | tr '\t' '\n' > $tp_case/$folder/protein_names
+        ?
+        lista_to_fasta.rb $prot_database/total_prots.fasta $tp_case/$folder/protein_names > $tp_case/$folder/proteins.fasta
+        cd-hit -i $tp_case/$folder/proteins.fasta -o $tp_case/$folder/proteins_new.fasta -c 0.95
+        grep $region get_definitive_transposases)/results/summary.txt | cut -f 1,2,3 > $tp_case/$folder/tp_finder_coordinate
+        lista_to_fasta.rb transposases_environment_analysis)/all_genome_transposases_environment_seq $tp_case/$folder/tp_finder_coordinate > $tp_case/$folder/tp.fasta
+        blastx -query $tp_case/$folder/tp.fasta -subject $tp_case/$folder/proteins_new.fasta -outfmt '7 std slen qlen' > $tp_case/$folder/blast
+        awk '{if ($3>=35) {print $0}}' $tp_case/$folder/blast | cut -f 1,2,3,4,6,7,8,13,14 > $tp_case/$folder/blast_summary
+        cat $tp_case/$folder/tp_finder_coordinate $tp_case/$folder/blast_summary > $tp_case/$folder/result_summary  
+    done < $tp_case/tp_transposons_finder_coordinates
+done < $data/genome_name
+}
