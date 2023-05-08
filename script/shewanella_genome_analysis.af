@@ -150,7 +150,7 @@ pyani_report){
 	merge_tabular.rb *cog_table.txt > Total_table.txt
 }
 
-%anotation_filtre){
+%annotation_filter){
 	export PATH=~oliastencio/micro_lab3//Pdp11_genome_analysis/genome_shewanella_Pdp11/script:$PATH
 	export PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
 	module load ruby/2.4.1
