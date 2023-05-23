@@ -98,7 +98,7 @@ if [ "$1" == "char" ]; then  #####TODOS LOS BLOQUES LISTO########
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w script/shewanella_genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
+	AutoFlow -c 1 -s -w $script_path/shewanella_genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
 fi
 
 if [ "$1" == "protein_db" ]; then  #####LISTO##############
@@ -127,7 +127,7 @@ if [ "$1" == "tp_case" ]; then  #####LISTO##############REVISAR RESULTADOS
 		\\$genome_seq=$data_path/genomes_problem/$line.fasta,
 		\\$prot_database=$data_path/tp_data
 		" | tr -d [:space:]`
-		AutoFlow -c 1 -s -w script/tpflow -V $vars -o "$genome_analysis_path/transposon/executions/"$line $2
+		AutoFlow -c 1 -s -w $script_path/tpflow -V $vars -o "$genome_analysis_path/transposon/executions/"$line $2
 
 	done < $data_path/genome_name
 fi 
@@ -142,7 +142,7 @@ if [ "$1" == "genes" ]; then
 
 	mkdir -p $genome_analysis_path/genes_identification/Tarsynflow/proteome
 
-	sbatch reduce_prot_redundancy.sh
+	reduce_prot_redundancy.sh
 
 fi
 
