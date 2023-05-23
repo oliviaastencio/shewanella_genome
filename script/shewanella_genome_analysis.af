@@ -1,45 +1,5 @@
-%ab1_clean){
-	mkdir -p reassignment
-	mkdir -p reassignment/16S_Shewanella
-	main_folder=`pwd`
-	while read -r line
-	do
-	    folder_16s=`echo $line`
-	    mkdir -p reassignment/16S_Shewanella/$folder_16s
-	    source ~soft_bio_267/initializes/init_emboss
-	    ?
-	    seqret -sformat abi -osformat fastq -auto -stdout -sequence $data_path/ab1'/'$folder_16s'.ab1' > reassignment/16S_Shewanella/$folder_16s'/'$folder_16s'.fastq'
-	    module load bbmap/38.50b
-	    bbduk.sh -Xmx1g in=reassignment/16S_Shewanella/$folder_16s'/'$folder_16s'.fastq' out=reassignment/16S_Shewanella/$folder_16s'/'$folder_16s'clean.fastq' qtrim=rl trimq=20 qin=33
-	    seqret -sformat fastq -osformat fasta -auto -stdout -sequence reassignment/16S_Shewanella/$folder_16s'/'$folder_16s'clean.fastq' > reassignment/16S_Shewanella/$folder_16s'/'$folder_16s'.fasta'
-	    mkdir -p reassignment/16S_Shewanella/$folder_16s'/'analysis
-	    module load fastqc
-	    fastqc -o reassignment/16S_Shewanella/$folder_16s'/'analysis reassignment/16S_Shewanella/$folder_16s'/'$folder_16s'.fastq'   
-	done < $ab1_name
-}
+16s_blastn_remote){
 
-%rename_file){
-	cd !ab1_clean*!/reassignment
-	?
-	sed s'/JM_1492R/Pdp11_1492R/g' 16S_Shewanella/Pdp11_1492R/Pdp11_1492R.fasta > 16S_Shewanella/Pdp11_1492R/Pdp11_1492R_1.fasta
-	rm 16S_Shewanella/Pdp11_1492R/Pdp11_1492R.fasta
-	sed s'/FMCCB65_1492R/SdM1_1492R/g' 16S_Shewanella/SdM1_1492R/SdM1_1492R.fasta > 16S_Shewanella/SdM1_1492R/SdM1_1492R_1.fasta
-	rm 16S_Shewanella/SdM1_1492R/SdM1_1492R.fasta
-	sed s'/CCCT_1492R/SdM2_1492R/g' 16S_Shewanella/SdM2_1492R/SdM2_1492R.fasta > 16S_Shewanella/SdM2_1492R/SdM2_1492R_1.fasta
-	rm 16S_Shewanella/SdM2_1492R/SdM2_1492R.fasta
-	sed s'/SH2_1492R/SH12_1492R/g' 16S_Shewanella/SH12_1492R/SH12_1492R.fasta > 16S_Shewanella/SH12_1492R/SH12_1492R_1.fasta
-	rm 16S_Shewanella/SH12_1492R/SH12_1492R.fasta
-	sed s'/SH8_1492R/SH6_1492R.fasta/g' 16S_Shewanella/SH6_1492R/SH6_1492R.fasta > 16S_Shewanella/SH6_1492R/SH6_1492R_1.fasta
-	rm 16S_Shewanella/SH6_1492R/SH6_1492R.fasta
-	sed s'/SH19_1492R/SH9_1492R/g' 16S_Shewanella/SH9_1492R/SH9_1492R.fasta > 16S_Shewanella/SH9_1492R/SH9_1492R_1.fasta
-	rm 16S_Shewanella/SH9_1492R/SH9_1492R.fasta
-	cp 16S_Shewanella/SH16_1492R/SH16_1492R.fasta 16S_Shewanella/SH16_1492R/SH16_1492R_1.fasta
-	cp 16S_Shewanella/SH4_1492R/SH4_1492R.fasta 16S_Shewanella/SH4_1492R/SH4_1492R_1.fasta
-}
-
-%16s_blastn_remote){
-	!rename_file*!
-	cd !ab1_clean*!/reassignment
 	. ~soft_bio_267/initializes/init_blast
 	mkdir -p blast_16S
 
@@ -47,110 +7,78 @@
 	do 
 		ab1_file=`echo $line`
 		?
-		blastn -query 16S_Shewanella'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fna -outfmt '7 std slen qlen' > blast_16S'/blast_'$ab1_file
+		blastn -query $data_path/16S_Shewanella'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fna -outfmt '7 std slen qlen' > blast_16S/'blast_'$ab1_file
 	done < $ab1_name
 }
 
-%sibelia){
+sibelia){
    	export PATH=/mnt/home/users/pab_001_uma/pedro/software/Sibelia/bin/:$PATH
 	module load circos
 	PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
 
-	rm -r $out_file_sibelia
-	mkdir -p $out_file_sibelia
-	
+while read -r line
+do 
+	problem_strain=` echo $line`
+	mkdir -p $problem_strain 
 	while read -r line
 	do 
-		problem_strain=` echo $line`
-	    mkdir -p $out_file_sibelia/$problem_strain 
-	    
-	    while read -r line
-		do 
-		name_problem_strain=`echo $line`
-	        mkdir -p $out_file_sibelia/$problem_strain/$name_problem_strain
-	        Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain'.fasta'  $data_path/genomes_problem/$name_problem_strain'.fasta' -o $out_file_sibelia/$problem_strain/$name_problem_strain
-	        cd $out_file_sibelia/$problem_strain/$name_problem_strain/circos
-	        circos -conf circos.conf -debug_group summary,timer -param image/radius=1500p > run.out 
-	    done < $data_path/genome_name
+		genome_candidate=`echo $line`	  
+		mkdir -p $problem_strain/$genome_candidate
+		?
+	    Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain'.fasta'  $data_path/total_genomes/$genome_candidate -o $problem_strain/$genome_candidate
+	    cd $problem_strain/$genome_candidate/circos
+	    circos -conf circos.conf -debug_group summary,timer -param image/radius=1500p > run.out 
+	    cd ../../..
+	done < $data_path/all_genome_list
 
-	    while read -r line
-		do 
-			genome_candidate=`echo $line`	   
-			mkdir -p $out_file_sibelia'/'$problem_strain/$genome_candidate
-			?
-	        Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain'.fasta'  /mnt/home/users/pab_001_uma/oliastencio/micro_lab3/Pdp11_genome_analysis/genome_shewanella_Pdp11/reassignment/genomes_Shewanella/genomes/$genome_candidate -o $out_file_sibelia/$problem_strain/$genome_candidate
-	        cd $out_file_sibelia/$problem_strain/$genome_candidate/circos
-	        circos -conf circos.conf -debug_group summary,timer -param image/radius=1500p > run.out 
-	    done < $genome_candidate_list
-
-	    cd $out_file_sibelia/$problem_strain
-	    grep 'All' */coverage_report.txt | cut -f 1,3 > results
-	    sed -i "1i shewanella_genome\t$problem_strain" 'results'
-
-	done < $data_path/genome_name
+	cd $problem_strain
+	grep 'All' */coverage_report.txt | cut -f 1,3 > results
+	sed -i "1i shewanella_genome\t$problem_strain" 'results'
+	cd ..
+done < $data_path/genome_name
 }
 
-%pyani_db){
-	export PATH=/mnt/home/users/pab_001_uma/oliastencio/.local/bin:$PATH
-	export PYTHONPATH=~oliastencio/.local/lib/python3.7/site-packages:$PYTHONPATH
+pyani_db){
 	module load blast_plus/2.2.30+
 	module load mummer/3.22
 	module load pyani
-	rm -r $output_pyani/genome_pyani_anim
+	rm -r genome_pyani_anim
 
 	?
 	pyani index -i $data_path/total_genomes --labels labels.txt --classes classes.txt
 	pyani createdb
-	pyani anim --workers 8 -i $data_path/total_genomes -o $output_pyani/genome_pyani_anim  -v -l anim.log --labels $data_path/total_genomes/labels.txt --classes $data_path/total_genomes/classes.txt
+	pyani anim --workers 8 -i $data_path/total_genomes -o genome_pyani_anim  -v -l anim.log --labels $data_path/total_genomes/labels.txt --classes $data_path/total_genomes/classes.txt
+	pyani report -v --runs -o genome_pyani_anim --formats excel > runs.log
+	pyani report -o genome_pyani_anim --formats stdout --run_matrices 1 > matrices.log 
+	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf > plot.log  
 }
 
-pyani_report){
-	export PATH=/mnt/home/users/pab_001_uma/oliastencio/.local/bin:$PATH
-	export PYTHONPATH=~oliastencio/.local/lib/python3.7/site-packages:$PYTHONPATH
-	module load blast_plus/2.2.30+
-	module load mummer/3.22
-	module load pyani
-	rm -r $output_pyani/genome_pyani_anim/pyani_report 
-	mkdir -p $output_pyani/genome_pyani_anim/pyani_report
 
-	?
-	pyani report -v --runs -o $output_pyani/genome_pyani_anim --formats excel > $output_pyani/genome_pyani_anim/pyani_report/runs.log 
-	pyani report -o $output_pyani/genome_pyani_anim --formats stdout --run_matrices 1 > $output_pyani/genome_pyani_anim/pyani_report/matrices.log 
-	pyani plot -o $output_pyani/genome_pyani_anim --run_id 1 -v --formats pdf > $output_pyani/genome_pyani_anim/pyani_report/plot.log 
-}
+genome_anotation_dfast){
 
-%genome_anotation_dfast){
 	module load dfast_core/1.2.18 
-	genomes_PATH=$data_path/genomes_problem
-	export PATH=~oliastencio/micro_lab3//Pdp11_genome_analysis/genome_shewanella_Pdp11/script:$PATH
 	export PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
 	module load ruby/2.4.1
 
-	mkdir -p genome_annotation
-	rm -r $out_put_annotation
-	mkdir -p $out_put_annotation
 	mkdir -p genome_annotation/results_dfast_parser
 
 	while read -r genome
 	do 
-		mkdir -p $out_put_annotation/$genome
 		mkdir -p genome_annotation/$genome
 		?
-		dfast -g $genomes_PATH/$genome'.fasta' -o $out_put_annotation/$genome --force
-		cp $out_put_annotation/$genome/genome.gbk genome_annotation/$genome/genome.gbk
-		main_folder=`pwd`
+		dfast -g $data_path/genomes_problem/$genome'.fasta' -o genome_annotation/$genome --force
 		dfast_parser.rb genome_annotation/$genome/genome.gbk genome_annotation/results_dfast_parser/"dfast_parser_$genome.txt"
 		cd genome_annotation/results_dfast_parser 
 		mv cog_table.txt "$genome"'_cog_table.txt'
 		sed -i "1i category\t$genome" "$genome"'_cog_table.txt'
-		cd $main_folder
+		cd ../..
 	done < $data_path/genome_name
 
 	cd genome_annotation/results_dfast_parser
 	merge_tabular.rb *cog_table.txt > Total_table.txt
 }
 
-%annotation_filter){
+annotation_filter){
 	export PATH=~oliastencio/micro_lab3//Pdp11_genome_analysis/genome_shewanella_Pdp11/script:$PATH
 	export PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
 	module load ruby/2.4.1
