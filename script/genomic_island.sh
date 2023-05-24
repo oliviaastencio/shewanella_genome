@@ -4,12 +4,13 @@
 ##2-upload de file where indicated the my token ID, email
 
  #####################################complete genome######################################3
-input=/mnt/scratch/users/pab_001_uma/oliastencio/genome_analysis/dfast_0000/genome_annotation
-output=/mnt/scratch/users/pab_001_uma/oliastencio/genome_analysis/genomic_island
+HTTP_API_token=$1
+input=$2
+output=$3
 rm -r $output
 mkdir -p $output/Island_Viewer4_results
-HTTP_API_token=0597451f-c036-7302-c61d-2c66cd254e97
 
+# TODO: crear a mano archivo tabulado con cepa a estudiar y cepa de referencia en segunda columna, leer en bucle para lanzar consultas
 genomes=( 'e_Pdp11_1' ) 
 	
 for genome in "${genomes[@]}"

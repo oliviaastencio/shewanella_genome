@@ -1,20 +1,19 @@
 #! /usr/bin/env bash
 
-project_path=`pwd`
-data_path=$project_path'/data'
+data_path=$1
+source ~soft_bio_267/initializes/init_emboss
+module load bbmap/38.50b
+module load fastqc
+
 mkdir -p $data_path/16S_Shewanella
 	main_folder=`pwd`
-	while read -r line
+	while read -r folder_16s
 	do
-	    folder_16s=`echo $line`
 	    mkdir -p $data_path/16S_Shewanella/$folder_16s
-	    source ~soft_bio_267/initializes/init_emboss
 	    seqret -sformat abi -osformat fastq -auto -stdout -sequence $data_path/ab1'/'$folder_16s'.ab1' > $data_path/16S_Shewanella/$folder_16s'/'$folder_16s'.fastq'
-	    module load bbmap/38.50b
 	    bbduk.sh -Xmx1g in=$data_path/16S_Shewanella/$folder_16s'/'$folder_16s'.fastq' out=$data_path/16S_Shewanella/$folder_16s'/'$folder_16s'clean.fastq' qtrim=rl trimq=20 qin=33
 	    seqret -sformat fastq -osformat fasta -auto -stdout -sequence $data_path/16S_Shewanella/$folder_16s'/'$folder_16s'clean.fastq' > $data_path/16S_Shewanella/$folder_16s'/'$folder_16s'.fasta'
 	    mkdir -p $data_path/16S_Shewanella/$folder_16s'/'analysis
-	    module load fastqc
 	    fastqc -o $data_path/16S_Shewanella/$folder_16s'/'analysis $data_path/16S_Shewanella/$folder_16s'/'$folder_16s'.fastq'   
 	done < $data_path/ab1_name
 

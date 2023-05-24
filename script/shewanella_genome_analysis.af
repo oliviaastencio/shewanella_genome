@@ -3,9 +3,8 @@
 	. ~soft_bio_267/initializes/init_blast
 	mkdir -p blast_16S
 
-	while read -r line
+	while read -r ab1_file
 	do 
-		ab1_file=`echo $line`
 		?
 		blastn -query $data_path/16S_Shewanella'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fna -outfmt '7 std slen qlen' > blast_16S/'blast_'$ab1_file
 	done < $ab1_name
@@ -16,26 +15,24 @@ sibelia){
 	module load circos
 	PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
 
-while read -r line
-do 
-	problem_strain=` echo $line`
-	mkdir -p $problem_strain 
-	while read -r line
+	while read -r problem_strain
 	do 
-		genome_candidate=`echo $line`	  
-		mkdir -p $problem_strain/$genome_candidate
-		?
-	    Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain'.fasta'  $data_path/total_genomes/$genome_candidate -o $problem_strain/$genome_candidate
-	    cd $problem_strain/$genome_candidate/circos
-	    circos -conf circos.conf -debug_group summary,timer -param image/radius=1500p > run.out 
-	    cd ../../..
-	done < $data_path/all_genome_list
+		mkdir -p $problem_strain 
+		while read -r genome_candidate
+		do 
+			mkdir -p $problem_strain/$genome_candidate
+			?
+		    Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain'.fasta'  $data_path/total_genomes/$genome_candidate -o $problem_strain/$genome_candidate
+		    cd $problem_strain/$genome_candidate/circos
+		    circos -conf circos.conf -debug_group summary,timer -param image/radius=1500p > run.out 
+		    cd ../../..
+		done < $data_path/all_genome_list
 
-	cd $problem_strain
-	grep 'All' */coverage_report.txt | cut -f 1,3 > results
-	sed -i "1i shewanella_genome\t$problem_strain" 'results'
-	cd ..
-done < $data_path/genome_name
+		cd $problem_strain
+		grep 'All' */coverage_report.txt | cut -f 1,3 > results
+		sed -i "1i shewanella_genome\t$problem_strain" 'results'
+		cd ..
+	done < $data_path/genome_name
 }
 
 pyani_db){
@@ -57,7 +54,6 @@ pyani_db){
 genome_anotation_dfast){
 
 	module load dfast_core/1.2.18 
-	export PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
 	module load ruby/2.4.1
 
 	mkdir -p genome_annotation/results_dfast_parser
@@ -74,26 +70,6 @@ genome_anotation_dfast){
 		cd ../..
 	done < $data_path/genome_name
 
-	cd genome_annotation/results_dfast_parser
-	merge_tabular.rb *cog_table.txt > Total_table.txt
-}
-
-annotation_filter){
-	export PATH=~oliastencio/micro_lab3//Pdp11_genome_analysis/genome_shewanella_Pdp11/script:$PATH
-	export PATH=~soft_bio_267/programs/x86_64/scripts/:$PATH
-	module load ruby/2.4.1
-
-	mkdir -p genome_annotation/results_dfast_parser
-	while read strain
-	do
-		main_folder=`pwd`
-		?
-		dfast_parser.rb genome_annotation/$strain/genome_anotation_dfast)/genome.gbk genome_annotation/results_dfast_parser/"dfast_parser_$strain.txt"
-		cd genome_annotation/results_dfast_parser 
-		mv cog_table.txt "$strain"'_cog_table.txt'
-		sed -i "1i category\t$strain" "$strain"'_cog_table.txt'
-		cd $main_folder
-		done < $data_path/genome_name
 	cd genome_annotation/results_dfast_parser
 	merge_tabular.rb *cog_table.txt > Total_table.txt
 }
