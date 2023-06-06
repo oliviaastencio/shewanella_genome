@@ -11,7 +11,7 @@
 #####################################
 
 ##################################################
-######Shewanella complete genomes database
+######Complete genomes database
 #################################################
 function genomes_database {
 	output=$1
@@ -19,9 +19,9 @@ function genomes_database {
 	rm -r $output/genomes_down
 	mkdir -p $output/genomes_down/sequence_download
 	
-	prokaryotes_genomes_csv=$output/prokaryotes.csv  #all shewanella genomes from https://www.ncbi.nlm.nih.gov/genome/browse#!/prokaryotes/shewanella
-	input=$output/genomes_down/sequence_download #sequence_download
-	# rm $output/genomes_link
+	prokaryotes_genomes_csv=$output/prokaryotes.csv 
+	input=$output/genomes_down/sequence_download 
+	rm $output/genomes_link
 	cat $prokaryotes_genomes_csv | tr ',' '\t'| cut -f 16 | tr '"' '\t'| cut -f 2  > $output/genomes_link
 
 	# #######We online need the genomic.fna.gz 
@@ -56,22 +56,23 @@ function genomes_database {
 project_path=`pwd`
 data_path=$project_path'/data'
 script_path=$project_path'/script'
+sh_file_path=$project_path'/sh_file'
 genome_analysis_path=$SCRATCH/genome_analysis
 transposon_analysis_path=$SCRATCH/transposon_result
 export PATH=$script_path:$PATH
-export PATH=$script_path'/scripts_transposon:'$PATH
 export PATH=$script_path'/scripts_Tarsynflow:'$PATH
+export PATH=$sh_file_path:$PATH
 
-if [ "$1" == "down" ]; then  #####LISTO##############
+if [ "$1" == "down" ]; then  
 
-	genomes_database $project_path
+	genomes_database $data_path
 fi
  	
-if [ "$1" == "ab1_clean" ]; then   #####LISTO##############
+if [ "$1" == "ab1_clean" ]; then   
 	ab1_clean.sh $data_path
 fi
 
-if [ "$1" == "char" ]; then  #####TODOS LOS BLOQUES LISTO########
+if [ "$1" == "char" ]; then  
 	. ~soft_bio_267/initializes/init_autoflow  
 
 	rm -r $genome_analysis_path/pyani_0000 $data_path/total_genomes $data_path/all_genome_list
@@ -92,7 +93,7 @@ if [ "$1" == "char" ]; then  #####TODOS LOS BLOQUES LISTO########
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w $script_path/shewanella_genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
+	AutoFlow -c 1 -s -w $script_path/genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
 fi
 
 
@@ -100,19 +101,19 @@ fi
 ## TP FLOW
 ##################################
 
-if [ "$1" == "protein_db" ]; then  #####LISTO##############
+if [ "$1" == "protein_db" ]; then  
 
-	protein_shewanella_db.sh  $script_path $data_path $SCRATCH/genome_analysis "Shewanella"
+	protein_db.sh  $script_path $data_path $SCRATCH/genome_analysis "Shewanella"
 fi 
 
-if [ "$1" == "tp_case" ]; then  #####LISTO##############REVISAR RESULTADOS	
+if [ "$1" == "tp_case" ]; then  
 	
 	. ~soft_bio_267/initializes/init_autoflow 
 	while read line 
 	do 
+		rm -r $genome_analysis_path/transposon/executions/$line
 		mkdir -p $genome_analysis_path/transposon/executions/$line
 		vars=`echo "
-			\\$isscan_coordinates=$genome_analysis_path/transposon/executions/$line/ISSCAN_genome_coordinates,
 			\\$genome_seq=$data_path/genomes_problem/$line.fasta,
 			\\$prot_database=$data_path/tp_data
 			" | tr -d [:space:]`
@@ -120,9 +121,9 @@ if [ "$1" == "tp_case" ]; then  #####LISTO##############REVISAR RESULTADOS
 	done < $data_path/genome_name
 fi 
 
-if [ "$1" == "tp_comparative" ]; then   #####pendiente de ejecutar ####OPCIONAL!!
+if [ "$1" == "tp_comparative" ]; then   #####OPTIONAL STEP##### LISTO 
 
-	tp_comparative.sh 
+	tp_comparative.sh $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt $data_path/tp_data/total_prots.fasta $genome_analysis_path/transposon/executions
 
 fi 
 
@@ -134,29 +135,45 @@ if [ "$1" == "genes" ]; then
 
 	mkdir -p $genome_analysis_path/genes_identification/Tarsynflow/proteome
 
-	reduce_prot_redundancy.sh
+	sbatch $sh_file_path/reduce_prot_redundancy.sh  $data_path $genome_analysis_path
 
 fi
 
 if [ "$1" == "genes_comps" ]; then
 
-	make_all_comps.sh
+	make_all_comps.sh $data_path $script_path $genome_analysis_path
 
 fi
 
 if [ "$1" == "genes_results" ]; then
-	get_all_results.sh
-	extract_seqs.sh
+
+	sbatch $sh_file_path/get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path 
+
+fi 
+
+if [ "$1" == "seqs" ]; then
+
+	extract_seqs.sh "$genome_analysis_path/genes_identification/Tarsynflow/comps/e_Pdp11_1.fasta/"`head -n 1 data/gen_refs`"/procompart_0000/coord_table_with_strand" $data_path/genomes_problem $genome_analysis_path/genes_identification/Tarsynflow $data_path $script_path 
+	
 fi 
 
 ##################################
 ## Genomic Islands
 ##################################
-HTTP_API_token="82950949-c400-0f86-dff6-07bf9adde409" 
-if [ "$1"  == "GI" ]; then 
+HTTP_API_token="1d0a19fa-8c75-4868-7487-92ccadf02b57" 
+input=$genome_analysis_path/dfast_0000/genome_annotation
+output=$genome_analysis_path/genomic_island
+mkdir -p $output
+mkdir -p $output/Island_Viewer4_results
 
-	genomic_island.sh HTTP_API_token /mnt/scratch/users/pab_001_uma/oliastencio/genome_analysis/dfast_0000/genome_annotation /mnt/scratch/users/pab_001_uma/oliastencio/genome_analysis/genomic_island
-	
+if [ "$1"  == "GI" ]; then 
+	while read ref_genome
+	do 
+		genome=`echo $ref_genome | tr ' ' '\t'| cut -f 1` 
+		ref_num=`echo $ref_genome | tr ' ' '\t'| cut -f 2` 
+		curl -X POST -H '$HTTP_API_token' -Fref_accnum="$ref_num" -Fgenome_file=@$input/$genome/genome.gbk -Fgenome_name="$genome"_genome -Femail_addr="oliastenciogomez@gmail.com" -Fformat_type="GENBANK" https://www.pathogenomics.sfu.ca/islandviewer/rest/submit/ > $output/Island_Viewer4_results/"$genome"_submit
+		grep "token" $output/Island_Viewer4_results/"$genome"_submit | sed s'/    "token": "//g'| sed s'/"//g' > $output/Island_Viewer4_results/"$genome"_jobtoken
+	done < $data_path/ref_genome_GI
 fi 
 
 if [ "$1" == "GI_result" ]; then 
@@ -193,4 +210,18 @@ if [ "$1" == "GI_filtre" ]; then
 fi 
 
 
+###################################Lista de tareas ok
+####1)Rejecutar genomes_database y el resto de archivos 
+####2)Hacer un file independientes de sh
+####3)En todos los casos sustituir "Shewanella" por un nombre genérico para el file
+####4)reejecutar: 
+#######1-genome dabatase (OK)
+#######2-ab1_clean.sh (OK)
+#######3-char (OK)
+#######4-protein_db (Ok)
+#######5-tp_case (OK)
+#######6-tp_comparative (OK)
+#######7-Tarsynflow (OK)
+#######8-GI y reunificar las subida con token a IslandViewer4, a partir de una archivo plano, con una tabla con: columna 1(genomas problema) y columna 2 (codigo de los genomes de referencia).
 
+##### Nota: TODOS LOS BLOQUES SE HAN EJECUTADO, siendo el bloque más antiguo del 24 de Mayo. 
