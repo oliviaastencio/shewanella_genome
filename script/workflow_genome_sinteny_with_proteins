@@ -44,10 +44,9 @@ sinteny_visualization){
 	echo '' > color_guide
 	while read i
 	do
-        	echo `echo $i|cut -f 1 -d ' '` color=chr$count >> 
-	        let count=$count+1color_guide
+        	echo `echo $i|cut -f 1 -d ' '` color=chr$count >> color_guide
+	        let count=$count+1
 	done < kariotype
-
 
 	tracks=''
 	track_types=''
@@ -81,62 +80,4 @@ sinteny_visualization){
 	echo "$ref_genome-$query_genome" | sed 's/.fasta//g' > compared_genomes
 	?
 	circos -conf etc/circos.conf -debug_group summary,timer -param image/radius=2000p > run.out
-}
-
-
-
-
-
-%single_chromosome_visualization){
-	module load circos/0.67-7
-	export PATH=/mnt/home/users/pab_001_uma/pedro/dev_gems/make_circos/bin:$PATH
-
-	#Format kariotype data
-	fasta2kariotype.rb $genomes_path/$ref_genome|sort -k 1,1 > ref_kariotype
-	fasta2kariotype.rb $genomes_path/$query_genome > query_kariotype
-
-	#Format sinteny data
-	join refine_protein_alignments_$ref_genome)/coord_table refine_protein_alignments_$query_genome)/coord_table > links_data # Realiza todas las combinaciones posibles de union entre las filas del primer y segundo archivo
-	awk '{ print $2 " " $3 " " $4 " " $5 " " $6 " " $7}' links_data > circos_links
-	cat circos_links|sort -k 1,1 > circos_links_sort
-
-
-	mkdir figures
-	?
-	while read k
-	do
-		# Track definition
-		tracks=''
-		track_types=''
-		#length=''
-
-		# Kariotype filtering
-		chr_name=`echo $k|awk '{ print $1}'`
-		if [ "$diagram_type" = "all" ]
-		then
-			cp ref_kariotype kariotype_"$chr_name"
-		else
-			grep "$chr_name" circos_links|cut -f 1 -d ' '|sort|uniq|join - ref_kariotype |tr ' ' \\t > kariotype_"$chr_name"
-		fi
-		echo $k|tr ' ' \\t >> kariotype_"$chr_name"
-
-		# Generate color guide file
-		count=1
-		echo '' > color_guide
-		while read i
-		do
-			echo `echo $i|cut -f 1 -d ' '` color=chr$count >> color_guide
-			let count=$count+1
-		done < kariotype_"$chr_name"
-		cat color_guide|sort -k 1,1 > color_guide_sort
-
-		#Colour links
-		join circos_links_sort color_guide_sort > circos_links_"$chr_name"
-		tracks=$tracks'circos_links_'$chr_name','
-		track_types=$track_types'l'
-
-		#Do graph
-		make_circos_configuration.rb -k kariotype_"$chr_name" -t $tracks -v $track_types -c 1 -m '1000000:1'
-		circos -conf etc/circos.conf -debug_group summary,timer -param image/radius=2000p -outputfile figures/$k > run.out
-	done < query_kariotype
 }

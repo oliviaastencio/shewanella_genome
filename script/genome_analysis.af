@@ -1,4 +1,4 @@
-16s_blastn_remote){
+16s_blastn){
 
 	. ~soft_bio_267/initializes/init_blast
 	mkdir -p blast_16S
@@ -6,7 +6,7 @@
 	while read -r ab1_file
 	do 
 		?
-		blastn -query $data_path/16S_Shewanella'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fna -outfmt '7 std slen qlen' > blast_16S/'blast_'$ab1_file
+		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fna -outfmt '7 std slen qlen' > blast_16S/'blast_'$ab1_file
 	done < $ab1_name
 }
 
@@ -30,7 +30,7 @@ sibelia){
 
 		cd $problem_strain
 		grep 'All' */coverage_report.txt | cut -f 1,3 > results
-		sed -i "1i shewanella_genome\t$problem_strain" 'results'
+		sed -i "1i NCBI_complete_genomes\t$problem_strain" 'results'
 		cd ..
 	done < $data_path/genome_name
 }
@@ -40,7 +40,7 @@ pyani_db){
 	module load mummer/3.22
 	module load pyani
 	rm -r genome_pyani_anim
-
+	mkdir -p genome_pyani_anim
 	?
 	pyani index -i $data_path/total_genomes --labels labels.txt --classes classes.txt
 	pyani createdb
@@ -49,7 +49,6 @@ pyani_db){
 	pyani report -o genome_pyani_anim --formats stdout --run_matrices 1 > matrices.log 
 	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf > plot.log  
 }
-
 
 genome_anotation_dfast){
 

@@ -1,55 +1,14 @@
-# $CDS=/mnt/home/users/pab_001_uma/pedro/proyectos/shewanella/files_to_shewanella_db/6666666.257767.fna,
-# $fln_warning=/mnt/home/users/pab_001_uma/laguilera/shewanella/patrones,
-# $transposases_database=/mnt/home/users/pab_001_uma/pedro/databases/transposases/Tpases020812,
-# $fln_iden_filter=80,
-
-# %full_lengther){
-#     . ~soft_cvi_114/initializes/init_fln
-#     rm -rf temp
-#     ?
-#     full_lengther_next -s 10.243 -w [lcpu] -z -g plant -u $prot_database/local_database/local_database -q 'd' -f $CDS -a ''
-# }
-
-# %fln_exonerate_CDS_analysis){
-#     module load exonerate
-#     rm -r exonerate_results
-#     grep -F -f $fln_warning full_lengther)/fln_results/pt_seqs > putative_altered_seq
-#     cut -f 1 putative_altered_seq  > putative_gene_altered_list
-#     cut -f 3 putative_altered_seq > putative_protein_altered_list
-#     tr "\n" '@' < get_proteins)/total_prots.fasta | sed 's/>/\n>/g' | grep -F -f putative_protein_altered_list | tr '@' "\n" > putative_protein_altered_seq.fasta
-#     tr "\n" '@' < $CDS | sed 's/>/\n>/g' | grep -F -f putative_gene_altered_list | tr '@' "\n" > putative_gene_altered_seq.fasta
-#     awk '{ if($8 >= $fln_iden_filter) print $1 "\t" $3}' putative_altered_seq > putative_altered_pairs
-#     while read -r line ; do
-#         rna=`echo -e "$line" | cut -f 1`
-#         prot=`echo -e "$line" | cut -f 2`
-#         tr "\n" '@' < putative_protein_altered_seq.fasta | sed 's/>/\n>/g' | grep $prot | tr '@' "\n" > prot.fa
-#         tr "\n" '@' < putative_gene_altered_seq.fasta | sed 's/>/\n>/g' | grep $rna | tr '@' "\n" > rna.fa
-#         ?
-#         exonerate -m protein2dna prot.fa rna.fa >> exonerate_results
-#     done < putative_altered_pairs
-#     grep " F " exonerate_results > frameshift_exonerate_results
-#     tr ' ' "\t" < frameshift_exonerate_results | cut -f 6 > fln_exonerate_frameshift_ID
-
-# }
-
-# %make_transposase_blast_db){
-#     module load blast_plus/2.2.30+
-#     ln -s $transposases_database tp_db
-#     ?
-#     makeblastdb -in tp_db  -dbtype prot
-# }
-
 all_genome_transposases_identification){
     . ~pedro/software/ISEScan/initialize
     ln -s $genome_seq genome_to_scan.fasta
+    echo $genome_seq > fna.list
     ?
-    isescan.py genome_to_scan.fasta proteome hmm  
-    grep "insertion_sequence" prediction/genome_to_scan.fasta.gff | cut -f 1,4,5 > ISSCAN_genome_coordinates
+    nohup cat fna.list | xargs -n 1 -P 8 -I{} isescan.py {} proteome hmm
+    grep "insertion_sequence" prediction/genomes_problem/*fasta.gff | cut -f 1,4,5 > ISSCAN_genome_coordinates
 }
   
 transposases_environment_analysis){
      module load blast_plus/2.2.30+
-     #fasta_editor.rb -i $genome_seq -c a -o all_genome_transposases_environment_seq -f $isscan_coordinates -T 2000
      fasta_editor.rb -i $genome_seq -c a -o all_genome_transposases_environment_seq -f all_genome_transposases_identification)/ISSCAN_genome_coordinates -T 2000
      ?
      blastx -query all_genome_transposases_environment_seq -db $prot_database/local_database/local_database -evalue 1e-10 -out all_genome_transposases_environment_blastx.out.txt -outfmt "6 std qlen slen"
