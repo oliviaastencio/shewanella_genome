@@ -1,0 +1,10 @@
+<h3> 16S blast results </h3>
+<p> This is the analisys of the 16 sequences</p>
+<%=
+	table(id: 'blast_16', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+		table.unshift(['Ref', 'strain', 'identity', 'align_len'])
+	end
+%>
+<%=
+	sccater2D(id: 'blast_16', fields: [1,2,3], header: false, row_names:true, x_label: 'identity', y_label: 'align_len') 
+%>

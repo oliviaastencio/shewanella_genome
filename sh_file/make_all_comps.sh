@@ -7,6 +7,7 @@
 data_path=$1     #$project_path'/data'
 script_path=$2    #$project_path'/script'
 genome_analysis_path=$3 ##$SCRATCH/genome_analysis
+template_path=$4 #$project_path'/templates'
 
 GENOME_FILES=$data_path/genomes_problem   
 PROTEOME=$genome_analysis_path/genes_identification/Tarsynflow/proteome/prots_clean.fasta   
@@ -25,6 +26,6 @@ do
 		coverage_identity_query=85+85
 		coverage_identity_ref=85.0+85.0
 		genomic=''" | sed 's/^/$/' | tr "\n" "," | tr -d "\t"`
-		AutoFlow -w $script_path/workflow_genome_sinteny_with_proteins -c 10 -s -n 'cal' -t '1-00:00:00' $1 -V $VARS -o $OUTPUT
+		AutoFlow -w $template_path/workflow_genome_sinteny_with_proteins -c 10 -s -n 'cal' -t '1-00:00:00' $1 -V $VARS -o $OUTPUT
 	done < $data_path/gen_refs
 done < $data_path/gen_queries

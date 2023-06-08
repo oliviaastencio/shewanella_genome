@@ -57,11 +57,14 @@ project_path=`pwd`
 data_path=$project_path'/data'
 script_path=$project_path'/script'
 sh_file_path=$project_path'/sh_file'
-genome_analysis_path=$SCRATCH/genome_analysis
-transposon_analysis_path=$SCRATCH/transposon_result
+template_path=$project_path'/templates'
+results_path=$project_path'/results'
 export PATH=$script_path:$PATH
 export PATH=$script_path'/scripts_Tarsynflow:'$PATH
 export PATH=$sh_file_path:$PATH
+
+genome_analysis_path=$SCRATCH/genome_analysis
+transposon_analysis_path=$SCRATCH/transposon_result
 
 if [ "$1" == "down" ]; then  
 
@@ -93,7 +96,7 @@ if [ "$1" == "char" ]; then
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w $script_path/genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
+	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
 fi
 
 
@@ -117,7 +120,7 @@ if [ "$1" == "tp_case" ]; then
 			\\$genome_seq=$data_path/genomes_problem/$line.fasta,
 			\\$prot_database=$data_path/tp_data
 			" | tr -d [:space:]`
-		AutoFlow -c 1 -s -w $script_path/tpflow -V $vars -o "$genome_analysis_path/transposon/executions/"$line $2
+		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$genome_analysis_path/transposon/executions/"$line $2
 	done < $data_path/genome_name
 fi 
 
@@ -141,7 +144,7 @@ fi
 
 if [ "$1" == "genes_comps" ]; then
 
-	make_all_comps.sh $data_path $script_path $genome_analysis_path
+	make_all_comps.sh $data_path $script_path $genome_analysis_path $template_path
 
 fi
 
@@ -209,7 +212,21 @@ if [ "$1" == "GI_filtre" ]; then
 	done 
 fi 
 
+## REPORTING
+####################################
+# /mnt/home/users/pab_001_uma/pedro/html_reporting/template
+if [ "$1" == "report" ]; then 
+	. ~soft_bio_267/initializes/init_ruby
+	mkdir -p $results_path
+	# Get tabular data
+	#grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | cut -f 1,2,3,4 > $results_path/blast_16
+	paths=`echo -e "
+	$results_path/blast_16
+	" | tr -d [:space:]`
 
+	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
+
+fi
 ###################################Lista de tareas ok
 ####1)Rejecutar genomes_database y el resto de archivos 
 ####2)Hacer un file independientes de sh
