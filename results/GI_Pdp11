@@ -1,0 +1,41 @@
+Island_start	Island_end	Length	Gene_ID	Locus	Product
+128432	144890	16458	secA	LOCUS_01230	protein translocase subunit SecA
+128432	144890	16458	ftsZ	LOCUS_01270	cell division protein FtsZ
+1350555	1360798	10243	groL	LOCUS_11350	60 kDa chaperonin
+1350555	1360798	10243	hipB	LOCUS_11390	antitoxin HipB
+1522675	1539963	17288	accADCB	LOCUS_13110	carbamoyl phosphate synthase large subunit
+1522675	1539963	17288		LOCUS_13150	diguanylate cyclase
+1950568	1968484	17916		LOCUS_16670	cupin
+1950568	1968484	17916	galR	LOCUS_16710	transcriptional regulator
+1950568	1968484	17916	celD	LOCUS_16750	4-beta-D-glucan glucohydrolase
+1987801	2001908	14107		LOCUS_16910	riboflavin-specific deaminase
+1987801	2001908	14107	rpoD	LOCUS_17030	RNA polymerase sigma factor RpoD
+2501325	2527562	26237	ttpC	LOCUS_21390	flagellar motor protein MotA
+2501325	2527562	26237	ppiC	LOCUS_21470	peptidyl-prolyl cis-trans isomerase
+2501325	2527562	26237		LOCUS_21510	LysR family transcriptional regulator
+2501325	2527562	26237		LOCUS_21550	subfamily M23B unassigned peptidase
+2501325	2527562	26237		LOCUS_21590	RNA helicase
+2674842	2703653	28811		LOCUS_22950	prolyl 4-hydroxylase subunit alpha
+2674842	2703653	28811		LOCUS_23110	integrase
+2987651	3023065	35414		LOCUS_25470	integrase
+2987651	3023065	35414		LOCUS_25590	restriction modification system DNA specificity domain-containing protein
+2987651	3023065	35414		LOCUS_25710	replication protein
+3008370	3022327	13957		LOCUS_25710	replication protein
+3040353	3063054	22701	ald	LOCUS_26030	alanine dehydrogenase
+3040353	3063054	22701	infC	LOCUS_26070	translation initiation factor IF-3
+3040353	3063054	22701	ribC	LOCUS_26110	riboflavin synthase subunit alpha
+3040353	3063054	22701	fdnI	LOCUS_26150	formate dehydrogenase subunit gamma
+3512513	3525569	13056		LOCUS_29950	nucleoid-associated protein
+3512513	3525569	13056		LOCUS_29990	DUF2063 domain-containing protein
+3512513	3525569	13056		LOCUS_30030	conjugal transfer protein TraR
+4080518	4113038	32520	intA	LOCUS_34550	integrase
+4080518	4113038	32520		LOCUS_34590	type I restriction enzyme
+4080518	4113038	32520		LOCUS_34630	DNA-binding protein
+4319152	4408145	88993		LOCUS_36670	cyclic nucleotide-binding protein
+4319152	4408145	88993	trhC	LOCUS_36790	plasmid transfer protein
+4319152	4408145	88993		LOCUS_36950	Mrr restriction system protein
+4319152	4408145	88993		LOCUS_36990	helicase
+4319152	4408145	88993		LOCUS_37110	integrase
+4319152	4408145	88993		LOCUS_37150	GGDEF-domain containing protein
+4319152	4408145	88993	infB	LOCUS_37190	translation initiation factor IF-2
+4319152	4408145	88993	tpiA	LOCUS_37230	triosephosphate isomerase

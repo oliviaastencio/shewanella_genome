@@ -1,4 +1,4 @@
-16s_blastn){
+%16s_blastn){
 
 	. ~soft_bio_267/initializes/init_blast
 	mkdir -p blast_16S
@@ -6,7 +6,7 @@
 	while read -r ab1_file
 	do 
 		?
-		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fna -outfmt '7 std slen qlen' > blast_16S/'blast_'$ab1_file
+		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fasta -outfmt "7 std slen qlen qcovhsp" > blast_16S/'blast_'$ab1_file
 	done < $ab1_name
 }
 
@@ -50,7 +50,7 @@ pyani_db){
 	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf > plot.log  
 }
 
-genome_anotation_dfast){
+%genome_anotation_dfast){
 
 	module load dfast_core/1.2.18 
 	module load ruby/2.4.1

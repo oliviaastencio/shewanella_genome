@@ -1,10 +1,93 @@
-<h3> 16S blast results </h3>
-<p> This is the analisys of the 16 sequences</p>
+<h3> GENOME ANALYSIS RESPORT </h3>
+
+<h3> Data used in this analysis </h3>
+
+<p> In this experiment the start set data are:
+
+		• 	Problem genomes, that are complete genome for probiotic Shewanella.sp Pdp11 and scaffold for SdM1, SdM2, SH4, SH12, SH6, SH9 strains 
+
+		•	16S RNA gene sequence (ab1 file)
+
+</p>
+
+<h3> GENERAL DESCRIPTION </h3>
+<p> This resport show all the genome analysis information that included: 
+
+		•	16S RNA identification 
+
+		•	Complete genome annotation by Dfast Tool 
+
+		•	Genome comparison with other complete shewanella genomes described on NCBI asignation by Pyani (https://github.com/widdowquinn/pyani) and Synteny blocks comparison Sibelia 
+
+		•	Tranposon identification (Tp)
+
+		•	Genomic island identification (GIs)
+
+		•	Genome comparison with shewanella pathogenic strains by Tarsynflow (https://github.com/seoanezonjic/TarSynFlow)
+</p>
+<p>
+
+		The taxonomy identification of problem strains as Shewanella.sp was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). The species was identified by blastn of 16S RNA gene and the problematic strain genomes comparison with 120 complete genomes described on NCBI database. The complete genome of Shewanella.sp Pdp11 and partial genome of pathogenic and saprofit strains of shewanella were annotated using Dfast tool, by Clusters of Orthologous Groups (COG) and the number of genes asociated to categories were determinated. 
+		The transposons has been detected by ISEScan tool (https://github.com/xiezhq/ISEScan) which was complemented with tp_finder workflow for transposase and disrupt protein identification. The genomic islands were identify using IslandViewer 4 software, by API option. The genome comparison of  Shewanella.sp Pdp11 and pathogenic strains allow us to identified the specific genes of pathogenic strains and their absent in probiotic. 
+</p>
+
+
+<h3> 16S RNA </h3>
+<p> The Table indicated the 16S RNA analysis of problem genomes was carry out by blatn. The top 10 for each strain with high identity and coverage value.  </p>
 <%=
 	table(id: 'blast_16', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
-		table.unshift(['Ref', 'strain', 'identity', 'align_len'])
+		table.unshift(['Ref', 'strain', 'identity', 'coverage'])
 	end
 %>
+
+<h3> COG annotation </h3>
+<p> The Figure represent the annotation by Dfast of the 8 research strains of Shewanella.sp. The COG categories evidence the high number of genes on Pdp11 genome asociated to transposase, defense mechanisms and replication and repair. </p>
 <%=
-	sccater2D(id: 'blast_16', fields: [1,2,3], header: false, row_names:true, x_label: 'identity', y_label: 'align_len') 
+barplot(id: 'COG_annotation', header: true, row_names: true, x_label: 'Number of genes', y_label: 'COG categories', title: "COG annotation", height: 600) 
 %>
+
+<h3> Transposon identification </h3>
+<p> The Table evidence the transposons identified in Shewanella.sp Pdp11 genome and the disrupted proteina by transposase. </p>
+<%=
+	table(id: 'Pdp11_tp', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+		table.unshift(['genome coordinate', 'start tpfinder', 'end tpfinder', 'transposase protein', 'disrupt protein'])
+	end
+%>
+<h3> Transposon comparison </h3>
+<p> The Table evidence the transposons identified in Shewanella.sp Pdp11. The transposase sequence correspond to others coordinate of transposon by blastn </p>
+<%=
+	table(id: 'tp_comparative', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+		table.unshift(['start_transposase 1', 'start_transposase 2', 'identity', 'length', 'coverage'])
+	end
+%>
+
+<h3> Probiotic and pathogenic strains comparison </h3>
+<p> This analysis were focused on pathogenic and probiotic strains comparison by Tarsynflow, which identified the specific genes on pathogenic and their absent on probiotic strain. </p>
+<%=
+	table(id: 'specific_genes', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+		table.unshift(['Entry', 'protein names', 'organism'])
+	end
+%>
+<h3> Complete genome comparison </h3>
+<p> The heatmap represent the variability of identity in Shewanella genus based on 120 complete genomes of NCBI. The probiotic Shewanella.sp Pdp11 had high similarity to Shewanella baltica complete genomes. </p>
+
+<%=
+	heatmap(id: 'pyani_identity_name', header: true, row_names: true, x_label: 'identity (%)',  title: "Genome comparison", height: 1000) 
+%>
+
+<h3> Genomic Island  </h3>
+<p> The Mobilome analysis included the genomic island identification, Shewanella. sp Pdp11 and SdM1 present 13 Genomic Island, a high value respect to other Shewanella strains </p>
+
+<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic island (GIs)", height: 300)%>
+
+<h3> Genomic Island in Shewanella.sp Pdp11 </h3>
+<p> The Shewanella. sp Pdp11 present 13 Genomic Island asociated to diverse function </p>
+<%=
+	table(id: 'GI_Pdp11', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+	end 
+%>
+<h3> Integration of GI and transposon Shewanella.sp Pdp11 </h3>
+<p> The Imagen represent the integration of transposon on Genomic Island coordinate. Some research evidence that transposase protein were inserted in some specific genomic region such as genomic island. </p>
+
+<%=circular(id: 'GI_Tp_Pdp11', text: true, header: true, row_names: true, ringsType: ['heatmap'], title: "GI and Transposon in Pdp11 genome")%>
+

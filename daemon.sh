@@ -78,7 +78,7 @@ fi
 if [ "$1" == "char" ]; then  
 	. ~soft_bio_267/initializes/init_autoflow  
 
-	rm -r $genome_analysis_path/pyani_0000 $data_path/total_genomes $data_path/all_genome_list
+	rm -r $genome_analysis_path/pyani_0000  $genome_analysis_path/Sibelia_0000 $data_path/total_genomes $data_path/all_genome_list
 	mkdir -p $data_path/total_genomes
 	
 	ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
@@ -199,7 +199,8 @@ if [ "$1" == "GI_filtre" ]; then
 	module load ruby/2.4.1
 	input=$genome_analysis_path/genomic_island/Island_Viewer4_results/file_scv 
 	output=$genome_analysis_path/genomic_island/genomic_island_results
-
+	
+	rm -r $output
 	mkdir -p $output
 	strains_island=( `ls $input` )
 	for strain in "${strains_island[@]}"
@@ -208,8 +209,12 @@ if [ "$1" == "GI_filtre" ]; then
 		island_filtre.rb $input/$strain $output/$strain/$strain'_length'
 		grep 'Predicted by at least' $output/$strain/$strain'_length'|cut -f 1,2,3,6,7,11,12 > $output/$strain/$strain'_Integrated'
 		sed -i "1i Island_start\tIsland_end\tLength\tGene_ID\tLocus\tProduct\tExternal_Annotations" $output/$strain/$strain'_Integrated'
-		cat $output/$strain/$strain'_Integrated' | cut -f1 | sort -u | wc -l  > $output/$strain/Total_genomic_island
+		echo $strain > $output/$strain/Total_genomic_island
+		grep -v 'Island_start' $output/$strain/$strain'_Integrated' | cut -f1 | sort -u | wc -l >> $output/$strain/Total_genomic_island
+		grep -v " " $output/$strain/Total_genomic_island | tr '\n' '\t' >> $output/$strain/Total_genomic_island_tab
 	done 
+	cat $output/*/*tab | sed s'/e_S/\nS/g' | sed s'/.csv//g' > $output/Total_GI
+	
 fi 
 
 ## REPORTING
@@ -217,28 +222,49 @@ fi
 # /mnt/home/users/pab_001_uma/pedro/html_reporting/template
 if [ "$1" == "report" ]; then 
 	. ~soft_bio_267/initializes/init_ruby
+	#rm -r $results_path
 	mkdir -p $results_path
-	# Get tabular data
-	#grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | cut -f 1,2,3,4 > $results_path/blast_16
-	paths=`echo -e "
-	$results_path/blast_16
-	" | tr -d [:space:]`
 
+	# Get tabular data
+	grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | cut -f 1,2,3,15 > $results_path/blast_16
+	cp $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/Total_table.txt  $results_path/COG_annotation
+	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt | tr ',' '\t' | cut -f 1,2,3,4,5 > $results_path/Pdp11_tp
+	cat $genome_analysis_path/transposon/executions/comparative/blastx_comparative/blast_summary | tr '_' '\t' | cut -f 2,6,9,10,16 | sort -u > $results_path/tp_comparative
+	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
+	
+	####### verify de id number for our genomes problems (120-127), that correspond to column (121-128)
+	# rm $results_path/pyani_identity
+	# cut -f 1,121,122,123,124,125,126,127,128 $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab >> $results_path/pyani_identity
+	rm $results_path/pyani_identity_name 
+	grep "Shewanella " $results_path/pyani_identity| sort > $results_path/pyani_identity_name
+	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity_name
+	###### $data_path/total_genomes/classes.txt was used to verify the assembly number to strain name
+
+	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1_ASM305276v1_genomic.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
+	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_025402875.1_ASM2540287v1_genomic.fna/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
+	rm $results_path/GI_total
+	cp $genome_analysis_path/genomic_island/genomic_island_results/Total_GI $results_path/GI_total
+	sed -i '1ishewanella strains \t GIs number' $results_path/GI_total
+	cut -f 1,2,3,4,5,6 $genome_analysis_path/genomic_island/genomic_island_results/e_Pdp11_1.csv/e_Pdp11_1.csv_Integrated > $results_path/GI_Pdp11
+
+	paths=`echo -e "
+	$results_path/blast_16,
+	$results_path/COG_annotation,
+	$results_path/pyani_identity_name,
+	$results_path/Pdp11_tp,
+	$results_path/tp_comparative,
+	$results_path/specific_genes,
+	$results_path/GI_total,
+	$results_path/GI_Pdp11,
+	$results_path/GI_Tp_Pdp11
+	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 
-fi
-###################################Lista de tareas ok
-####1)Rejecutar genomes_database y el resto de archivos 
-####2)Hacer un file independientes de sh
-####3)En todos los casos sustituir "Shewanella" por un nombre genérico para el file
-####4)reejecutar: 
-#######1-genome dabatase (OK)
-#######2-ab1_clean.sh (OK)
-#######3-char (OK)
-#######4-protein_db (Ok)
-#######5-tp_case (OK)
-#######6-tp_comparative (OK)
-#######7-Tarsynflow (OK)
-#######8-GI y reunificar las subida con token a IslandViewer4, a partir de una archivo plano, con una tabla con: columna 1(genomas problema) y columna 2 (codigo de los genomes de referencia).
+	###Nota:pendiente subir imagenes del Sibelia 
 
-##### Nota: TODOS LOS BLOQUES SE HAN EJECUTADO, siendo el bloque más antiguo del 24 de Mayo. 
+fi
+
+###################################DUDAS 
+######Transposon comparison (compara las transposasas ubicadas en diferentes coordenadas, de esta manera se identifican las 2 transposasa que estan repetidas)
+
+

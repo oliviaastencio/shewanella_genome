@@ -37,5 +37,5 @@ done <$out_put/e_Pdp11_1/lista_to_fasta.rb_0000/tp_case/tp_transposons_finder_co
 
 mkdir -p $out_put/comparative/blastx_comparative
 cat $out_put/comparative/tp_*/transposase.fasta > $out_put/comparative/total_Pdp11_transposase.fasta
-blastn -query $out_put/comparative/total_Pdp11_transposase.fasta -subject $out_put/comparative/total_Pdp11_transposase.fasta -outfmt '7 std slen qlen' > $out_put/comparative/blastx_comparative/blast_total
-grep -v "#" $out_put/comparative/blastx_comparative/blast_total | awk '{if ($3>=35) {print $0}}' | cut -f 1,2,3,4,6,7,8,13,14 > $out_put/comparative/blastx_comparative/blast_summary
+blastn -query $out_put/comparative/total_Pdp11_transposase.fasta -subject $out_put/comparative/total_Pdp11_transposase.fasta -outfmt '7 std slen qlen qcovhsp' > $out_put/comparative/blastx_comparative/blast_total
+grep -v "#" $out_put/comparative/blastx_comparative/blast_total | awk '{if (($3>99)&&($15>99)) {print $0}}' | cut -f 1,2,3,4,6,7,8,13,14,15 > $out_put/comparative/blastx_comparative/blast_summary
