@@ -233,11 +233,11 @@ if [ "$1" == "report" ]; then
 	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
 	
 	####### verify de id number for our genomes problems (120-127), that correspond to column (121-128)
-	# rm $results_path/pyani_identity
-	# cut -f 1,121,122,123,124,125,126,127,128 $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab >> $results_path/pyani_identity
-	rm $results_path/pyani_identity_name 
-	grep "Shewanella " $results_path/pyani_identity| sort > $results_path/pyani_identity_name
-	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity_name
+	rm $results_path/pyani_identity $results_path/pyani_coverage
+	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | cut -f 1,121,122,123,124,125,126,127,128 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_identity
+	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity
+	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | cut -f 1,121,122,123,124,125,126,127,128 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_coverage
+	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_coverage
 	###### $data_path/total_genomes/classes.txt was used to verify the assembly number to strain name
 
 	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1_ASM305276v1_genomic.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
@@ -250,7 +250,8 @@ if [ "$1" == "report" ]; then
 	paths=`echo -e "
 	$results_path/blast_16,
 	$results_path/COG_annotation,
-	$results_path/pyani_identity_name,
+	$results_path/pyani_identity,
+	$results_path/pyani_coverage,
 	$results_path/Pdp11_tp,
 	$results_path/tp_comparative,
 	$results_path/specific_genes,

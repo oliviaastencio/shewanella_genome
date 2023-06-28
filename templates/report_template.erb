@@ -41,7 +41,54 @@
 		table.unshift(['Ref', 'strain', 'identity', 'coverage'])
 	end
 %>
+<h3> Identity of complete genome comparison </h3>
+<p> The heatmap represent the variability of identity in Shewanella genus based on 120 complete genomes of NCBI. The probiotic Shewanella.sp Pdp11 had high similarity to Shewanella baltica complete genomes. </p>
+<div style="overflow: hidden">
 
+<%=
+	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'identity (%)',  title: "Identity", height: 1000, config:{
+			'variablesClustered' => true,
+	}) do |table|
+		to_delete = []
+		table.each_with_index do |row, i|
+			if i > 0
+				max = row[1..-1].max
+				to_delete << i if max < 0.9
+			end
+		end
+		to_delete.reverse_each do |idx|
+			table.delete_at(idx)
+		end
+	end 
+%>
+<h3> Coverage of complete genome comparison </h3>
+<p> The heatmap represent the variability of coverage in Shewanella genus based on 120 complete genomes of NCBI. </p>
+<div style="overflow: hidden">
+
+<%=
+	heatmap(id: 'pyani_coverage', transpose:false, header: true, row_names: true, x_label: 'identity (%)',  title: "Coverage", height: 1000, config:{
+			'variablesClustered' => true,
+	}) do |table|
+		to_delete = []
+		table.each_with_index do |row, i|
+			if i > 0
+				max = row[1..-1].max
+				to_delete << i if max < 0.8
+			end
+		end
+		to_delete.reverse_each do |idx|
+			table.delete_at(idx)
+		end
+	end 
+%>
+</div>
+<h3> Sybelia results </h3>
+<%=
+	embed_img('results/S_baltica_128:Pdp11.png', 'width="600" height="600"')
+%>
+<%=
+	embed_img('results/S_putrefaciens_4H:Pdp11.png', 'width="600" height="600"')
+%>
 <h3> COG annotation </h3>
 <p> The Figure represent the annotation by Dfast of the 8 research strains of Shewanella.sp. The COG categories evidence the high number of genes on Pdp11 genome asociated to transposase, defense mechanisms and replication and repair. </p>
 <div style="overflow: hidden">
@@ -64,6 +111,22 @@
 		table.unshift(['start_transposase 1', 'start_transposase 2', 'identity', 'length', 'coverage'])
 	end
 %>
+</div>
+<h3> Genomic Island  </h3>
+<p> The Mobilome analysis included the genomic island identification, Shewanella. sp Pdp11 and SdM1 present 13 Genomic Island, a high value respect to other Shewanella strains </p>
+
+<div style="overflow: hidden">
+
+<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic island (GIs)", height: 300)
+
+%>
+</div>
+<h3> Genomic Island in Shewanella.sp Pdp11 </h3>
+<p> The Shewanella. sp Pdp11 present 13 Genomic Island asociated to diverse function </p>
+<%=
+	table(id: 'GI_Pdp11', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+	end 
+%>
 
 <h3> Probiotic and pathogenic strains comparison </h3>
 <p> This analysis were focused on pathogenic and probiotic strains comparison by Tarsynflow, which identified the specific genes on pathogenic and their absent on probiotic strain. </p>
@@ -71,52 +134,4 @@
 	table(id: 'specific_genes', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
 		table.unshift(['Entry', 'protein names', 'organism'])
 	end
-%>
-<h3> Complete genome comparison </h3>
-<p> The heatmap represent the variability of identity in Shewanella genus based on 120 complete genomes of NCBI. The probiotic Shewanella.sp Pdp11 had high similarity to Shewanella baltica complete genomes. </p>
-<div style="overflow: hidden">
-
-<%=
-	heatmap(id: 'pyani_identity_name', transpose:false, header: true, row_names: true, x_label: 'identity (%)',  title: "Genome comparison", height: 1000, config:{
-			'variablesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[1..-1].max
-				to_delete << i if max < 0.9
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		end
-	end 
-%>
-</div>
-<h3> Genomic Island  </h3>
-<p> The Mobilome analysis included the genomic island identification, Shewanella. sp Pdp11 and SdM1 present 13 Genomic Island, a high value respect to other Shewanella strains </p>
-
-<div style="overflow: hidden">
-
-<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic island (GIs)", height: 300)%>
-</div>
-
-<h3> Genomic Island in Shewanella.sp Pdp11 </h3>
-<p> The Shewanella. sp Pdp11 present 13 Genomic Island asociated to diverse function </p>
-<%=
-	table(id: 'GI_Pdp11', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
-	end 
-%>
-<h3> Integration of GI and transposon Shewanella.sp Pdp11 </h3>
-<p> The Imagen represent the integration of transposon on Genomic Island coordinate. Some research evidence that transposase protein were inserted in some specific genomic region such as genomic island. </p>
-<div style="overflow: hidden">
-
-<%=circular(id: 'GI_Tp_Pdp11', text: true, header: true, row_names: true, ringsType: ['heatmap'], title: "GI and Transposon in Pdp11 genome")%>
-</div>
-<h3> Sybelia results </h3>
-<%=
-	embed_img('results/S_baltica_128:Pdp11.png', 'width="600" height="600"')
-%>
-<%=
-	embed_img('results/S_putrefaciens_4H:Pdp11.png', 'width="600" height="600"')
 %>
