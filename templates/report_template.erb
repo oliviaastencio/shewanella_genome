@@ -46,7 +46,7 @@
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'identity (%)',  title: "Identity", height: 1000, config:{
+	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'identity',  title: "Identity", height: 1200, config:{
 			'variablesClustered' => true,
 	}) do |table|
 		to_delete = []
@@ -61,12 +61,13 @@
 		end
 	end 
 %>
+
 <h3> Coverage of complete genome comparison </h3>
 <p> The heatmap represent the variability of coverage in Shewanella genus based on 120 complete genomes of NCBI. </p>
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'pyani_coverage', transpose:false, header: true, row_names: true, x_label: 'identity (%)',  title: "Coverage", height: 1000, config:{
+	heatmap(id: 'pyani_coverage', transpose:false, header: true, row_names: true, x_label: 'coverage',  title: "Coverage", height: 1200,  config:{
 			'variablesClustered' => true,
 	}) do |table|
 		to_delete = []
@@ -81,7 +82,8 @@
 		end
 	end 
 %>
-</div>
+
+
 <h3> Sybelia results </h3>
 <%=
 	embed_img('results/S_baltica_128:Pdp11.png', 'width="600" height="600"')
@@ -93,7 +95,7 @@
 <p> The Figure represent the annotation by Dfast of the 8 research strains of Shewanella.sp. The COG categories evidence the high number of genes on Pdp11 genome asociated to transposase, defense mechanisms and replication and repair. </p>
 <div style="overflow: hidden">
 	<%=
-	barplot(id: 'COG_annotation', header: true, row_names: true, x_label: 'Number of genes', y_label: 'COG categories', title: "COG annotation", height: 600) 
+	barplot(id: 'COG_annotation_complete', header: true, row_names: true, x_label: 'Number of genes', y_label: 'COG categories', title: "COG annotation", height: 600) 
 	%>
 </div>
 

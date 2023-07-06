@@ -222,18 +222,24 @@ fi
 # /mnt/home/users/pab_001_uma/pedro/html_reporting/template
 if [ "$1" == "report" ]; then 
 	. ~soft_bio_267/initializes/init_ruby
-	#rm -r $results_path
+	rm -r $results_path
 	mkdir -p $results_path
 
 	# Get tabular data
 	grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | cut -f 1,2,3,15 > $results_path/blast_16
-	cp $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/Total_table.txt  $results_path/COG_annotation
-	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt | tr ',' '\t' | cut -f 1,2,3,4,5 > $results_path/Pdp11_tp
+	cp $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/Total_table.txt $results_path/COG_annotation
+	merge_tabular.rb  $data_path/COG_categories $results_path/COG_annotation | grep -v "category" | cut -f 2,3,4,5,6,7,8,9,10 > $results_path/COG_annotation_complete
+	sed -i '1icategory \t Pdp11 \t SdM1 \t SdM2 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9' $results_path/COG_annotation_complete
+	
+	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt | cut -f 1,2,3,4 | tr ',' '\t' | cut -f 1,2,3,4 > $results_path/Pdp11_tp_1
+	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt | cut -f 1,5 | tr ',' '\t' | cut -f 1,2 > $results_path/Pdp11_tp_2
+	merge_tabular.rb $results_path/Pdp11_tp_1 $results_path/Pdp11_tp_2 > $results_path/Pdp11_tp
+
 	cat $genome_analysis_path/transposon/executions/comparative/blastx_comparative/blast_summary | tr '_' '\t' | cut -f 2,6,9,10,16 | sort -u > $results_path/tp_comparative
 	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
 	
 	####### verify de id number for our genomes problems (120-127), that correspond to column (121-128)
-	rm $results_path/pyani_identity $results_path/pyani_coverage
+	
 	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | cut -f 1,121,122,123,124,125,126,127,128 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_identity
 	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity
 	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | cut -f 1,121,122,123,124,125,126,127,128 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_coverage
@@ -242,22 +248,21 @@ if [ "$1" == "report" ]; then
 
 	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1_ASM305276v1_genomic.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
 	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_025402875.1_ASM2540287v1_genomic.fna/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
-	rm $results_path/GI_total
+	
 	cp $genome_analysis_path/genomic_island/genomic_island_results/Total_GI $results_path/GI_total
 	sed -i '1ishewanella strains \t GIs number' $results_path/GI_total
 	cut -f 1,2,3,4,5,6 $genome_analysis_path/genomic_island/genomic_island_results/e_Pdp11_1.csv/e_Pdp11_1.csv_Integrated > $results_path/GI_Pdp11
 
 	paths=`echo -e "
 	$results_path/blast_16,
-	$results_path/COG_annotation,
+	$results_path/COG_annotation_complete,
 	$results_path/pyani_identity,
 	$results_path/pyani_coverage,
 	$results_path/Pdp11_tp,
 	$results_path/tp_comparative,
 	$results_path/specific_genes,
 	$results_path/GI_total,
-	$results_path/GI_Pdp11,
-	$results_path/GI_Tp_Pdp11
+	$results_path/GI_Pdp11
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 
