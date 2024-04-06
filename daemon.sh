@@ -18,24 +18,25 @@ function genomes_database {
 	module load ruby/2.4.1 
 	rm -r $output/genomes_down
 	mkdir -p $output/genomes_down/sequence_download
-	
-	prokaryotes_genomes_csv=$output/prokaryotes.csv 
+
 	input=$output/genomes_down/sequence_download 
-	rm $output/genomes_link
-	cat $prokaryotes_genomes_csv | tr ',' '\t'| cut -f 16 | tr '"' '\t'| cut -f 2  > $output/genomes_link
-
+	
 	# #######We online need the genomic.fna.gz 
+	grep -v "Assembly Accession" $output/RefSeq.tsv | cut -f 1 > $output/RefSeq_list.tsv
 
-	file="$output/genomes_link"
+	file="$output/RefSeq_list.tsv"
 	while IFS= read -r line
 	do
-	    wget "$line/*_genomic.fna.gz" 
+	    wget "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/$line/download?include_annotation_type=GENOME_FASTA" -O genome.zip
+	    unzip genome.zip
+	  	mv ncbi_dataset/data/$line/*.fna $output/genomes_down/sequence_download/$line.fna
+	    rm -r genome.zip ncbi_dataset README.md
 	done < "$file" 
 
-	gzip -d *fna.gz 
-	mv *genomic.fna $input
-	rm *fna.gz $input/*cds_from_genomic.fna $input/*rna_from_genomic.fna
-	
+	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/GCF_949794895.1.fna | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/GCF_949794895.1_2.fna
+	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/GCF_963676895.1.fna | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/GCF_963676895.1_2.fna
+	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/GCF_024363255.1.fna | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/GCF_024363255.1_2.fna
+	rm $output/genomes_down/sequence_download/GCF_949794895.1.fna $output/genomes_down/sequence_download/GCF_024363255.1.fna $output/genomes_down/sequence_download/GCF_963676895.1.fna
 	######WE Separated genomes and plasmids
 	genome_folder=$output/genomes_down/genomes
 	plasmid_folder=$output/genomes_down/plasmids
@@ -82,7 +83,7 @@ if [ "$1" == "char" ]; then
 	mkdir -p $data_path/total_genomes
 	
 	ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
-	ln -s $data_path/genomes_down/genomes/*genomic.fna $data_path/total_genomes
+	ln -s $data_path/genomes_down/genomes/*.fna $data_path/total_genomes
 
 	ls $data_path/genomes_down/genomes > $data_path/genome_candidate_list
 
@@ -269,8 +270,3 @@ if [ "$1" == "report" ]; then
 	###Nota:pendiente subir imagenes del Sibelia 
 
 fi
-
-###################################DUDAS 
-######Transposon comparison (compara las transposasas ubicadas en diferentes coordenadas, de esta manera se identifican las 2 transposasa que estan repetidas)
-
-
