@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=10gb
+#SBATCH --mem=16G
 #SBATCH --time=1-00:00:00
 #SBATCH --constraint=cal
 #SBATCH --error=job.%J.err
@@ -149,11 +149,15 @@ if [ "$1" == "genes_comps" ]; then
 
 fi
 
-if [ "$1" == "genes_results" ]; then
+if [ "$1" == "genes_results_protein" ]; then
 
-	sbatch $sh_file_path/get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path 
-
+	sbatch $sh_file_path/get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_protein
 fi 
+
+if [ "$1" == "genes_results_annotation" ]; then
+
+	get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_annotations
+fi  
 
 if [ "$1" == "seqs" ]; then
 
