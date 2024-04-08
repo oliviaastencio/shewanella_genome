@@ -79,7 +79,7 @@ fi
 if [ "$1" == "char" ]; then  
 	. ~soft_bio_267/initializes/init_autoflow  
 
-	rm -r $genome_analysis_path/pyani_0000  $genome_analysis_path/Sibelia_0000 $data_path/total_genomes $data_path/all_genome_list
+	#rm -r $genome_analysis_path/pyani_0000  $genome_analysis_path/Sibelia_0000 $data_path/total_genomes $data_path/all_genome_list
 	mkdir -p $data_path/total_genomes
 	
 	ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
@@ -93,11 +93,10 @@ if [ "$1" == "char" ]; then
 	vars=`echo "
 		\\$data_path=$project_path'/data',
 		\\$ab1_name=$data_path/ab1_name,
-		\\$genome_list=$data_path/genomes_link,
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-10:00:00" -o $genome_analysis_path
+	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-15:00:00" -o $genome_analysis_path
 fi
 
 
