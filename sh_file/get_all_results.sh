@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=10gb
-#SBATCH --time=02:00:00
+#SBATCH --mem=16G
+#SBATCH --time=04:00:00
 #SBATCH --constraint=cal
 #SBATCH --error=job.%J.err
 #SBATCH --output=job.%J.out
@@ -60,14 +60,18 @@ comparation_folder=$3  #genes_identification/Tarsynflow/comps
 script=$4
 
 min_count=5
+
+if [ "$5" == "get_protein" ]; then  
+
 rm -rf $output
 mkdir $output
 mkdir $output/images
 mkdir $output/matches_analysis
+
 while read QUERY
-do
+	do
     while read REF
-    do	
+    	do	
 		# CHECK LAUNCHED WORKFLOWS
 		ex_path=$comparation_folder/$QUERY/$REF
 		echo $ex_path
@@ -81,7 +85,7 @@ do
 		
     done < $data/gen_refs
 
-    # GET PROTEIN LISTS
+    GET PROTEIN LISTS
 	mkdir -p $output/protein_lists
 	get_protein_list specific_seqs_QUERY.txt query_specific_matches  $output/protein_lists/Query_common_specific_proteins
 	get_protein_list specific_seqs_REF.txt ref_specific_matches  $output/protein_lists/Ref_common_specific_proteins
@@ -98,6 +102,14 @@ do
 	get_frequency not_matching_SURE.txt $output/protein_lists/sure_common_not_matching_proteins $output/sure_not_matching_freq_proteins
 	get_frequency not_matching_PUTATIVE.txt $output/protein_lists/putative_common_not_matching_proteins $output/putative_not_matching_freq_proteins
 
+done < $data/gen_queries
+fi
+
+
+if [ "$5" == "get_annotations" ]; then 
+while read QUERY
+do
+
 	#FILTER PROTEIN LIST BY FREQ AND RETRIEVE ANNOTATIONS	
 	get_annotations $output/Query $min_count
 	get_annotations $output/Ref $min_count
@@ -112,5 +124,6 @@ done < $data/gen_queries
 $script/scripts_Tarsynflow/pairs2matrix.rb $output/matches_analysis/pairs_genome_prot $output/matches_analysis/matrix_genome_prot
 module load R
 $script/scripts_Tarsynflow/plot_heatmap.R -f $output/matches_analysis/matrix_genome_prot -o $output/matches_analysis/heatmap.pdf
+fi 
 
 ###Nota:si la descarga de $1'_specific_filtered_annotated_prots da error, ejecutar sin enviar al sistema de colas. 

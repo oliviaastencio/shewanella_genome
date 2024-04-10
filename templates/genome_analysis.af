@@ -39,15 +39,15 @@ pyani_db){
 	module load blast_plus/2.2.30+
 	module load mummer/3.22
 	module load pyani
-	rm -r genome_pyani_anim
+	
 	mkdir -p genome_pyani_anim
 	?
 	pyani index -i $data_path/total_genomes --labels labels.txt --classes classes.txt
 	pyani createdb
 	pyani anim --workers 8 -i $data_path/total_genomes -o genome_pyani_anim  -v -l anim.log --labels $data_path/total_genomes/labels.txt --classes $data_path/total_genomes/classes.txt
-	pyani report -v --runs -o genome_pyani_anim --formats excel > runs.log
-	pyani report -o genome_pyani_anim --formats stdout --run_matrices 1 > matrices.log 
-	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf > plot.log  
+	pyani report -v --runs -o genome_pyani_anim --formats excel 
+	pyani report -o genome_pyani_anim --formats stdout --run_matrices 1 
+	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf 
 }
 
 genome_anotation_dfast){

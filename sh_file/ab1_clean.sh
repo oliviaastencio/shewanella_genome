@@ -6,7 +6,7 @@
 data_path=$1
 source ~soft_bio_267/initializes/init_emboss
 module load bbmap/38.50b
-module load fastqc
+module load fastqc/0.11.9
 
 mkdir -p $data_path/16S_file
 	main_folder=`pwd`

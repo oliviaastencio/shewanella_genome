@@ -8,13 +8,14 @@ all_genome_transposases_identification){
 }
   
 transposases_environment_analysis){
-     module load blast_plus/2.2.30+
+     module load blast_plus/2.15.0+
      fasta_editor.rb -i $genome_seq -c a -o all_genome_transposases_environment_seq -f all_genome_transposases_identification)/ISSCAN_genome_coordinates -T 2000
      ?
      blastx -query all_genome_transposases_environment_seq -db $prot_database/local_database/local_database -evalue 1e-10 -out all_genome_transposases_environment_blastx.out.txt -outfmt "6 std qlen slen"
 }
  
 get_definitive_transposases){
+    export PATH=$script_path:$PATH
  	. ~soft_cvi_114/initializes/init_report_html
  	rm -rf results
  	?
@@ -23,7 +24,7 @@ get_definitive_transposases){
 
 tp_filtre){
 
-module load blast_plus/2.2.30+
+module load blast_plus/2.15.0+
 module load cdhit/4.5.4
 mkdir -p tp_case
 awk '{ print $1"_"$2"_"$3 "\t" 2000 "\t" $3-$2+2000 }' all_genome_transposases_identification)/ISSCAN_genome_coordinates > tp_case/new_tp_coordinates 

@@ -244,14 +244,14 @@ if [ "$1" == "report" ]; then
 	
 	####### verify de id number for our genomes problems (120-127), that correspond to column (121-128)
 	
-	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | cut -f 1,121,122,123,124,125,126,127,128 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_identity
+	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_identity
 	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity
-	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | cut -f 1,121,122,123,124,125,126,127,128 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_coverage
+	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_coverage
 	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_coverage
 	###### $data_path/total_genomes/classes.txt was used to verify the assembly number to strain name
 
-	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1_ASM305276v1_genomic.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
-	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_025402875.1_ASM2540287v1_genomic.fna/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
+	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
+	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_025402875.1.fna/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
 	
 	cp $genome_analysis_path/genomic_island/genomic_island_results/Total_GI $results_path/GI_total
 	sed -i '1ishewanella strains \t GIs number' $results_path/GI_total

@@ -1,7 +1,7 @@
 category 	 Pdp11 	 SdM1 	 SdM2 	 SH12 	 SH16 	 SH4 	 SH6 	 SH9
 RNA processing and modification	1	1	1	1	1	1	1	1
 Chromatin Structure and dynamics	1	1	-	1	1	1	1	1
-Energy production and conversion	198	202	187	200	202	200	200	200
+Energy production and conversion	198	200	187	200	200	200	200	200
 Cell cycle control and mitosis	31	31	30	29	29	29	29	29
 Amino Acid metabolis and transport	236	238	220	222	237	222	237	237
 Nucleotide metabolism and transport	71	73	73	69	74	69	74	74
@@ -12,14 +12,14 @@ Tranlsation	237	239	231	231	238	230	237	237
 Transcription	224	225	186	210	222	210	222	221
 Replication and repair	127	115	114	111	119	111	119	119
 Cell wall/membrane/envelop biogenesis	176	179	167	173	182	173	182	182
-Cell motility	112	129	120	111	125	111	125	125
+Cell motility	112	129	120	111	127	111	127	127
 Post-translational modification, protein turnover, chaperone functions	150	155	148	151	151	151	151	151
 Inorganic ion transport and metabolism	147	152	133	133	143	133	143	143
 Secondary Structure	47	62	49	54	55	54	55	55
-General Functional Prediction only	182	182	160	172	183	172	181	181
+General Functional Prediction only	182	182	160	172	183	172	183	183
 Function Unknown	85	88	77	82	85	82	85	85
 Signal Transduction	266	267	224	269	262	272	262	262
 Intracellular trafficing and secretion	52	59	55	53	63	53	63	63
-Defense mechanisms	98	87	84	85	93	85	93	92
+Defense mechanisms	98	87	84	85	93	85	93	93
 Extracellular structures	17	20	21	18	20	18	20	20
 Mobilome: prophages, transposons	42	19	13	7	31	7	32	32
