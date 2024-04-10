@@ -46,7 +46,7 @@
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'identity',  title: "Identity", height: 1200, config:{
+	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'identity',  title: "Identity", height: 600, config:{
 			'variablesClustered' => true,
 	}) do |table|
 		to_delete = []
@@ -68,7 +68,7 @@
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'pyani_coverage', transpose:false, header: true, row_names: true, x_label: 'coverage',  title: "Coverage", height: 1200,  config:{
+	heatmap(id: 'pyani_coverage', transpose:false, header: true, row_names: true, x_label: 'coverage',  title: "Coverage", height: 600,  config:{
 			'variablesClustered' => true,
 	}) do |table|
 		to_delete = []
@@ -108,20 +108,13 @@
 		table.unshift(['genome coordinate', 'start tpfinder', 'end tpfinder', 'transposase protein', 'disrupt protein'])
 	end
 %>
-<h3> Transposon comparison </h3>
-<p> The Table evidence the transposons identified in Shewanella.sp Pdp11. The transposase sequence correspond to others coordinate of transposon by blastn </p>
-<%=
-	table(id: 'tp_comparative', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
-		table.unshift(['start_transposase 1', 'start_transposase 2', 'identity', 'length', 'coverage'])
-	end
-%>
-</div>
+
 <h3> Genomic Island  </h3>
 <p> The Mobilome analysis included the genomic island identification, Shewanella. sp Pdp11 and SdM1 present 13 Genomic Island, a high value respect to other Shewanella strains </p>
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic island (GIs)", height: 300)
+<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic island (GIs)", height: 400)
 
 %>
 </div>

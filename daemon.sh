@@ -124,11 +124,6 @@ if [ "$1" == "tp_case" ]; then
 	done < $data_path/genome_name
 fi 
 
-if [ "$1" == "tp_comparative" ]; then   #####OPTIONAL STEP##### LISTO 
-
-	tp_comparative.sh $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt $data_path/tp_data/total_prots.fasta $genome_analysis_path/transposon/executions
-
-fi 
 
 ##################################
 ## TarSynFlow
@@ -239,21 +234,20 @@ if [ "$1" == "report" ]; then
 	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1/transposons_finder.rb_0000/results/summary.txt | cut -f 1,5 | tr ',' '\t' | cut -f 1,2 > $results_path/Pdp11_tp_2
 	merge_tabular.rb $results_path/Pdp11_tp_1 $results_path/Pdp11_tp_2 > $results_path/Pdp11_tp
 
-	cat $genome_analysis_path/transposon/executions/comparative/blastx_comparative/blast_summary | tr '_' '\t' | cut -f 2,6,9,10,16 | sort -u > $results_path/tp_comparative
 	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
 	
 	####### verify de id number for our genomes problems (120-127), that correspond to column (121-128)
 	
-	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_identity
+	grep -v "Q_Shewanella_Pdp11:126" $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | grep -v "R_scaffold" | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella / S./g' | sort >> $results_path/pyani_identity
 	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity
-	grep "Shewanella " $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella /S./g' | sort >> $results_path/pyani_coverage
-	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_coverage
+	grep -v "Q_Shewanella_Pdp11:126" $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | grep -v "R_scaffold" | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella / S./g' | sort >> $results_path/pyani_coverage
+	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_coverage 
 	###### $data_path/total_genomes/classes.txt was used to verify the assembly number to strain name
 
 	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
 	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_025402875.1.fna/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
 	
-	cp $genome_analysis_path/genomic_island/genomic_island_results/Total_GI $results_path/GI_total
+	sed s'/Shewanella_putrefaciens_//g' $genome_analysis_path/genomic_island/genomic_island_results/Total_GI | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro1//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_1//g' > $results_path/GI_total
 	sed -i '1ishewanella strains \t GIs number' $results_path/GI_total
 	cut -f 1,2,3,4,5,6 $genome_analysis_path/genomic_island/genomic_island_results/e_Pdp11_1.csv/e_Pdp11_1.csv_Integrated > $results_path/GI_Pdp11
 
@@ -263,7 +257,6 @@ if [ "$1" == "report" ]; then
 	$results_path/pyani_identity,
 	$results_path/pyani_coverage,
 	$results_path/Pdp11_tp,
-	$results_path/tp_comparative,
 	$results_path/specific_genes,
 	$results_path/GI_total,
 	$results_path/GI_Pdp11
