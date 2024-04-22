@@ -92,6 +92,7 @@
 <%=
 	embed_img('results/S_putrefaciens_4H:Pdp11.png', 'width="600" height="600"')
 %>
+
 <h3> COG annotation </h3>
 <p> The Figure represent the annotation by Dfast of the 8 research strains of Shewanella.sp. The COG categories evidence the high number of genes on Pdp11 genome asociated to transposase, defense mechanisms and replication and repair. </p>
 <div style="overflow: hidden">
@@ -114,14 +115,22 @@
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic island (GIs)", height: 400)
+<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400)
 
 %>
 </div>
+
 <h3> Genomic Island in Shewanella.sp Pdp11 </h3>
-<p> The Shewanella. sp Pdp11 present 13 Genomic Island asociated to diverse function </p>
+<p> The Shewanella. sp Pdp11 is a probiotic strain isolated in our research group and we identified a total of 13 Genomic Island in its genome sequence asociated to diverse function </p>
 <%=
 	table(id: 'GI_Pdp11', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
+	end 
+%>
+
+<h3> Genomic Island in Shewanella.sp SdM1 </h3>
+<p> The Shewanella. sp SdM1 was described as enviroment enviroment strain and it genome present 14 Genomic Island asociated to diverse function </p>
+<%=
+	table(id: 'GI_SdM1', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
 	end 
 %>
 

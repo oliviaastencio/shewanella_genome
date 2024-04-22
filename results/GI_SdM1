@@ -1,0 +1,131 @@
+Island_start	Island_end	Length	Gene_ID	Locus	Product
+1548681	1560640	11959		LOCUS_33550	resolvase
+1548681	1560640	11959		LOCUS_33570	ImmA/IrrE family metallo-endopeptidase
+1548681	1560640	11959	rsmI	LOCUS_33610	ribosomal RNA small subunit methyltransferase I
+1548681	1560640	11959	lppC	LOCUS_33630	penicillin-binding protein activator
+1728407	1738630	10223		LOCUS_37560	transcriptional regulator
+1728407	1738630	10223		LOCUS_37550	transcriptional regulator
+1728407	1738630	10223		LOCUS_37540	type III secretion protein
+1728407	1738630	10223		LOCUS_37500	outer membrane protein
+1728407	1738630	10223		LOCUS_37490	type III secretion protein
+1905743	1916241	10498		LOCUS_39160	DDE transposase
+1905743	1916241	10498		LOCUS_39170	TonB-dependent receptor
+1905743	1916241	10498	glmU	LOCUS_39180	bifunctional protein GlmU
+1905743	1916241	10498	atpC	LOCUS_39190	ATP synthase epsilon chain
+1905743	1916241	10498	atpD	LOCUS_39200	ATP synthase subunit beta
+1905743	1916241	10498	atpG	LOCUS_39210	ATP synthase gamma chain
+1905743	1916241	10498	atpA	LOCUS_39220	ATP synthase subunit alpha
+1905743	1916241	10498	atpH	LOCUS_39230	ATP synthase subunit delta
+1905743	1916241	10498	atpF	LOCUS_39240	ATP synthase subunit b
+1905743	1916241	10498	atpE	LOCUS_39250	ATP synthase subunit c
+1984803	2056714	71911		LOCUS_29080	transposase
+1984803	2056714	71911		LOCUS_29090	transposase
+1984803	2056714	71911		LOCUS_29100	transposase
+1984803	2056714	71911		LOCUS_29140	DUF2384 domain-containing protein
+1984803	2056714	71911		LOCUS_29190	phage integrase
+1984803	2056714	71911		LOCUS_29200	diguanylate cyclase response regulator
+1984803	2056714	71911		LOCUS_29250	4'-phosphopantetheinyl transferase
+1984803	2056714	71911		LOCUS_29260	thioesterase
+1984803	2056714	71911		LOCUS_29280	asparagine synthetase B
+1984803	2056714	71911		LOCUS_29300	MFS transporter
+1984803	2056714	71911		LOCUS_29340	hydroxyneurosporene-O-methyltransferase
+1984803	2056714	71911	hisC	LOCUS_29360	histidinol-phosphate aminotransferase
+1984803	2056714	71911		LOCUS_29430	thioesterase
+1984803	1997807	13004		LOCUS_29080	transposase
+1984803	1997807	13004		LOCUS_29090	transposase
+1984803	1997807	13004		LOCUS_29100	transposase
+1984803	1997807	13004		LOCUS_29140	DUF2384 domain-containing protein
+2576822	2587803	10981		LOCUS_22480	diguanylate phosphodiesterase
+2576822	2587803	10981		LOCUS_22490	SAM-dependent methyltransferase
+2576822	2587803	10981		LOCUS_22500	membrane protein
+2576822	2587803	10981		LOCUS_22520	maturase
+2576822	2587803	10981		LOCUS_22530	DNA-binding protein
+2576822	2587803	10981	purC	LOCUS_22540	phosphoribosylaminoimidazole-succinocarboxamide synthase
+2576822	2587803	10981		LOCUS_22550	activator of HSP90 ATPase
+2740543	2764811	24268		LOCUS_23930	Cro/Cl family transcriptional regulator
+2740543	2764811	24268		LOCUS_24090	capsid portal protein
+2740543	2764811	24268		LOCUS_24100	oxidoreductase
+2740543	2764811	24268	O	LOCUS_24110	phage capsid scaffolding protein
+2740543	2764811	24268		LOCUS_24120	phage capsid protein
+2740543	2764811	24268		LOCUS_24130	bacteriophage terminase endonuclease subunit
+2740543	2764811	24268		LOCUS_24140	capsid completion protein
+2740543	2764811	24268		LOCUS_24150	tail protein X
+2740543	2764811	24268		LOCUS_24180	peptidoglycan-binding protein
+2740543	2764811	24268	R	LOCUS_24210	tail protein
+2740543	2764811	24268		LOCUS_24220	bacteriophage tail completion protein S
+2805973	2850327	44354		LOCUS_41610	DNA repair protein RadC
+2805973	2850327	44354		LOCUS_41590	ATPase
+2805973	2850327	44354		LOCUS_41580	integrase
+2805973	2850327	44354	rulA	LOCUS_41520	DNA polymerase V
+2805973	2850327	44354	rulB	LOCUS_41510	DNA polymerase V subunit UmuC
+2805973	2850327	44354		LOCUS_41460	DNA-binding protein
+2805973	2850327	44354		LOCUS_41410	LysR family transcriptional regulator
+2805973	2850327	44354	assT	LOCUS_41390	aryl-sulfate sulfotransferase
+2805973	2850327	44354		LOCUS_41380	thiol:disulfide interchange protein
+2805973	2850327	44354	dsbI	LOCUS_41370	putative protein-disulfide oxidoreductase DsbI
+2805973	2850327	44354		LOCUS_41360	lysine transporter LysE
+2805973	2850327	44354	trpI	LOCUS_41350	LysR family transcriptional regulator
+2805973	2850327	44354		LOCUS_41340	TonB-dependent receptor
+2805973	2850327	44354		LOCUS_41310	peptidase
+2805973	2850327	44354		LOCUS_41300	Cd(II)/Pb(II)-responsive transcriptional regulator
+2805973	2850327	44354	irgA	LOCUS_41290	ligand-gated channel protein
+3615336	3632391	17055	wzz	LOCUS_00820	LPS biosynthesis protein
+3615336	3632391	17055	wbpA	LOCUS_00810	UDP-N-acetyl-d-glucosamine 6-dehydrogenase WbpA
+3615336	3632391	17055	wbpP	LOCUS_00800	UDP-GlkcNAc C4 epimerase WbpP
+3615336	3632391	17055	rfbB	LOCUS_00790	"dTDP-glucose 4
+3615336	3632391	17055	rmlA	LOCUS_00780	glucose-1-phosphate thymidylyltransferase
+3615336	3632391	17055		LOCUS_00770	polysaccharide biosynthesis protein
+3615336	3632391	17055	vioB	LOCUS_00760	transferase
+3615336	3632391	17055	wzx	LOCUS_00750	polysaccharide biosynthesis protein
+3615336	3632391	17055	wbnI	LOCUS_00740	glycosyl transferase
+3615336	3632391	17055	wzy	LOCUS_00720	O-antigen polymerase Wzy
+3615336	3632391	17055		LOCUS_00710	glycosyl transferase
+3615336	3632391	17055	wbpQ	LOCUS_00700	asparagine synthetase B
+3615336	3632391	17055		LOCUS_00690	glycosyl transferase family 1
+3615336	3632391	17055		LOCUS_00680	UDP-glucose 4-epimerase
+4436027	4498057	62030		LOCUS_10550	metallophosphatase
+4436027	4498057	62030		LOCUS_10690	baseplate protein
+4436027	4498057	62030		LOCUS_10700	type VI secretion protein
+4436027	4498057	62030		LOCUS_10720	peptidoglycan-binding protein
+4436027	4498057	62030		LOCUS_10870	transposase
+4436027	4498057	62030	hmrR	LOCUS_10900	HTH-type transcriptional regulator HmrR
+4436027	4498057	62030	actP	LOCUS_10920	copper-translocating P-type ATPase
+4436027	4498057	62030		LOCUS_10940	resistance-nodulation-cell division efflux transporter
+4436027	4498057	62030		LOCUS_10950	resistance-nodulation-cell division efflux membrane fusion protein
+4484288	4498057	13769	hmrR	LOCUS_10900	HTH-type transcriptional regulator HmrR
+4484288	4498057	13769	actP	LOCUS_10920	copper-translocating P-type ATPase
+4484288	4498057	13769		LOCUS_10940	resistance-nodulation-cell division efflux transporter
+4484288	4498057	13769		LOCUS_10950	resistance-nodulation-cell division efflux membrane fusion protein
+4670101	4683766	13665		LOCUS_38380	UPF0227 protein
+4769972	4786651	16679		LOCUS_42590	transposase for insertion sequence element IS1111A
+4769972	4786651	16679	hisG	LOCUS_42600	ATP phosphoribosyltransferase
+4769972	4786651	16679	hisD	LOCUS_42610	histidinol dehydrogenase
+4769972	4786651	16679	hisC	LOCUS_42620	histidinol-phosphate aminotransferase
+4769972	4786651	16679	hisB	LOCUS_42630	histidine biosynthesis bifunctional protein HisB
+4769972	4786651	16679	hisA	LOCUS_42640	1-(5-phosphoribosyl)-5-[(5- phosphoribosylamino)me thylideneamino] imidazole-4-carboxamide isomerase
+4769972	4786651	16679	hisF	LOCUS_42650	imidazole glycerol phosphate synthase subunit HisF
+4769972	4786651	16679	hisI	LOCUS_42660	histidine biosynthesis bifunctional protein HisIE
+4769972	4786651	16679	tyrP	LOCUS_42670	tyrosine transporter TyrP
+4769972	4786651	16679		LOCUS_42680	C4-dicarboxylate ABC transporter
+4769972	4786651	16679		LOCUS_42690	YnbE family lipoprotein
+4922100	4960894	38794		LOCUS_25700	flavocytochrome c
+4922100	4960894	38794		LOCUS_25710	cytochrome c
+4922100	4960894	38794		LOCUS_25720	outer membrane beta barrel protein
+4922100	4960894	38794		LOCUS_25740	periplasmic RmlC-type Cupin domain family protein
+4922100	4960894	38794		LOCUS_25770	membrane protein
+4922100	4960894	38794		LOCUS_25780	redox-active disulfide protein
+4922100	4960894	38794	ktrA	LOCUS_25790	potassium transporter TrkA
+4922100	4960894	38794	ktrB	LOCUS_25800	Ktr system potassium transporter B
+4922100	4960894	38794		LOCUS_25810	FAD:protein FMN transferase
+4922100	4960894	38794		LOCUS_25820	Na+/H+ antiporter NhaD
+4922100	4960894	38794	uppP2	LOCUS_25830	undecaprenyl-diphosphatase 2
+4922100	4960894	38794	motB	LOCUS_25840	flagellar motor protein MotB
+4922100	4960894	38794	motA	LOCUS_25850	chemotaxis protein MotA
+4922100	4960894	38794		LOCUS_25860	methyl-accepting chemotaxis protein
+4922100	4960894	38794		LOCUS_25890	recombinase
+4922100	4960894	38794		LOCUS_25920	DNA-binding protein
+4922100	4960894	38794	prtR	LOCUS_25970	HTH-type transcriptional regulator PrtR
+4922100	4960894	38794		LOCUS_26000	FRG domain-containing protein
+5066027	5079171	13144		LOCUS_42350	cytosine-specific methyltransferase
+5066027	5079171	13144		LOCUS_42360	type II restriction-modification system endonuclease
+5066027	5079171	13144		LOCUS_42380	prevent-host-death protein

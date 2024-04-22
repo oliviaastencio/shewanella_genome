@@ -225,7 +225,7 @@ if [ "$1" == "report" ]; then
 	mkdir -p $results_path
 
 	# Get tabular data
-	grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | cut -f 1,2,3,15 > $results_path/blast_16
+	grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | awk '{if (($3>98.7)&&($4=100)) {print $0}}'| tr ' ' '\t' | cut -f 1,2,3,15 > $results_path/blast_16
 	cp $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/Total_table.txt $results_path/COG_annotation
 	merge_tabular.rb  $data_path/COG_categories $results_path/COG_annotation | grep -v "category" | cut -f 2,3,4,5,6,7,8,9,10 > $results_path/COG_annotation_complete
 	sed -i '1icategory \t Pdp11 \t SdM1 \t SdM2 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9' $results_path/COG_annotation_complete
@@ -250,6 +250,7 @@ if [ "$1" == "report" ]; then
 	sed s'/Shewanella_putrefaciens_//g' $genome_analysis_path/genomic_island/genomic_island_results/Total_GI | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro1//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_1//g' > $results_path/GI_total
 	sed -i '1ishewanella strains \t GIs number' $results_path/GI_total
 	cut -f 1,2,3,4,5,6 $genome_analysis_path/genomic_island/genomic_island_results/e_Pdp11_1.csv/e_Pdp11_1.csv_Integrated > $results_path/GI_Pdp11
+	cut -f 1,2,3,4,5,6 $genome_analysis_path/genomic_island/genomic_island_results/e_Shewanella_putrefaciens_SdM1.csv/e_Shewanella_putrefaciens_SdM1.csv_Integrated > $results_path/GI_SdM1
 
 	paths=`echo -e "
 	$results_path/blast_16,
@@ -259,7 +260,8 @@ if [ "$1" == "report" ]; then
 	$results_path/Pdp11_tp,
 	$results_path/specific_genes,
 	$results_path/GI_total,
-	$results_path/GI_Pdp11
+	$results_path/GI_Pdp11,
+	$results_path/GI_SdM1
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 
