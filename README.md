@@ -1,1 +1,0 @@
-# shewanella_genome
