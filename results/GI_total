@@ -1,9 +1,134 @@
 shewanella strains 	 GIs number
-Pdp11	13	
-SdM1	14	
-SdM2	8	
-SH12	5	
-SH16	11	
-SH4	3	
-SH6	11	
-SH9	10	
+Pdp11	13
+SdM1	14
+SdM2	8
+SH12	5
+SH16	11
+SH4	3
+SH6	11
+SH9	10
+S. denitrificans OS217, complete sequence	11
+S. sp. MR-4, complete sequence	8
+S. frigidimarina NCIMB 400, complete sequence	8
+S. piezotolerans WP3, complete sequence	7
+S. sp. W3-18-1, complete sequence	22
+S. amazonensis SB2B, complete sequence	6
+S. baltica OS155, complete sequence	20
+S. loihica PV-4, complete sequence	6
+S. baltica OS185, complete sequence	16
+S. sediminis HAW-EB3, complete sequence	8
+S. pealeana ATCC 700345, complete sequence	9
+S. baltica OS195, complete sequence	19
+S. halifaxensis HAW-EB4, complete sequence	7
+S. woodyi ATCC 51908, complete sequence	6
+S. baltica OS223, complete sequence	19
+S. violacea DSS12, complete sequence	6
+S. oneidensis MR-1, complete sequence	22
+S. baltica BA175, complete sequence	21
+S. baltica OS678, complete sequence	21
+S. sp. ANA-3 chromosome 1, complete sequence	12
+S. baltica OS117, complete sequence	22
+S. psychrophila strain WP2 chromosome, complete genome	17
+S. japonica strain KCTC 22435 chromosome, complete genome	9
+S. sp. FDAARGOS_354 chromosome, complete genome	14
+S. marisflavi strain EP1 chromosome, complete genome	3
+S. bicestrii strain JAB-1 chromosome, complete genome	8
+S. sp. Pdp11 chromosome, complete genome	13
+S. sp. WE21 chromosome, complete genome	27
+S. baltica strain CW2 chromosome, complete genome	17
+S. putrefaciens strain WS13 chromosome, complete genome	6
+S. baltica strain 128 chromosome, complete genome	13
+S. algae strain KC-Na-R1 chromosome, complete genome	15
+S. livingstonensis strain LMG 19866 chromosome, complete genome	13
+S. khirikhana strain TH2012 chromosome, complete genome	4
+S. maritima strain D4-2 chromosome, complete genome	5
+S. sp. MEBiC00475 chromosome, complete genome	10
+S. polaris strain SM1901 chromosome, complete genome	5
+S. sp. LC6 chromosome, complete genome	19
+S. sp. SNU WT4 strain SNU WT1 chromosome, complete genome	8
+S. marisflavi strain ECSMB14101 chromosome, complete genome	5
+S. eurypsychrophilus strain YLB-08 chromosome, complete genome	7
+S. psychropiezotolerans strain YLB-06 chromosome, complete genome	10
+S. donghaensis strain LT17 chromosome, complete genome	2
+S. decolorationis strain Ni1-3 chromosome, complete genome	15
+S. algae strain CECT-5071 chromosome, complete genome	11
+S. sp. YLB-09 chromosome, complete genome	8
+S. putrefaciens strain FDAARGOS_681 chromosome, complete genome	15
+S. algae strain RQs-106 chromosome, complete genome	17
+S. algae strain 18064-CSB-B-B chromosome, complete genome	7
+S. sp. Arc9-LZ chromosome, complete genome	7
+S. chilikensis strain DC57 chromosome, complete genome	28
+S. aestuarii strain PN3F2 chromosome PN3F2, complete sequence	6
+S. sp. Scap07 chromosome, complete genome	6
+S. algae strain 2NE11 chromosome, complete genome	15
+S. algae strain VGH117 chromosome, complete genome	5
+S. sp. WPAGA9 chromosome, complete genome	2
+S. putrefaciens strain CGMCC-1.6515 chromosome, complete genome	7
+S. putrefaciens strain ATCC 8071 chromosome, complete genome	8
+S. sp. KX20019 chromosome, complete genome	9
+S. litorisediminis strain SMK1-12 chromosome, complete genome	9
+S. sp. LZH-2 chromosome, complete genome	4
+S. putrefaciens strain XY07 chromosome, complete genome	8
+S. cyperi strain FJAT-53726 chromosome, complete genome	3
+S. avicenniae strain FJAT-51800 chromosome, complete genome	12
+S. sedimentimangrovi strain FJAT-52962 chromosome, complete genome	6
+S. cyperi strain FJAT-53720 chromosome, complete genome	4
+S. algae strain A291 chromosome, complete genome	8
+S. algae strain A59 chromosome, complete genome	6
+S. algae strain G1 chromosome, complete genome	8
+S. algae strain 150735 chromosome, complete genome	18
+S. yunxiaonensis strain FJAT-54481 chromosome, complete genome	10
+S. dokdonensis strain DSM 23626 chromosome, complete genome	13
+S. sp. FJAT-51649 chromosome, complete genome	8
+S. sp. FJAT-52076 chromosome, complete genome	5
+S. acanthi strain FJAT-51860 chromosome, complete genome	6
+S. aegiceratis strain FJAT-53532 chromosome, complete genome	0
+S. mesophila strain FJAT-53870 chromosome, complete genome	3
+S. halotolerans strain FJAT-53555 chromosome, complete genome	1
+S. spartinae strain FJAT-53681 chromosome, complete genome	4
+S. alkalitolerans strain FJAT-54031 chromosome, complete genome	2
+S. psychrotolerans strain FJAT-53749 chromosome, complete genome	4
+S. zhangzhouensis strain FJAT-52072 chromosome, complete genome	16
+S. mangrovisoli strain FJAT-51754 chromosome, complete genome	5
+S. rhizosphaerae strain FJAT-53764 chromosome, complete genome	1
+S. putrefaciens strain YZ-J chromosome, complete genome	7
+S. algae strain ATCC 49138 chromosome, complete genome	11
+S. algae strain TUM4442 chromosome, complete genome	4
+S. algae strain TUM17378 chromosome, complete genome	7
+S. algae strain TUM17379 chromosome, complete genome	10
+S. algae strain TUM17382 chromosome, complete genome	12
+S. algae strain TUM17383 chromosome, complete genome	10
+S. algae strain TUM17384 chromosome, complete genome	6
+S. algae strain TUM17386 chromosome, complete genome	10
+S. carassii strain TUM17387 chromosome, complete genome	5
+S. inventionis strain D1489 chromosome, complete genome	13
+S. xiamenensis strain NUITM-VS1 chromosome, complete genome	18
+S. glacialimarina strain TZS-4 chromosome, complete genome	7
+S. sp. OMA3-2 chromosome, complete genome	5
+S. vesiculosa strain M7 chromosome, complete genome	6
+S. xiamenensis strain CQ-Y1 chromosome, complete genome	10
+S. sp. JNE10-2 chromosome, complete genome	16
+S. sp. JNE2 chromosome, complete genome	12
+S. sp. JNE7 chromosome, complete genome	15
+S. sp. NFH-SH190041 complete, complete genome	13
+S. baltica strain 11FHM2 chromosome, complete genome	16
+S. xiamenensis strain HD6416 chromosome, complete genome	13
+S. xiamenensis strain HD6452 chromosome, complete genome	12
+S. putrefaciens strain 4H chromosome, complete genome	16
+S. seohaensis strain KCTC 23556 chromosome, complete genome	3
+S. algae strain VGH117 chromosome, complete genome	6
+S. xiamenensis strain NUITM-VS2 chromosome, complete genome	20
+S. algae strain B2215466 chromosome, complete genome	9
+S. sp. DAU305 chromosome, complete genome	15
+S. sp. MTB7 chromosome, complete genome	13
+S. xiamenensis strain FH-1 chromosome, complete genome	7
+S. goraebulensis strain DAU312 chromosome, complete genome	2
+S. algae strain MCCC 1A11468 chromosome, complete genome	9
+S. oncorhynchi strain Z-P2 chromosome, complete genome	17
+S. oncorhynchi strain B chromosome, complete genome	10
+S. xiamenensis strain 8M34 chromosome, complete genome	9
+S. xiamenensis strain 8M38 chromosome, complete genome	9
+S. benthica strain DB21MT-2 chromosome SHEWBE, complete sequence	9
+S. baltica strain NCTC10737 chromosome 1, complete sequence	13
+S. baltica strain SF1039 isolate SF1039 complete SF1039_c1	17
+MAG: uncultured S. sp. isolate ae0cf98b-7678-43db-a020-567e09f3cda9 complete 1	16

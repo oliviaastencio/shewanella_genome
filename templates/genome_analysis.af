@@ -59,16 +59,13 @@ genome_anotation_dfast){
 
 	while read -r genome
 	do 
-		mkdir -p genome_annotation/$genome
+		mkdir -p genome_annotation/$genome'_file'
 		?
-		dfast -g $data_path/genomes_problem/$genome'.fasta' -o genome_annotation/$genome --force
-		dfast_parser.rb genome_annotation/$genome/genome.gbk genome_annotation/results_dfast_parser/"dfast_parser_$genome.txt"
+		dfast -g $data_path/total_genomes/$genome -o genome_annotation/$genome'_file' --force
+		dfast_parser.rb genome_annotation/$genome'_file'/genome.gbk genome_annotation/results_dfast_parser/"dfast_parser_$genome.txt"
 		cd genome_annotation/results_dfast_parser 
 		mv cog_table.txt "$genome"'_cog_table.txt'
 		sed -i "1i category\t$genome" "$genome"'_cog_table.txt'
 		cd ../..
-	done < $data_path/genome_name
-
-	cd genome_annotation/results_dfast_parser
-	merge_tabular.rb *cog_table.txt > Total_table.txt
+	done < $data_path/all_genome_list
 }

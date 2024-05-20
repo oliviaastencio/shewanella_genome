@@ -4,7 +4,7 @@ all_genome_transposases_identification){
     echo $genome_seq > fna.list
     ?
     nohup cat fna.list | xargs -n 1 -P 8 -I{} isescan.py {} proteome hmm
-    grep "insertion_sequence" prediction/genomes_problem/*fasta.gff | cut -f 1,4,5 > ISSCAN_genome_coordinates
+    grep "insertion_sequence" prediction/total_genomes/*.gff | cut -f 1,4,5 > ISSCAN_genome_coordinates
 }
   
 transposases_environment_analysis){
@@ -44,4 +44,5 @@ do
     awk '{if ($3>=35) {print $0}}' tp_case/$folder/blast | cut -f 1,2,3,4,6,7,8,13,14 > tp_case/$folder/blast_summary
     cat tp_case/$folder/tp_finder_coordinate tp_case/$folder/blast_summary > tp_case/$folder/result_summary  
 done < tp_case/tp_transposons_finder_coordinates
+wc -l tp_case/tp_transposons_finder_coordinates | tr ' ' '\t' | cut -f 1 > tp_case/Total_tp
 }
