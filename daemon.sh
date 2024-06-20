@@ -100,35 +100,17 @@ if [ "$1" == "char" ]; then
 		" | tr -d [:space:]`
 
 	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-15:00:00" -o $genome_analysis_path
+
 fi
 
 ##################################
 ## Dfast clean
 ##################################
 
-if [ "$1" == "dfast_clean" ]; then  
+if [ "$1" == "dfast_clean" ]; then  # re-name the dfast results file 
 
-	output=$genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser
-
-	while read genome 
-	do 
-		cp $output/$genome'_cog_table.txt' $output/$genome'_cog_table'
-		sed -i "1i category\t$genome" $output/$genome'_cog_table'
-	done < $data_path/genome_name
-
-	while read genome 
-    do 
-    	accession=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 2`
-    	name=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 3`
-  		grep -v "category" $output/$accession'.fna_cog_table.txt' > $output/$accession'.fna_cog_table'
-  		sed -i "1i category\t$name" $output/$accession'.fna_cog_table'
-    done < $data_path/RefSeq_Accession.tsv
-
-	merge_tabular.rb $output/*cog_table > $output/Total_table.txt
-	grep "category" $output/Total_table.txt > $output/category_name
-	grep -v "category" $output/Total_table.txt > $output/COG_annotation_value
-	merge_tabular.rb  $data_path/COG_categories_all $output/COG_annotation_value | cut -f 2-133 > $output/COG_annotation_complete
-	cat $output/category_name $output/COG_annotation_complete | sed s'/.fasta//g' | sed s'/e_Shewanella_putrefaciens_//g' | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_micro1//g' | sed s'/_1//g' > $output/COG_annotation
+	dfast.sh $data_path $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser
+	
 fi 	
 
 ##################################
@@ -143,7 +125,7 @@ fi
 if [ "$1" == "tp_case" ]; then  
 
 	. ~soft_bio_267/initializes/init_autoflow 
-	rm -r $genome_analysis_path/transposon/executions
+	#rm -r $genome_analysis_path/transposon/executions
 	output=$genome_analysis_path/transposon/executions
 
 	while read line 
@@ -155,30 +137,15 @@ if [ "$1" == "tp_case" ]; then
 			" | tr -d [:space:]`
 		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$line $2
 	done < $data_path/all_genome_list
+	
+	cat $output/*/lista_to_fasta.rb_0000/tp_case/all_interrupt_names | sort -u  > $output/all_interrupt_names
+	cat $output/*/lista_to_fasta.rb_0000/tp_case/all_transposase_names | sort -u > $output/all_transposase_names
 fi 
 
-if [ "$1" == "tp_clean" ]; then  
+if [ "$1" == "tp_clean" ]; then  #matrix of disrupted and transposable protein, present or absent. Also re-name Tp_case output files
+	sbatch $sh_file_path/Tp.sh $data_path $genome_analysis_path  
+fi
 
-	output=$genome_analysis_path/transposon/executions
-	rm $genome_analysis_path/transposon/executions/Total_tp
-	while read genome 
-	do 
-		cp $output/$genome/lista_to_fasta.rb_0000/tp_case/Total_tp $output/$genome/lista_to_fasta.rb_0000/tp_case/Total_tp_clean
-		sed -i "1i $genome" $output/$genome/lista_to_fasta.rb_0000/tp_case/Total_tp_clean
-		cat $output/$genome/lista_to_fasta.rb_0000/tp_case/Total_tp_clean | tr '\n' '\t' | cut -f 1,2 > $output/$genome/lista_to_fasta.rb_0000/tp_case/Total_tp_tab
-	done < $data_path/genome_name
-
-	while read genome 
-    do 
-    	accession=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 2`
-    	name=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 3`
-    	cp $output/$accession.fna/lista_to_fasta.rb_0000/tp_case/Total_tp $output/$accession.fna/lista_to_fasta.rb_0000/tp_case/Total_tp_clean
-  		sed -i "1i $name" $output/$accession.fna/lista_to_fasta.rb_0000/tp_case/Total_tp_clean
- 		cat $output/$accession.fna/lista_to_fasta.rb_0000/tp_case/Total_tp_clean | tr '\n' '\t' | cut -f 1,2 > $genome_analysis_path/transposon/executions/$accession.fna/lista_to_fasta.rb_0000/tp_case/Total_tp_tab
-    done < $data_path/RefSeq_Accession.tsv
-    cat $output/*/lista_to_fasta.rb_0000/tp_case/Total_tp_tab | sed s'/.fasta//g' | sed s'/e_Shewanella_putrefaciens_//g' | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_micro1//g' | sed s'/_1//g' > $genome_analysis_path/transposon/executions/Total_tp
-    cat $genome_analysis_path/transposon/executions/Total_tp | sed s'/ /_/g' | awk '{if ($2>0) {print $0}}' | sed s'/_/ /g' > $genome_analysis_path/transposon/executions/Total_tp_top
-fi 
 ##################################
 ## TarSynFlow
 ##################################
@@ -253,56 +220,9 @@ if [ "$1" == "GI_result" ]; then
 fi 
 
 if [ "$1" == "GI_clean" ]; then 
-	# module load ruby/2.4.1
-	input=$genome_analysis_path/genomic_island/Island_Viewer4_results/file_scv 
-	output=$genome_analysis_path/genomic_island/genomic_island_results
-	
-	rm -r $output
-	mkdir -p $output
 
-	# categories COG of genes identified at genomic island 
-	strains_island=( `ls $input` )
-	for strain in "${strains_island[@]}"
-	do
-		mkdir -p $output/$strain
-		island_filtre.rb $input/$strain $output/$strain/$strain'_length'
-		grep 'Predicted by at least' $output/$strain/$strain'_length'|cut -f 1,2,3,6,7,11,12 > $output/$strain/$strain'_Integrated'
-		sed -i "1i Island_start\tIsland_end\tLength\tGene_ID\tLocus\tProduct\tExternal_Annotations" $output/$strain/$strain'_Integrated'
-		echo $strain > $output/$strain/Total_genomic_island
-		grep -v 'Island_start' $output/$strain/$strain'_Integrated' | cut -f1 | sort -u | wc -l >> $output/$strain/Total_genomic_island
-		grep -v "Length" $output/$strain/$strain'_Integrated' | cut -f 5 > $output/$strain/$strain'_locus'
-	done 
-    
-	# name assigne to genomes problem  
-	while read genome 
-	do 
-		while read locus
-		do
-			grep "$locus" $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/dfast_parser_$genome.txt | cut -f 3 | sed s'/,//g' >> $output/$genome.csv/$genome.csv_COG
-			GI_parser.rb $output/$genome.csv/$genome.csv_COG $output/$genome.csv/$genome.csv'_categories'
-			sed -i "1i categories\t$genome" $output/$genome.csv/category_table.txt
-		done < $output/$genome.csv/$genome.csv_locus
-	cat $output/$genome.csv/Total_genomic_island | tr '\n' '\t' | cut -f 1,2 >> $output/$genome.csv/Total_genomic_island_tab
-	done < $data_path/genome_name
-
-	# name assigne to genomes problem  
-	while read genome 
-	do 
-	accession=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 2`
-	name=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 3`
-		while read locus
-		do
-			grep "$locus" $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/dfast_parser_$accession.fna.txt | cut -f 3 | sed s'/,//g' >> $output/$accession.fna.csv/$accession.fna.csv_COG
-			GI_parser.rb $output/$accession.fna.csv/$accession.fna.csv_COG $output/$accession.fna.csv/$accession.fna.csv'_categories'
-			sed -i "1i categories\t$name" $output/$accession.fna.csv/category_table.txt
-		done < $output/$accession.fna.csv/$accession.fna.csv_locus
-	sed -i "1i $name" $output/$accession.fna.csv/Total_genomic_island 
-	cat $output/$accession.fna.csv/Total_genomic_island | tr '\n' '\t'| cut -f 1,3 >> $output/$accession.fna.csv/Total_genomic_island_tab
-	done < $data_path/RefSeq_Accession.tsv
+	sbatch $sh_file_path/GI.sh $data_path  $genome_analysis_path 
 	
-	merge_tabular.rb $output/*/*.txt | sed s'/.fasta//g' | sed s'/e_Shewanella_putrefaciens_//g' | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_micro1//g' | sed s'/_1//g'> $output/Total_category
-	cat $output/*/*tab | sed s'/.fasta.csv//g' | sed s'/e_Shewanella_putrefaciens_//g' | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_micro1//g' | sed s'/_1//g'> $output/Total_GI
-	cat $output/Total_GI | sed s'/ /_/g' | awk '{if ($2>10) {print $0}}' | sed s'/_/ /g' > $output/Total_GI_top
 fi 
 
 ##################################
@@ -346,25 +266,8 @@ fi
 
 if [ "$1" == "phage_clean" ]; then  
 
-	output=$genome_analysis_path/prophage
-	rm $output/*/phage_number_tab
-	while read genome 
-	do 
-		cp $output/$genome/phage_number $output/$genome/phage_number_clean
-	 	sed -i "1i $genome" $output/$genome/phage_number_clean
-		cat $output/$genome/phage_number_clean | tr '\n' '\t' | cut -f 1,2 > $output/$genome/phage_number_tab
-	done < $data_path/genome_name
-
-	while read genome 
-    do 
-    	accession=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 2`
-    	name=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 3`
-  		sed -i "1i $name" $output/$accession.fna/phage_number 
- 		cat $output/$accession.fna/phage_number | tr '\n' '\t' | cut -f 1,2 > $output/$accession.fna/phage_number_tab
-    done < $data_path/RefSeq_Accession.tsv
-
-    cat $output/*/phage_number_tab | sed s'/.fasta//g' | sed s'/e_Shewanella_putrefaciens_//g' | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_micro1//g' | sed s'/_1//g' > $output/Total_phage
-    cat $output/Total_phage | sed s'/ /_/g' | awk '{if ($2>0) {print $0}}' | sed s'/_/ /g' > $output/Total_phage_top
+	phage.sh $data_path $genome_analysis_path/prophage
+	
 fi 
 ## REPORTING
 ####################################
@@ -389,13 +292,18 @@ if [ "$1" == "report" ]; then
 
 	### Genome annotation by DFAST
 	cat $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/COG_annotation | sed s'/Shewanella/S./g'> $results_path/COG_annotation
+
 	### Transposon 
 	cat $genome_analysis_path/transposon/executions/Total_tp_top | sed s'/Shewanella/S./g' > $results_path/Total_tp
-	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_tp
+	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_tp  
 	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,2,3,4 | tr ',' '\t' | cut -f 1,2,3,4 > $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1
 	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,5 | tr ',' '\t' | cut -f 1,2 > $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2
 	merge_tabular.rb $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1 $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2 > $results_path/Pdp11_tp
 	
+	### Transposon matrix 
+	cp $genome_analysis_path/transposon/executions/all_interrupt_names_tab $results_path/Tp_interrupt
+	cp $genome_analysis_path/transposon/executions/all_transposase_names_tab $results_path/Tp_transposable
+
 	### Tarsynflow
 	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
 	
@@ -421,6 +329,8 @@ if [ "$1" == "report" ]; then
 	$results_path/pyani_coverage,
 	$results_path/Total_tp,
 	$results_path/Pdp11_tp,
+	$results_path/Tp_interrupt,
+	$results_path/Tp_transposable,
 	$results_path/specific_genes,
 	$results_path/GI_total,
 	$results_path/GI_categories,

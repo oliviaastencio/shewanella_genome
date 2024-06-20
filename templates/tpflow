@@ -35,6 +35,8 @@ do
     folder='tp_'` echo $region | tr ':' '_'`
     mkdir -p tp_case/$folder
     grep $region get_definitive_transposases)/results/summary.txt | cut -f 4,5 | tr ',' '\n' | tr '\t' '\n' > tp_case/$folder/protein_names
+    grep $region get_definitive_transposases)/results/summary.txt | cut -f 4 | tr ',' '\t' | cut -f 1 > tp_case/$folder/transposase_names
+    grep $region get_definitive_transposases)/results/summary.txt | cut -f 5 | tr ',' '\t' | cut -f 1 > tp_case/$folder/interrupt_names
     ?
     lista_to_fasta.rb $prot_database/total_prots.fasta tp_case/$folder/protein_names > tp_case/$folder/proteins.fasta
     cd-hit -i tp_case/$folder/proteins.fasta -o tp_case/$folder/proteins_new.fasta -c 0.95
@@ -44,5 +46,8 @@ do
     awk '{if ($3>=35) {print $0}}' tp_case/$folder/blast | cut -f 1,2,3,4,6,7,8,13,14 > tp_case/$folder/blast_summary
     cat tp_case/$folder/tp_finder_coordinate tp_case/$folder/blast_summary > tp_case/$folder/result_summary  
 done < tp_case/tp_transposons_finder_coordinates
+cat tp_case/*/interrupt_names > tp_case/all_interrupt_names
+cat tp_case/*/transposase_names > tp_case/all_transposase_names
 wc -l tp_case/tp_transposons_finder_coordinates | tr ' ' '\t' | cut -f 1 > tp_case/Total_tp
+
 }

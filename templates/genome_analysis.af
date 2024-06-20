@@ -63,7 +63,8 @@ genome_anotation_dfast){
 		?
 		dfast -g $data_path/total_genomes/$genome -o genome_annotation/$genome'_file' --force
 		dfast_parser.rb genome_annotation/$genome'_file'/genome.gbk genome_annotation/results_dfast_parser/"dfast_parser_$genome.txt"
-		cd genome_annotation/results_dfast_parser 
+		grep "Number of CDSs" genome_annotation/$genome'_file'/statistics.txt | cut -f 2 > genome_annotation/results_dfast_parser/$genome'_CDSs'
+		cd genome_annotation/results_dfast_parser
 		mv cog_table.txt "$genome"'_cog_table.txt'
 		sed -i "1i category\t$genome" "$genome"'_cog_table.txt'
 		cd ../..
