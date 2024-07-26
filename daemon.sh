@@ -125,8 +125,8 @@ fi
 if [ "$1" == "tp_case" ]; then  
 
 	. ~soft_bio_267/initializes/init_autoflow 
-	#rm -r $genome_analysis_path/transposon/executions
-	output=$genome_analysis_path/transposon/executions
+	rm -r $genome_analysis_path/transposon/executions
+	 output=$genome_analysis_path/transposon/executions
 
 	while read line 
 	do 
@@ -138,12 +138,10 @@ if [ "$1" == "tp_case" ]; then
 		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$line $2
 	done < $data_path/all_genome_list
 	
-	cat $output/*/lista_to_fasta.rb_0000/tp_case/all_interrupt_names | sort -u  > $output/all_interrupt_names
-	cat $output/*/lista_to_fasta.rb_0000/tp_case/all_transposase_names | sort -u > $output/all_transposase_names
 fi 
 
 if [ "$1" == "tp_clean" ]; then  #matrix of disrupted and transposable protein, present or absent. Also re-name Tp_case output files
-	sbatch $sh_file_path/Tp.sh $data_path $genome_analysis_path  
+	Tp.sh $data_path $genome_analysis_path  #sbatch $sh_file_path/
 fi
 
 ##################################
@@ -292,17 +290,23 @@ if [ "$1" == "report" ]; then
 
 	### Genome annotation by DFAST
 	cat $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/COG_annotation | sed s'/Shewanella/S./g'> $results_path/COG_annotation
-
+	cat $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/COG_annotation_relative | sed s'/Shewanella/S./g'> $results_path/COG_annotation_relative
+	
 	### Transposon 
-	cat $genome_analysis_path/transposon/executions/Total_tp_top | sed s'/Shewanella/S./g' > $results_path/Total_tp
+	cat $genome_analysis_path/transposon/executions/Total_tp | sed s'/Shewanella/S./g' > $results_path/Total_tp
 	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_tp  
+	cat $genome_analysis_path/transposon/executions/Total_tp_relative | sed s'/Shewanella/S./g' > $results_path/Total_tp_relative
+	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_tp_relative
+
 	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,2,3,4 | tr ',' '\t' | cut -f 1,2,3,4 > $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1
 	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,5 | tr ',' '\t' | cut -f 1,2 > $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2
 	merge_tabular.rb $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1 $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2 > $results_path/Pdp11_tp
 	
 	### Transposon matrix 
 	cp $genome_analysis_path/transposon/executions/all_interrupt_names_tab $results_path/Tp_interrupt
+	cp $genome_analysis_path/transposon/executions/all_interrupt_names_tab_total $results_path/Tp_interrupt_total
 	cp $genome_analysis_path/transposon/executions/all_transposase_names_tab $results_path/Tp_transposable
+	cp $genome_analysis_path/transposon/executions/all_transposase_names_tab_total $results_path/Tp_transposable_total
 
 	### Tarsynflow
 	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
@@ -317,6 +321,12 @@ if [ "$1" == "report" ]; then
 	merge_tabular.rb  $data_path/COG_categories_all $genome_analysis_path/genomic_island/genomic_island_results/Total_category_value | cut -f 2-135 > $genome_analysis_path/genomic_island/genomic_island_results/GI_categories
 	cat $genome_analysis_path/genomic_island/genomic_island_results/Total_category_name $genome_analysis_path/genomic_island/genomic_island_results/GI_categories | sed s'/Shewanella/S./g' > $results_path/GI_categories
 
+	### Genomic Island COG categories
+	grep "categories" $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative > $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_name
+	grep -v "categories" $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative > $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_value
+	merge_tabular.rb  $data_path/COG_categories_all $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_value | cut -f 2-135 > $genome_analysis_path/genomic_island/genomic_island_results/GI_categories_relative
+	cat $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_name $genome_analysis_path/genomic_island/genomic_island_results/GI_categories_relative | sed s'/Shewanella/S./g' > $results_path/GI_categories_relative
+
 	### Prophage 
 	cat $genome_analysis_path/prophage/Total_phage_top| sed s'/Shewanella/S./g' > $results_path/Total_phage
 	sed -i '1ishewanella strains \t prophages number' $results_path/Total_phage
@@ -325,15 +335,20 @@ if [ "$1" == "report" ]; then
 	paths=`echo -e "
 	$results_path/blast_16,
 	$results_path/COG_annotation,
+	$results_path/COG_annotation_relative,
 	$results_path/pyani_identity,
 	$results_path/pyani_coverage,
 	$results_path/Total_tp,
+	$results_path/Total_tp_relative,
 	$results_path/Pdp11_tp,
 	$results_path/Tp_interrupt,
+	$results_path/Tp_interrupt_total,
 	$results_path/Tp_transposable,
+	$results_path/Tp_transposable_total,
 	$results_path/specific_genes,
 	$results_path/GI_total,
 	$results_path/GI_categories,
+	$results_path/GI_categories_relative,
 	$results_path/Total_phage
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report

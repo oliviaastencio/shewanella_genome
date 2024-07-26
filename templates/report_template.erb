@@ -98,14 +98,35 @@
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'COG_annotation', transpose:true, header: true, row_names: true, x_label: 'genes (%)',  title: "COG categories", height: 600, config:{
+	heatmap(id: 'COG_annotation', transpose:true, header: true, row_names: true, x_label: 'genes (%)',  title: "COG categories", height: 400, config:{
 			'variablesClustered' => true,
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
 			if i > 0
 				max = row[1..-1].max
-				to_delete << i if max < 0.1
+				to_delete << i if max < 100
+			end
+		end
+		to_delete.reverse_each do |idx|
+			table.delete_at(idx)
+		end
+	end 
+%>
+
+<h3> COG annotation relative </h3>
+<p> The Figure represent the annotation by Dfast of the 132 research strains of Shewanella.sp.  </p>
+<div style="overflow: hidden">
+
+<%=
+	heatmap(id: 'COG_annotation_relative', transpose:true, header: true, row_names: true, x_label: 'genes (%)',  title: "COG categories relative", height: 400, config:{
+			'variablesClustered' => true,
+	}) do |table|
+		to_delete = []
+		table.each_with_index do |row, i|
+			if i > 0
+				max = row[1..-1].max
+				to_delete << i if max < 2
 			end
 		end
 		to_delete.reverse_each do |idx|
@@ -120,7 +141,21 @@
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'Total_tp', header: true, row_names: true, x_label: 'number of transposons', y_label: 'strains', title: "Transposable elements", height: 400)
+<%=barplot(id: 'Total_tp', header: true, row_names: true, x_label: 'number of transposons', y_label: 'strains', title: "Transposable elements", height: 400, config:{
+			'samplesClustered' => true,
+	})
+
+%>
+</div>
+
+<h3> Transposon identification  </h3>
+<p> Transposons elements were identified at 95 genome of 132 Shewanella.sp genomes analysis </p>
+
+<div style="overflow: hidden">
+
+<%=barplot(id: 'Total_tp_relative', header: true, row_names: true, x_label: 'number of transposons', y_label: 'strains', title: "Transposable elements relative", height: 400, config:{
+			'samplesClustered' => true,
+	})
 
 %>
 </div>
@@ -134,19 +169,46 @@
 	end
 %>
 
+</div>
+
+
 <h3> Total tp interrupted protein </h3>
 <p> The heatmap represent the variability of identity in Shewanella genus based on 132 complete genomes of NCBI. The probiotic Shewanella.sp Pdp11 had high similarity to Shewanella baltica complete genomes. </p>
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'Tp_interrupt', transpose:false, header: true, row_names: true, x_label: 'protein abundance',  title: "Interrupted protein by Tp", height: 600, config:{
-			'variablesClustered' => true,
+	heatmap(id: 'Tp_interrupt', transpose:true, header: true, row_names: true, x_label: 'protein abundance',  title: "Interrupted protein by Tp", height: 600, config:{
+			'variablesClustered' => true, 'samplesClustered' => true,
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
 			if i > 0
-				max = row[1..-1].max
+				max = row[2..-2].max
 				to_delete << i if max < 1
+			end
+		end
+		to_delete.reverse_each do |idx|
+			table.delete_at(idx)
+		
+		end
+	end 
+%>
+
+</div>
+
+<h3> Total tp interrupted protein </h3>
+<p> The heatmap represent the variability of identity in Shewanella genus based on 132 complete genomes of NCBI. The probiotic Shewanella.sp Pdp11 had high similarity to Shewanella baltica complete genomes. </p>
+<div style="overflow: hidden">
+
+<%=
+	heatmap(id: 'Tp_interrupt_total', transpose:true, header: true, row_names: true, x_label: 'protein abundance',  title: "Interrupted protein by Tp Total", height: 600, config:{
+			'variablesClustered' => true, 'samplesClustered' => true,
+	}) do |table|
+		to_delete = []
+		table.each_with_index do |row, i|
+			if i > 0
+				max = row[2..-2].max
+				to_delete << i if max < 3
 			end
 		end
 		to_delete.reverse_each do |idx|
@@ -162,13 +224,13 @@
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'Tp_transposable', transpose:false, header: true, row_names: true, x_label: 'protein abundance',  title: "Transposable protein", height: 600, config:{
-			'variablesClustered' => true,
+	heatmap(id: 'Tp_transposable', transpose:true, header: true, row_names: true, x_label: 'protein abundance',  title: "Transposable protein", height: 600, config:{
+			'variablesClustered' => true, 'samplesClustered' => true,
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
 			if i > 0
-				max = row[1..-1].max
+				max = row[2..-2].max
 				to_delete << i if max < 1
 			end
 		end
@@ -177,7 +239,28 @@
 		end
 	end 
 %>
+</div>
 
+<h3> Total tp transposable protein </h3>
+<p> The heatmap represent the variability of identity in Shewanella genus based on 132 complete genomes of NCBI. The probiotic Shewanella.sp Pdp11 had high similarity to Shewanella baltica complete genomes. </p>
+<div style="overflow: hidden">
+
+<%=
+	heatmap(id: 'Tp_transposable_total', transpose:true, header: true, row_names: true, x_label: 'protein abundance',  title: "Transposable protein Total", height: 600, config:{
+			'variablesClustered' => true, 'samplesClustered' => true,
+	}) do |table|
+		to_delete = []
+		table.each_with_index do |row, i|
+			if i > 0
+				max = row[2..-2].max
+				to_delete << i if max < 3
+			end
+		end
+		to_delete.reverse_each do |idx|
+			table.delete_at(idx)
+		end
+	end 
+%>
 </div>
 
 <h3> Genomic Island  </h3>
@@ -185,8 +268,9 @@
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400)
-
+<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'number of GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
+			'samplesClustered' => true,
+	}) 
 %>
 </div>
 
@@ -212,12 +296,36 @@
 %>
 </div>
 
+<h3> GIs and COG </h3>
+<p> The Figure represent the COG annotation by Dfast of genes included on genomic island. The GIs were identified at 132 research strains of Shewanella.sp. </p>
+<div style="overflow: hidden">
+
+<%=
+	heatmap(id: 'GI_categories_relative', transpose:true, header: true, row_names: true, x_label: 'genes (%)',  title: "COG annotation of GI relative", height: 600, config:{
+			'variablesClustered' => true,
+	}) do |table|
+		to_delete = []
+		table.each_with_index do |row, i|
+			if i > 0
+				max = row[1..-1].max
+				to_delete << i if max < 0.1
+			end
+		end
+		to_delete.reverse_each do |idx|
+			table.delete_at(idx)
+		end
+	end 
+%>
+</div>
+
 <h3> Prophage  </h3>
 <p> The Mobilome analysis included the phages identification. Prophage were described in 73 complete genomes of Shewanella.sp </p>
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'Total_phage', header: true, row_names: true, x_label: 'number of prophage', y_label: 'strains', title: "Phages", height: 400)
+<%=barplot(id: 'Total_phage', header: true, row_names: true, x_label: 'number of prophage', y_label: 'strains', title: "Phages", height: 400, config:{
+			'samplesClustered' => true,
+	})
 
 %>
 </div>
@@ -229,6 +337,3 @@
 		table.unshift(['Entry', 'protein names', 'organism'])
 	end
 %>
-
-
-
