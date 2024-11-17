@@ -10,6 +10,51 @@
 	done < $ab1_name
 }
 
+genome_anotation_dfast){
+
+	module load dfast_core/1.2.18 
+	module load ruby/2.4.1
+
+	mkdir -p genome_annotation/results_dfast_parser
+
+	while read -r genome
+	do 
+		mkdir -p genome_annotation/$genome'_file'
+		mkdir -p genome_annotation/results_dfast_parser/$genome
+		?
+		dfast -g $data_path/total_genomes/$genome -o genome_annotation/$genome'_file' --force
+		dfast_parser.rb genome_annotation/$genome'_file'/genome.gbk genome_annotation/results_dfast_parser/$genome/dfast_parser.txt
+		grep "Number of CDSs" genome_annotation/$genome'_file'/statistics.txt | cut -f 2 > genome_annotation/results_dfast_parser/$genome/CDSs
+		grep -c "COG:" genome_annotation/$genome'_file'/genome.gff > genome_annotation/results_dfast_parser/$genome/COG_number
+		grep -c "TIGR" genome_annotation/$genome'_file'/genome.gff > genome_annotation/results_dfast_parser/$genome/TIGR_number
+		cd genome_annotation/results_dfast_parser
+		mv cog_table.txt $genome/cog_table.txt
+		sed -i "1i category\t$genome" $genome/cog_table.txt
+		cd ../..
+
+		cds=`cat genome_annotation/results_dfast_parser/$genome/CDSs`
+    	awk '{ print $1 "\t" $2 "\t" '"$cds"'}' genome_annotation/results_dfast_parser/$genome/cog_table.txt | awk '{ print $1 "\t" $2 "\t" $3 "\t" $2*100/$3}' | grep -v "category" > genome_annotation/results_dfast_parser/$genome/all_cog
+    	cat genome_annotation/results_dfast_parser/$genome/all_cog | cut -f 1,2 > genome_annotation/results_dfast_parser/$genome/cog_table
+    	sed -i "1i category\t$genome" genome_annotation/results_dfast_parser/$genome/cog_table
+    	cat genome_annotation/results_dfast_parser/$genome/all_cog | cut -f 1,4 > genome_annotation/results_dfast_parser/$genome/cog_table_relative
+    	sed -i "1i category\t$genome" genome_annotation/results_dfast_parser/$genome/cog_table_relative
+    	cat genome_annotation/results_dfast_parser/$genome/CDSs genome_annotation/results_dfast_parser/$genome/COG_number | tr '\n' '\t' | awk '{ print $1 "\t" $2 "\t"  $2*100/$1}' | cut -f 3 > genome_annotation/results_dfast_parser/$genome/COG_percent
+   	 	sed -i "1i $genome" genome_annotation/results_dfast_parser/$genome/COG_percent
+    	cat genome_annotation/results_dfast_parser/$genome/COG_percent | tr '\n' '\t' > genome_annotation/results_dfast_parser/$genome/COG_percent_tab
+    done < $data_path/all_genome_list
+
+    table=( 'cog_table' 'cog_table_relative' )
+
+	for name in "${table[@]}"
+ 	 do
+    	merge_tabular.rb genome_annotation/results_dfast_parser/*/$name > genome_annotation/results_dfast_parser/$name
+    	grep "category" genome_annotation/results_dfast_parser/$name > genome_annotation/results_dfast_parser/category_$name
+    	grep -v "category" genome_annotation/results_dfast_parser/$name > genome_annotation/results_dfast_parser/value_$name
+    	merge_tabular.rb  $data_path/COG_categories_all genome_annotation/results_dfast_parser/value_$name | cut -f 2-133 > genome_annotation/results_dfast_parser/all_$name
+    	cat genome_annotation/results_dfast_parser/category_$name genome_annotation/results_dfast_parser/all_$name > genome_annotation/results_dfast_parser/Total_$name
+	done 
+}
+
 sibelia){
    	export PATH=/mnt/home/users/pab_001_uma/pedro/software/Sibelia/bin/:$PATH
 	module load circos
@@ -22,7 +67,7 @@ sibelia){
 		do 
 			mkdir -p $problem_strain/$genome_candidate
 			?
-		    Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain'.fasta'  $data_path/total_genomes/$genome_candidate -o $problem_strain/$genome_candidate
+		    Sibelia -m 2000 -s fine $data_path/genomes_problem/$problem_strain  $data_path/total_genomes/$genome_candidate -o $problem_strain/$genome_candidate
 		    cd $problem_strain/$genome_candidate/circos
 		    circos -conf circos.conf -debug_group summary,timer -param image/radius=1500p > run.out 
 		    cd ../../..
@@ -50,23 +95,4 @@ pyani_db){
 	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf 
 }
 
-genome_anotation_dfast){
 
-	module load dfast_core/1.2.18 
-	module load ruby/2.4.1
-
-	mkdir -p genome_annotation/results_dfast_parser
-
-	while read -r genome
-	do 
-		mkdir -p genome_annotation/$genome'_file'
-		?
-		dfast -g $data_path/total_genomes/$genome -o genome_annotation/$genome'_file' --force
-		dfast_parser.rb genome_annotation/$genome'_file'/genome.gbk genome_annotation/results_dfast_parser/"dfast_parser_$genome.txt"
-		grep "Number of CDSs" genome_annotation/$genome'_file'/statistics.txt | cut -f 2 > genome_annotation/results_dfast_parser/$genome'_CDSs'
-		cd genome_annotation/results_dfast_parser
-		mv cog_table.txt "$genome"'_cog_table.txt'
-		sed -i "1i category\t$genome" "$genome"'_cog_table.txt'
-		cd ../..
-	done < $data_path/all_genome_list
-}
