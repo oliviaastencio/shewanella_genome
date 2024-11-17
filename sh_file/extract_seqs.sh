@@ -5,8 +5,8 @@ genome_path=$2
 output=$3
 data=$4
 script=$5
-genome="$2/e_e_Pdp11_1.fasta"
-coord_table_path=$3/comps/e_Pdp11_1.fasta #"genes_identification/Tarsynflow/comps/e_Pdp11_1.fasta"
+genome="$2/e_Shewanella_Pdp11.fasta"
+coord_table_path=$3/comps/Shewanella_Pdp11.fasta #"genes_identification/Tarsynflow/comps/e_Pdp11_1.fasta"
 
 
 mkdir -p $output/extracted_seqs
