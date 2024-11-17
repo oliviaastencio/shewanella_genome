@@ -24,22 +24,23 @@ function genomes_database {
 
 	input=$output/genomes_down/sequence_download 
 	
-	# #######We online need the genomic.fna.gz 
-	grep -v "Assembly Accession" $output/RefSeq.tsv | cut -f 1 > $output/RefSeq_Accession.tsv
+	######## genome download from 
 
-	file="$output/RefSeq_Accession.tsv"
-	while IFS= read -r line
+	while read line
 	do
-	    wget "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/$line/download?include_annotation_type=GENOME_FASTA" -O genome.zip
+		assembly=`grep "$line" $output/RefSeq.tsv | cut -f 1`
+		name=`grep "$line" $output/RefSeq.tsv | cut -f 3,5 | tr '\t' '_' | tr ' ' '_'`   # | tr '.' '_' | tr '-' '_'
+	    wget "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/$assembly/download?include_annotation_type=GENOME_FASTA" -O genome.zip
 	    unzip genome.zip
-	  	mv ncbi_dataset/data/$line/*.fna $output/genomes_down/sequence_download/$line.fna
-	    rm -r genome.zip ncbi_dataset README.md
-	done < "$file" 
+	  	mv ncbi_dataset/data/$assembly/*.fna $output/genomes_down/sequence_download/$name.fasta
+	    rm -r genome.zip ncbi_dataset README.md  md5sum.txt
+	done < $output/RefSeq.tsv
 
-	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/GCF_949794895.1.fna | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/GCF_949794895.1_2.fna
-	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/GCF_963676895.1.fna | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/GCF_963676895.1_2.fna
-	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/GCF_024363255.1.fna | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/GCF_024363255.1_2.fna
-	rm $output/genomes_down/sequence_download/GCF_949794895.1.fna $output/genomes_down/sequence_download/GCF_024363255.1.fna $output/genomes_down/sequence_download/GCF_963676895.1.fna
+	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/Shewanella_baltica_SF1039.fasta | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/Shewanella_baltica_SF1039_1.fasta
+	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/uncultured_Shewanella_sp._.fasta | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/uncultured_Shewanella_sp.fasta
+	sed s'/plasmid/plasmid complete genome/g'  $output/genomes_down/sequence_download/Shewanella_sp._NFH-SH190041_.fasta | sed s'/chromosome/complete/g' > $output/genomes_down/sequence_download/Shewanella_sp._NFH-SH190041.fasta
+	rm $output/genomes_down/sequence_download/Shewanella_baltica_SF1039.fasta $output/genomes_down/sequence_download/uncultured_Shewanella_sp._.fasta $output/genomes_down/sequence_download/Shewanella_sp._NFH-SH190041_.fasta
+	
 	######WE Separated genomes and plasmids
 	genome_folder=$output/genomes_down/genomes
 	plasmid_folder=$output/genomes_down/plasmids
@@ -70,28 +71,29 @@ export PATH=$sh_file_path:$PATH
 genome_analysis_path=$SCRATCH/genome_analysis
 transposon_analysis_path=$SCRATCH/transposon_result
 
-if [ "$1" == "down" ]; then  
+if [ "$1" == "down" ]; then  ######LISTO
 
-	genomes_database $data_path
+	genomes_database $data_path   ######LISTO
 fi
  	
-if [ "$1" == "ab1_clean" ]; then   
+if [ "$1" == "ab1_clean" ]; then    ######LISTO
 	ab1_clean.sh $data_path
 fi
 
-if [ "$1" == "char" ]; then  
+if [ "$1" == "char" ]; then   ######LISTO TODO MENOS DFAST que lo hemos ejecutado con el dfast_clean.sh includo 
 	. ~soft_bio_267/initializes/init_autoflow  
 	
-	rm -r $genome_analysis_path/dfast_0000 # $genome_analysis_path/pyani_0000  $genome_analysis_path/Sibelia_0000 $data_path/total_genomes $data_path/all_genome_list
-	mkdir -p $data_path/total_genomes
+	 rm -r $genome_analysis_path/char/dfast_0000  #$genome_analysis_path/char/pyani_0000  $genome_analysis_path/char/Sibelia_0000 $data_path/total_genomes $data_path/all_genome_list
+	 mkdir -p $data_path/total_genomes 
+	 mkdir -p $genome_analysis_path/char
 	
-	ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
-	ln -s $data_path/genomes_down/genomes/*.fna $data_path/total_genomes
+	 ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
+	 ln -s $data_path/genomes_down/genomes/*.fasta $data_path/total_genomes
 
-	ls $data_path/genomes_down/genomes > $data_path/genome_candidate_list
+	 ls $data_path/genomes_down/genomes > $data_path/genome_candidate_list
 
-	ls $data_path/genomes_problem > $data_path/all_genome_list
-	ls $data_path/genomes_down/genomes >> $data_path/all_genome_list
+	 ls $data_path/genomes_problem > $data_path/all_genome_list
+	 ls $data_path/genomes_down/genomes >> $data_path/all_genome_list
 	
 	vars=`echo "
 		\\$data_path=$project_path'/data',
@@ -99,50 +101,39 @@ if [ "$1" == "char" ]; then
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-15:00:00" -o $genome_analysis_path
-
-fi
-
-##################################
-## Dfast clean
-##################################
-
-if [ "$1" == "dfast_clean" ]; then  # re-name the dfast results file 
-
-	dfast.sh $data_path $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser
+	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-20:00:00" -o $genome_analysis_path/char
 	
-fi 	
+fi
 
 ##################################
 ## TP FLOW
 ##################################
 
-if [ "$1" == "protein_db" ]; then  
+if [ "$1" == "protein_db" ]; then  ######LISTO
 
 	protein_db.sh  $script_path $data_path $SCRATCH/genome_analysis "Shewanella"
 fi 
 
-if [ "$1" == "tp_case" ]; then  
+if [ "$1" == "tp_case" ]; then  ######LISTO
 
 	. ~soft_bio_267/initializes/init_autoflow 
 	rm -r $genome_analysis_path/transposon/executions
-	 output=$genome_analysis_path/transposon/executions
+	output=$genome_analysis_path/transposon/executions
 
-	while read line 
+	while read genome 
 	do 
-		mkdir -p $output/$line
+		mkdir -p $output/$genome
 		vars=`echo "
-			\\$genome_seq=$data_path/total_genomes/$line,
+			\\$genome_name=$genome,
+			\\$data_path=$project_path'/data',
+			\\$genome_analysis_path=$genome_analysis_path,
+			\\$genome_seq=$data_path/total_genomes/$genome,
 			\\$prot_database=$data_path/tp_data
 			" | tr -d [:space:]`
-		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$line $2
+		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$genome $2
 	done < $data_path/all_genome_list
 	
 fi 
-
-if [ "$1" == "tp_clean" ]; then  #matrix of disrupted and transposable protein, present or absent. Also re-name Tp_case output files
-	Tp.sh $data_path $genome_analysis_path  #sbatch $sh_file_path/
-fi
 
 ##################################
 ## TarSynFlow
@@ -151,9 +142,11 @@ fi
 if [ "$1" == "genes" ]; then
 
 	output=$genome_analysis_path/genes_identification/Tarsynflow
+
+	rm -r $output
 	mkdir -p $output/proteome
 
-	sbatch $sh_file_path/reduce_prot_redundancy.sh  $data_path $genome_analysis_path
+	sbatch $sh_file_path/reduce_prot_redundancy.sh  $data_path $genome_analysis_path 
 
 fi
 
@@ -165,17 +158,17 @@ fi
 
 if [ "$1" == "genes_results_protein" ]; then
 
-	sbatch $sh_file_path/get_all_results.sh $output/results $data_path $output/comps  $script_path get_protein
+	sbatch $sh_file_path/get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_protein
 fi 
 
 if [ "$1" == "genes_results_annotation" ]; then
 
-	get_all_results.sh $output/results $data_path $output/comps  $script_path get_annotations
+	get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_annotations
 fi  
 
 if [ "$1" == "seqs" ]; then
 
-	extract_seqs.sh "$output/comps/e_Pdp11_1.fasta/"`head -n 1 data/gen_refs`"/procompart_0000/coord_table_with_strand" $data_path/genomes_problem $output $data_path $script_path 
+	extract_seqs.sh "$genome_analysis_path/genes_identification/Tarsynflow/comps/Shewanella_Pdp11.fasta/"`head -n 1 data/gen_refs`"/procompart_0000/coord_table_with_strand" $data_path/genomes_problem $genome_analysis_path/genes_identification/Tarsynflow $data_path $script_path 
 	
 fi 
 
@@ -185,10 +178,12 @@ fi
 
 
 if [ "$1"  == "GI" ]; then 
-	HTTP_API_token="1d0a19fa-8c75-4868-7487-92ccadf02b57" 
-	input=$genome_analysis_path/dfast_0000/genome_annotation
+	HTTP_API_token="b800318f-766a-e3ad-d20a-74b797db9969" 
+	input=$genome_analysis_path/char/dfast_0000/genome_annotation
 	output=$genome_analysis_path/genomic_island
+
 	mkdir -p $output
+	rm -r $output/Island_Viewer4_results
 	mkdir -p $output/Island_Viewer4_results
 
 	while read ref_genome
@@ -206,7 +201,6 @@ if [ "$1" == "GI_result" ]; then
 ##curl https://www.pathogenomics.sfu.ca/islandviewer/rest/job/job_token/ -H 'X-authtoken:your_authentication_token'
 	output=$genome_analysis_path/genomic_island/Island_Viewer4_results
 
-	rm -r $output/file_scv
 	mkdir -p $output/file_scv
 	while read genome 
 	do
@@ -219,7 +213,7 @@ fi
 
 if [ "$1" == "GI_clean" ]; then 
 
-	sbatch $sh_file_path/GI.sh $data_path  $genome_analysis_path 
+	sbatch $sh_file_path/GI.sh $data_path  $genome_analysis_path
 	
 fi 
 
@@ -231,15 +225,15 @@ fi
 if [ "$1" == "phage_input" ]; then 
 
 	output=$genome_analysis_path/prophage
-	rm $output
+	rm -r $output
 	mkdir -p $output
 
 	while read genome 
-		do
-			mkdir -p $output/$genome
-			wget --post-file="$data_path/total_genomes/$genome" "https://phastest.ca/phastest_api" -O $output/$genome/submissions
-			cat $output/$genome/submissions | tr ',' '\t' | tr ':' '\t' | sed s'/"//g' | cut -f 2 > $output/$genome/job_id
-		done < $data_path/all_genome_list
+	do
+		mkdir -p $output/$genome
+		wget --post-file="$data_path/total_genomes/$genome" "https://phastest.ca/phastest_api" -O $output/$genome/submissions
+		cat $output/$genome/submissions | tr ',' '\t' | tr ':' '\t' | sed s'/"//g' | cut -f 2 > $output/$genome/job_id
+	done < $data_path/all_genome_list
 fi 
 
 # download the PHASTEST results
@@ -276,80 +270,86 @@ if [ "$1" == "report" ]; then
 	mkdir -p $results_path
 
 	### 16SRNA BLAST results 
-	grep -h -v '#' $genome_analysis_path/blastn_0000/blast_16S/blast_* | awk '{if (($3>98.7)&&($4=100)) {print $0}}'| tr ' ' '\t' | sed s'/1_S/\tS/g' | cut -f 1,3,4,16 | sed s'/.fasta//g'| sed s'/_1492R//g' | sed s'/_/ /g'> $results_path/blast_16
+	grep -h -v '#' $genome_analysis_path/char/blastn_0000/blast_16S/blast_* | awk '{if (($3>98.7)&&($15=100)) {print $0}}'| tr ' ' '\t' | sed s'/1_S/\tS/g' | cut -f 1,2,3,15 | sed s'/.fasta//g'| sed s'/_1492R//g' | sed s'/_/ /g'> $results_path/blast_16
 
 	### Complete genome comparison 
-	grep -v "Q_Shewanella_Pdp11:126" $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | grep -v "R_scaffold" | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella / S./g' | sort >> $results_path/pyani_identity
+	grep -v "Q_Shewanella_Pdp11" $genome_analysis_path/char/pyani_0000/genome_pyani_anim/matrix_identity_1.tab | grep -v "R_scaffold" | cut -f 1-9 | sed s'/Shewanella / S./g' | sort >> $results_path/pyani_identity
 	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_identity
-	grep -v "Q_Shewanella_Pdp11:126" $genome_analysis_path/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | grep -v "R_scaffold" | cut -f 1,127,128,129,130,131,132,133,134 | sed s'/Shewanella / S./g' | sort >> $results_path/pyani_coverage
+	grep -v "Q_Shewanella_Pdp11" $genome_analysis_path/char/pyani_0000/genome_pyani_anim/matrix_coverage_1.tab | grep -v "R_scaffold" | cut -f 1-9 | sed s'/Shewanella / S./g' | sort >> $results_path/pyani_coverage
 	sed -i '1ishewanella strains \t Pdp11 \t SH12 \t SH16 \t SH4 \t SH6 \t SH9 \t SdM1 \t SdM2' $results_path/pyani_coverage 
+	grep -v "shewanella strains" $results_path/pyani_identity | sed s'/ /_/g' | awk '{if (($2>0.9)||($3>0.9)||($4>0.9)||($5>0.9)||($6>0.9)||($7>0.9)||($8>0.9)||($9>0.9)) {print $0}}' | sed s'/_/ /g' | cut -f 1 > $results_path/pyani_identity_top
 	
 	###### Synteny block and Sibelia 
-	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_003052765.1.fna/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
-	cp $genome_analysis_path/Sibelia_0000/e_Pdp11_1/GCF_025402875.1.fna/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
+	cp $genome_analysis_path/char/Sibelia_0000/Shewanella_Pdp11.fasta/Shewanella_baltica_128.fasta/circos/circos.png $results_path/S_baltica_128:Pdp11.png 
+	cp $genome_analysis_path/char/Sibelia_0000/Shewanella_Pdp11.fasta/Shewanella_putrefaciens_4H.fasta/circos/circos.png $results_path/S_putrefaciens_4H:Pdp11.png
 
 	### Genome annotation by DFAST
-	cat $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/COG_annotation | sed s'/Shewanella/S./g'> $results_path/COG_annotation
-	cat $genome_analysis_path/dfast_0000/genome_annotation/results_dfast_parser/COG_annotation_relative | sed s'/Shewanella/S./g'> $results_path/COG_annotation_relative
+	cat $genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser/*/COG_percent_tab |  sed s'/\tS/\nS/g' | sed s'/\tun/\nun/g' | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/COG_percent
+	sed -i '1ishewanella strains \t %' $results_path/COG_percent
+	cat $genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser/Total_cog_table | sed s'/Shewanella_/S./g'| sed s'/_/ /g' > $results_path/COG_annotation
+	cat $genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser/Total_cog_table_relative | sed s'/Shewanella_/S./g'| sed s'/_/ /g' > $results_path/COG_annotation_relative
 	
 	### Transposon 
-	cat $genome_analysis_path/transposon/executions/Total_tp | sed s'/Shewanella/S./g' > $results_path/Total_tp
-	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_tp  
-	cat $genome_analysis_path/transposon/executions/Total_tp_relative | sed s'/Shewanella/S./g' > $results_path/Total_tp_relative
-	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_tp_relative
+	awk '{if ($2>0) {print $0}}' $genome_analysis_path/transposon/executions/Total_absolute | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/Total_absolute
+	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_absolute  
+	awk '{if ($2>0) {print $0}}' $genome_analysis_path/transposon/executions/Total_relative | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/Total_relative
+	sed -i '1ishewanella strains \t transposable elements' $results_path/Total_relative
 
-	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,2,3,4 | tr ',' '\t' | cut -f 1,2,3,4 > $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1
-	less -S $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,5 | tr ',' '\t' | cut -f 1,2 > $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2
-	merge_tabular.rb $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1 $genome_analysis_path/transposon/executions/e_Pdp11_1.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2 > $results_path/Pdp11_tp
+	less -S $genome_analysis_path/transposon/executions/Shewanella_Pdp11.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,2,3,4 | tr ',' '\t' | cut -f 1,2,3,4 > $genome_analysis_path/transposon/executions/Shewanella_Pdp11.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1
+	less -S $genome_analysis_path/transposon/executions/Shewanella_Pdp11.fasta/transposons_finder.rb_0000/results/summary.txt | cut -f 1,5 | tr ',' '\t' | cut -f 1,2 > $genome_analysis_path/transposon/executions/Shewanella_Pdp11.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2
+	merge_tabular.rb $genome_analysis_path/transposon/executions/Shewanella_Pdp11.fasta/transposons_finder.rb_0000/results/Pdp11_tp_1 $genome_analysis_path/transposon/executions/Shewanella_Pdp11.fasta/transposons_finder.rb_0000/results/Pdp11_tp_2 | sed s'/Q_//g' | sed s'/_/ /' > $results_path/Pdp11_tp
 	
 	### Transposon matrix 
-	cp $genome_analysis_path/transposon/executions/all_interrupt_names_tab $results_path/Tp_interrupt
-	cp $genome_analysis_path/transposon/executions/all_interrupt_names_tab_total $results_path/Tp_interrupt_total
-	cp $genome_analysis_path/transposon/executions/all_transposase_names_tab $results_path/Tp_transposable
-	cp $genome_analysis_path/transposon/executions/all_transposase_names_tab_total $results_path/Tp_transposable_total
+	cat $genome_analysis_path/transposon/executions/Tab_interrupt | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/Tp_interrupt
+	cat $genome_analysis_path/transposon/executions/Tab_interrupt_number | sed s'/Shewanella_/S./g' | sed s'/_/ /g'>  $results_path/Tp_interrupt_total
+	cat $genome_analysis_path/transposon/executions/Tab_transposase | sed s'/Shewanella_/S./g' | sed s'/_/ /g'>  $results_path/Tp_transposable
+	cat $genome_analysis_path/transposon/executions/Tab_transposase_number  | sed s'/Shewanella_/S./g' | sed s'/_/ /g'> $results_path/Tp_transposable_total
 
 	### Tarsynflow
 	grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/specific_genes
 	
 	### Genomic Island Total
-	cat $genome_analysis_path/genomic_island/genomic_island_results/Total_GI | sed s'/Shewanella/S./g' > $results_path/GI_total
+	cat $genome_analysis_path/genomic_island/genomic_island_results/Total_GI | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/GI_total
 	sed -i '1ishewanella strains \t GIs number' $results_path/GI_total
 
 	### Genomic Island COG categories
-	grep "categories" $genome_analysis_path/genomic_island/genomic_island_results/Total_category > $genome_analysis_path/genomic_island/genomic_island_results/Total_category_name
-	grep -v "categories" $genome_analysis_path/genomic_island/genomic_island_results/Total_category > $genome_analysis_path/genomic_island/genomic_island_results/Total_category_value
-	merge_tabular.rb  $data_path/COG_categories_all $genome_analysis_path/genomic_island/genomic_island_results/Total_category_value | cut -f 2-135 > $genome_analysis_path/genomic_island/genomic_island_results/GI_categories
-	cat $genome_analysis_path/genomic_island/genomic_island_results/Total_category_name $genome_analysis_path/genomic_island/genomic_island_results/GI_categories | sed s'/Shewanella/S./g' > $results_path/GI_categories
+	grep "category" $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category > $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_name
+	grep -v "category" $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category > $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_value
+	merge_tabular.rb  $data_path/COG_categories_all $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_value | cut -f 2-139 > $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI
+	cat $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_name $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/enrichment_GI_cat
 
 	### Genomic Island COG categories
-	grep "categories" $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative > $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_name
-	grep -v "categories" $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative > $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_value
-	merge_tabular.rb  $data_path/COG_categories_all $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_value | cut -f 2-135 > $genome_analysis_path/genomic_island/genomic_island_results/GI_categories_relative
-	cat $genome_analysis_path/genomic_island/genomic_island_results/Total_category_relative_name $genome_analysis_path/genomic_island/genomic_island_results/GI_categories_relative | sed s'/Shewanella/S./g' > $results_path/GI_categories_relative
+	grep "category" $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_relative > $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_relative_name
+	grep -v "category" $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_relative > $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_relative_value
+	merge_tabular.rb  $data_path/COG_categories_all $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_relative_value | cut -f 2-139 > $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_relative
+	cat $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_category_relative_name $genome_analysis_path/genomic_island/genomic_island_results/enrichment_GI_relative | sed s'/Shewanella_/S./g' | sed s'/_/ /g' > $results_path/enrichment_GI_cat_relative
+
 
 	### Prophage 
-	cat $genome_analysis_path/prophage/Total_phage_top| sed s'/Shewanella/S./g' > $results_path/Total_phage
-	sed -i '1ishewanella strains \t prophages number' $results_path/Total_phage
+	#cat $genome_analysis_path/prophage/Total_phage_top| sed s'/Shewanella/S./g' > $results_path/Total_phage
+	#sed -i '1ishewanella strains \t prophages number' $results_path/Total_phage
 
-	### Report NEW
+	########################################
+	############REPORT
+	########################################
+
+	#$results_path/Total_phage
 	paths=`echo -e "
 	$results_path/blast_16,
+	$results_path/COG_percent,
 	$results_path/COG_annotation,
 	$results_path/COG_annotation_relative,
 	$results_path/pyani_identity,
 	$results_path/pyani_coverage,
-	$results_path/Total_tp,
-	$results_path/Total_tp_relative,
+	$results_path/Total_absolute,
+	$results_path/Total_relative,
 	$results_path/Pdp11_tp,
 	$results_path/Tp_interrupt,
-	$results_path/Tp_interrupt_total,
 	$results_path/Tp_transposable,
-	$results_path/Tp_transposable_total,
 	$results_path/specific_genes,
 	$results_path/GI_total,
-	$results_path/GI_categories,
-	$results_path/GI_categories_relative,
-	$results_path/Total_phage
+	$results_path/enrichment_GI_cat,
+	$results_path/enrichment_GI_cat_relative
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	
