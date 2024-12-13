@@ -95,36 +95,11 @@
 
 <%=
 	heatmap(id: 'COG_annotation', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", height: 400, config:{
-			'variablesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[1..-1].max
-				to_delete << i if max < 100
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		end
-	end 
+			'variablesClustered' => true,}) 
 %>
-
 <%=
 	heatmap(id: 'COG_annotation_relative', transpose:true, header: true, row_names: true, x_label: 'genes %',  title: "Genome annotation", height: 400, config:{
-			'variablesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[1..-1].max
-				to_delete << i if max < 2
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		end
-	end 
+			'variablesClustered' => true,}) 
 %>
 
 </div>
@@ -135,14 +110,12 @@
 <div style="overflow: hidden">
 
 <%=barplot(id: 'Total_absolute', header: true, row_names: true, x_label: 'Tp' , title: "Transposable elements", height: 400, config:{
-			'samplesClustered' => true,
-	})
+			'samplesClustered' => true,})
 
 %>
 
 <%=barplot(id: 'Total_relative', header: true, row_names: true, x_label: 'Tp', title: "Transposable elements", height: 400, config:{
-			'samplesClustered' => true,
-	})
+			'samplesClustered' => true,})
 
 %>
 
@@ -151,7 +124,6 @@
 		table.unshift(['genome coordinate', 'start tpfinder', 'end tpfinder', 'transposase protein', 'disrupt protein'])
 	end
 %>
-
 
 <%=
 	heatmap(id: 'Tp_interrupt', transpose:true, header: true, row_names: true, x_label: 'number',  title: "Disrupted", height: 600, config:{
@@ -195,55 +167,30 @@
 <div style="overflow: hidden">
 
 <%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
-			'samplesClustered' => true,
-	}) 
+			'samplesClustered' => true,}) 
 %>
 </div>
 
 <div style="overflow: hidden">
 <%=
 	heatmap(id: 'enrichment_GI_cat', transpose:true, header: true, row_names: true, x_label: 'GI number',  title: "Functional enrichment", height: 600, config:{
-			'variablesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[1..-1].max
-				to_delete << i if max < 0.1
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		end
-	end 
+			'variablesClustered' => true,}) 
 %>
 
 <%=
 	heatmap(id: 'enrichment_GI_cat_relative', transpose:true, header: true, row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", height: 600, config:{
-			'variablesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[1..-1].max
-				to_delete << i if max < 0.1
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		end
-	end 
+			'variablesClustered' => true,}) 
 %>
+
 </div>
 
 <h3> Prophage </h3>
-<p> Prophage was analized using PHASTEST web.Then, prophages were identified in 74 complete genomes of Shewanella </p>
+<p> Prophage was analized using PHASTEST web. Prophages were identified in 74 complete genomes of Shewanella </p>
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'Total_phage', header: true, row_names: true, x_label: 'number' , title: "Prophage", height: 400, config:{
-			'samplesClustered' => true,
-	})
+<%=barplot(id: 'Total_phage', header: true, row_names: true, x_label: 'prophage' , title: "Prophage", height: 400, config:{
+			'samplesClustered' => true,})
 
 %>
 

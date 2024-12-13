@@ -50,7 +50,7 @@ genome_anotation_dfast){
     	merge_tabular.rb genome_annotation/results_dfast_parser/*/$name > genome_annotation/results_dfast_parser/$name
     	grep "category" genome_annotation/results_dfast_parser/$name > genome_annotation/results_dfast_parser/category_$name
     	grep -v "category" genome_annotation/results_dfast_parser/$name > genome_annotation/results_dfast_parser/value_$name
-    	merge_tabular.rb  $data_path/COG_categories_all genome_annotation/results_dfast_parser/value_$name | cut -f 2-133 > genome_annotation/results_dfast_parser/all_$name
+    	merge_tabular.rb  $data_path/COG_categories_all genome_annotation/results_dfast_parser/value_$name | cut -f 2-139 > genome_annotation/results_dfast_parser/all_$name
     	cat genome_annotation/results_dfast_parser/category_$name genome_annotation/results_dfast_parser/all_$name > genome_annotation/results_dfast_parser/Total_$name
 	done 
 }
