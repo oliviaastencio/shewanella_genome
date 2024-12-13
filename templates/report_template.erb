@@ -236,6 +236,19 @@
 %>
 </div>
 
+<h3> Prophage </h3>
+<p> Prophage was analized using PHASTEST web.Then, prophages were identified in 74 complete genomes of Shewanella </p>
+
+<div style="overflow: hidden">
+
+<%=barplot(id: 'Total_phage', header: true, row_names: true, x_label: 'number' , title: "Prophage", height: 400, config:{
+			'samplesClustered' => true,
+	})
+
+%>
+
+</div>
+
 <h3> Probiotic and pathogenic strains comparison </h3>
 <p> This analysis were focused on pathogenic and probiotic strains comparison by Tarsynflow, which identified the specific genes on pathogenic and their absent on probiotic strain. </p>
 <%=
@@ -243,3 +256,5 @@
 		table.unshift(['Entry', 'protein names', 'organism'])
 	end
 %>
+
+

@@ -291,7 +291,8 @@ if [ "$1" == "report" ]; then
 	$results_path/specific_genes,
 	$results_path/GI_total,
 	$results_path/enrichment_GI_cat,
-	$results_path/enrichment_GI_cat_relative
+	$results_path/enrichment_GI_cat_relative,
+	$results_path/Total_phage
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	
