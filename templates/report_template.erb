@@ -45,6 +45,7 @@
 <%=
 	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'ANIm',  title: "Identity", height: 600, config:{
 			'variablesClustered' => true,
+			'varOverlays' => [0],
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
@@ -95,7 +96,10 @@
 
 <%=
 	heatmap(id: 'COG_annotation', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", height: 400, config:{
-			'variablesClustered' => true,}) 
+		'varOverlays' => ["0"],
+		'sortData' => [["cat", "var", "0"]]
+			#'variablesClustered' => true,
+	}) 
 %>
 <%=
 	heatmap(id: 'COG_annotation_relative', transpose:true, header: true, row_names: true, x_label: 'genes %',  title: "Genome annotation", height: 400, config:{
