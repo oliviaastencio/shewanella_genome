@@ -279,20 +279,20 @@ if [ "$1" == "report" ]; then
 	#$results_path/Total_phage
 	paths=`echo -e "
 	$results_path/blast_16,
-	$results_path/COG_annotation, 
-	$results_path/COG_annotation_relative,
+	$results_path/Total_cog_table, 
+	$results_path/Total_cog_table_relative,
 	$results_path/pyani_identity,
 	$results_path/pyani_coverage,
-	$results_path/Total_absolute,
-	$results_path/Total_relative,
+	$results_path/Total_absolute_final,
+	$results_path/Total_relative_final,
 	$results_path/Pdp11_tp,
-	$results_path/Tp_interrupt,
-	$results_path/Tp_transposable,
+	$results_path/Tab_interrupt,
+	$results_path/Tab_transposase,
 	$results_path/specific_genes,
-	$results_path/GI_total,
-	$results_path/enrichment_GI_cat,
-	$results_path/enrichment_GI_cat_relative,
-	$results_path/Total_phage
+	$results_path/GI_total_final,
+	$results_path/Total_enrichment_GI_cat,
+	$results_path/Total_enrichment_GI_cat_relative,
+	$results_path/Total_phage_final
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	

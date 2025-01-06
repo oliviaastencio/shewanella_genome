@@ -45,7 +45,6 @@
 <%=
 	heatmap(id: 'pyani_identity', transpose:false, header: true, row_names: true, x_label: 'ANIm',  title: "Identity", height: 600, config:{
 			'variablesClustered' => true,
-			'varOverlays' => [0],
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
@@ -95,17 +94,20 @@
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'COG_annotation', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", height: 400, config:{
-		'varOverlays' => ["0"],
-		'sortData' => [["cat", "var", "0"]]
-			#'variablesClustered' => true,
+	heatmap(id: 'Total_cog_table', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", height: 500, config:{
+		'variablesClustered' => false,
+		'varOverlays' => ["strains"],
+		'sortData' => [["cat", "var", "strains"]]
 	}) 
 %>
-<%=
-	heatmap(id: 'COG_annotation_relative', transpose:true, header: true, row_names: true, x_label: 'genes %',  title: "Genome annotation", height: 400, config:{
-			'variablesClustered' => true,}) 
-%>
 
+<%=
+	heatmap(id: 'Total_cog_table_relative', transpose:true, header: true,var_attr:[1], row_names: true, x_label: 'genes %',  title: "Genome annotation", height: 500, config:{
+		'variablesClustered' => false,
+		'varOverlays' => ["strains"],
+		'sortData' => [["cat", "var", "strains"]]
+	}) 
+%>
 </div>
 
 <h3> Transposon </h3>
@@ -113,13 +115,19 @@
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'Total_absolute', header: true, row_names: true, x_label: 'Tp' , title: "Transposable elements", height: 400, config:{
-			'samplesClustered' => true,})
+<%=barplot(id: 'Total_absolute_final', header: true, smp_attr:[1], row_names: true, x_label: 'Tp', title: "Transposable elements", height: 400, config:{
+			'samplesClustered' => false,
+			'smpOverlays' => ["ID"],
+			'colorBy' => " ID"
+		})
 
 %>
 
-<%=barplot(id: 'Total_relative', header: true, row_names: true, x_label: 'Tp', title: "Transposable elements", height: 400, config:{
-			'samplesClustered' => true,})
+<%=barplot(id: 'Total_relative_final', header: true, smp_attr:[1], row_names: true, x_label: 'Tp', title: "Transposable elements", height: 400, config:{
+			'samplesClustered' => false,
+			'smpOverlays' => ["ID"],
+			'colorBy' => " ID"
+		})
 
 %>
 
@@ -130,38 +138,19 @@
 %>
 
 <%=
-	heatmap(id: 'Tp_interrupt', transpose:true, header: true, row_names: true, x_label: 'number',  title: "Disrupted", height: 600, config:{
-			'variablesClustered' => true, 'samplesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[2..-2].max
-				to_delete << i if max < 1
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		
-		end
-	end 
+	heatmap(id: 'Tab_interrupt', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Disrupted", height: 600, config:{
+			'samplesClustered' => false,
+			'varOverlays' => ["strains"],
+			'sortData' => [["cat", "var", "strains"]]
+	})
 %>
 
 <%=
-	heatmap(id: 'Tp_transposable', transpose:true, header: true, row_names: true, x_label: 'number',  title: "Transposable", height: 600, config:{
-			'variablesClustered' => true, 'samplesClustered' => true,
-	}) do |table|
-		to_delete = []
-		table.each_with_index do |row, i|
-			if i > 0
-				max = row[2..-2].max
-				to_delete << i if max < 1
-			end
-		end
-		to_delete.reverse_each do |idx|
-			table.delete_at(idx)
-		end
-	end 
+	heatmap(id: 'Tab_transposase', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Transposable", height: 600, config:{
+		'samplesClustered' => false,
+		'varOverlays' => ["strains"],
+		'sortData' => [["cat", "var", "strains"]]
+	}) 
 %>
 </div>
 
@@ -170,20 +159,29 @@
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'GI_total', header: true, row_names: true, x_label: 'GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
-			'samplesClustered' => true,}) 
+<%=barplot(id: 'GI_total_final', header: true, smp_attr:[1], row_names: true, x_label: 'GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
+			'samplesClustered' => false,
+			'smpOverlays' => ["ID"],
+			'colorBy' => " ID"
+		}) 
 %>
 </div>
 
 <div style="overflow: hidden">
 <%=
-	heatmap(id: 'enrichment_GI_cat', transpose:true, header: true, row_names: true, x_label: 'GI number',  title: "Functional enrichment", height: 600, config:{
-			'variablesClustered' => true,}) 
+	heatmap(id: 'Total_enrichment_GI_cat', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GI number',  title: "Functional enrichment", height: 600, config:{
+			'variablesClustered' => false,
+			'varOverlays' => ["strains"],
+			'sortData' => [["cat", "var", "strains"]]
+		}) 
 %>
 
 <%=
-	heatmap(id: 'enrichment_GI_cat_relative', transpose:true, header: true, row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", height: 600, config:{
-			'variablesClustered' => true,}) 
+	heatmap(id: 'Total_enrichment_GI_cat_relative', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", height: 600, config:{
+			'variablesClustered' => false,
+			'varOverlays' => ["strains"],
+			'sortData' => [["cat", "var", "strains"]]
+		}) 
 %>
 
 </div>
@@ -193,8 +191,11 @@
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'Total_phage', header: true, row_names: true, x_label: 'prophage' , title: "Prophage", height: 400, config:{
-			'samplesClustered' => true,})
+<%=barplot(id: 'Total_phage_final', header: true, smp_attr:[1], row_names: true, x_label: 'prophage' , title: "Prophage", height: 400, config:{
+			'samplesClustered' => false,
+			'smpOverlays' => ["ID"],
+			'colorBy' => " ID"
+		})
 
 %>
 
