@@ -6,12 +6,6 @@
 #SBATCH --error=job.%J.err
 #SBATCH --output=job.%J.out
 
-######################################
-#####FUNCTIONS
-#####################################
-# pendientes (reejecutar:
-#tp_clean
-# renombrar los resultados de Dfast y de los genomas
 
 ##################################################
 ######Complete genomes database
