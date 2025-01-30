@@ -1,75 +1,75 @@
-shewanella strains 	 number
-Pdp11	2
-SdM1	2
-SdM2	1
-SH16	3
-SH6	3
-SH9	3
-S. denitrificans OS217, complete sequence	1
-S. frigidimarina NCIMB 400, complete sequence	2
-S. piezotolerans WP3, complete sequence	1
-S. sp. W3-18-1, complete sequence	3
-S. baltica OS155, complete sequence	3
-S. baltica OS185, complete sequence	8
-S. sediminis HAW-EB3, complete sequence	1
-S. baltica OS195, complete sequence	5
-S. halifaxensis HAW-EB4, complete sequence	1
-S. baltica OS223, complete sequence	2
-S. violacea DSS12, complete sequence	1
-S. oneidensis MR-1, complete sequence	4
-S. baltica BA175, complete sequence	1
-S. baltica OS678, complete sequence	4
-S. baltica OS117, complete sequence	3
-S. psychrophila strain WP2 chromosome, complete genome	3
-S. sp. FDAARGOS 354 chromosome, complete genome	1
-S. sp. Pdp11 chromosome, complete genome	2
-S. sp. WE21 chromosome, complete genome	6
-S. putrefaciens strain WS13 chromosome, complete genome	1
-S. baltica strain 128 chromosome, complete genome	1
-S. algae strain KC-Na-R1 chromosome, complete genome	4
-S. khirikhana strain TH2012 chromosome, complete genome	1
-S. sp. MEBiC00475 chromosome, complete genome	2
-S. polaris strain SM1901 chromosome, complete genome	2
-S. sp. LC6 chromosome, complete genome	2
-S. eurypsychrophilus strain YLB-08 chromosome, complete genome	1
-S. psychropiezotolerans strain YLB-06 chromosome, complete genome	1
-S. decolorationis strain Ni1-3 chromosome, complete genome	1
-S. algae strain CECT-5071 chromosome, complete genome	1
-S. sp. YLB-09 chromosome, complete genome	1
-S. algae strain RQs-106 chromosome, complete genome	1
-S. sp. Arc9-LZ chromosome, complete genome	1
-S. sp. Scap07 chromosome, complete genome	1
-S. putrefaciens strain CGMCC-1.6515 chromosome, complete genome	1
-S. putrefaciens strain ATCC 8071 chromosome, complete genome	1
-S. sp. KX20019 chromosome, complete genome	2
-S. sp. LZH-2 chromosome, complete genome	1
-S. putrefaciens strain XY07 chromosome, complete genome	1
-S. avicenniae strain FJAT-51800 chromosome, complete genome	3
-S. sedimentimangrovi strain FJAT-52962 chromosome, complete genome	1
-S. yunxiaonensis strain FJAT-54481 chromosome, complete genome	1
-S. sp. FJAT-51649 chromosome, complete genome	1
-S. acanthi strain FJAT-51860 chromosome, complete genome	1
-S. mesophila strain FJAT-53870 chromosome, complete genome	1
-S. psychrotolerans strain FJAT-53749 chromosome, complete genome	2
-S. mangrovisoli strain FJAT-51754 chromosome, complete genome	1
-S. putrefaciens strain YZ-J chromosome, complete genome	1
-S. algae strain ATCC 49138 chromosome, complete genome	2
-S. algae strain TUM17382 chromosome, complete genome	1
-S. carassii strain TUM17387 chromosome, complete genome	1
-S. inventionis strain D1489 chromosome, complete genome	2
-S. xiamenensis strain NUITM-VS1 chromosome, complete genome	1
-S. glacialimarina strain TZS-4 chromosome, complete genome	3
-S. vesiculosa strain M7 chromosome, complete genome	2
-S. xiamenensis strain CQ-Y1 chromosome, complete genome	3
-S. sp. JNE7 chromosome, complete genome	1
-S. sp. NFH-SH190041 complete, complete genome	1
-S. baltica strain 11FHM2 chromosome, complete genome	3
-S. xiamenensis strain HD6416 chromosome, complete genome	2
-S. xiamenensis strain HD6452 chromosome, complete genome	2
-S. seohaensis strain KCTC 23556 chromosome, complete genome	1
-S. sp. MTB7 chromosome, complete genome	6
-S. oncorhynchi strain Z-P2 chromosome, complete genome	5
-S. oncorhynchi strain B chromosome, complete genome	4
-S. xiamenensis strain 8M38 chromosome, complete genome	3
-S. benthica strain DB21MT-2 chromosome SHEWBE, complete sequence	1
-MAG: uncultured S. sp. isolate ae0cf98b-7678-43db-a020-567e09f3cda9 complete 1	4
+shewanella strains	_number
+S.Pdp11	2
+S.SdM1	2
+S.SdM2	1
+S.SH16	3
+S.SH6	3
+S.SH9	3
+S.denitrificans_OS217,_complete_sequence	1
+S.frigidimarina_NCIMB_400,_complete_sequence	2
+S.piezotolerans_WP3,_complete_sequence	1
+Shewanella.sp._W3-18-1,_complete_sequence	3
+S.baltica_OS155,_complete_sequence	3
+S.baltica_OS185,_complete_sequence	8
+S.sediminis_HAW-EB3,_complete_sequence	1
+S.baltica_OS195,_complete_sequence	5
+S.halifaxensis_HAW-EB4,_complete_sequence	1
+S.baltica_OS223,_complete_sequence	2
+S.violacea_DSS12,_complete_sequence	1
+S.oneidensis_MR-1,_complete_sequence	4
+S.baltica_BA175,_complete_sequence	1
+S.baltica_OS678,_complete_sequence	4
+S.baltica_OS117,_complete_sequence	3
+S.psychrophila_strain_WP2_chromosome,_complete_genome	3
+Shewanella.sp._FDAARGOS_354_chromosome,_complete_genome	1
+Shewanella.sp._S.Pdp11_chromosome,_complete_genome	2
+Shewanella.sp._WE21_chromosome,_complete_genome	6
+S.putrefaciens_strain_WS13_chromosome,_complete_genome	1
+S.baltica_strain_128_chromosome,_complete_genome	1
+S.algae_strain_KC-Na-R1_chromosome,_complete_genome	4
+S.khirikhana_strain_TH2012_chromosome,_complete_genome	1
+Shewanella.sp._MEBiC00475_chromosome,_complete_genome	2
+S.polaris_strain_SM1901_chromosome,_complete_genome	2
+Shewanella.sp._LC6_chromosome,_complete_genome	2
+S.eurypsychrophilus_strain_YLB-08_chromosome,_complete_genome	1
+S.psychropiezotolerans_strain_YLB-06_chromosome,_complete_genome	1
+S.decolorationis_strain_Ni1-3_chromosome,_complete_genome	1
+S.algae_strain_CECT-5071_chromosome,_complete_genome	1
+Shewanella.sp._YLB-09_chromosome,_complete_genome	1
+S.algae_strain_RQs-106_chromosome,_complete_genome	1
+Shewanella.sp._Arc9-LZ_chromosome,_complete_genome	1
+Shewanella.sp._Scap07_chromosome,_complete_genome	1
+S.putrefaciens_strain_CGMCC-1.6515_chromosome,_complete_genome	1
+S.putrefaciens_strain_ATCC_8071_chromosome,_complete_genome	1
+Shewanella.sp._KX20019_chromosome,_complete_genome	2
+Shewanella.sp._LZH-2_chromosome,_complete_genome	1
+S.putrefaciens_strain_XY07_chromosome,_complete_genome	1
+S.avicenniae_strain_FJAT-51800_chromosome,_complete_genome	3
+S.sedimentimangrovi_strain_FJAT-52962_chromosome,_complete_genome	1
+S.yunxiaonensis_strain_FJAT-54481_chromosome,_complete_genome	1
+Shewanella.sp._FJAT-51649_chromosome,_complete_genome	1
+S.acanthi_strain_FJAT-51860_chromosome,_complete_genome	1
+S.mesophila_strain_FJAT-53870_chromosome,_complete_genome	1
+S.psychrotolerans_strain_FJAT-53749_chromosome,_complete_genome	2
+S.mangrovisoli_strain_FJAT-51754_chromosome,_complete_genome	1
+S.putrefaciens_strain_YZ-J_chromosome,_complete_genome	1
+S.algae_strain_ATCC_49138_chromosome,_complete_genome	2
+S.algae_strain_TUM17382_chromosome,_complete_genome	1
+S.carassii_strain_TUM17387_chromosome,_complete_genome	1
+S.inventionis_strain_D1489_chromosome,_complete_genome	2
+S.xiamenensis_strain_NUITM-VS.chromosome,_complete_genome	1
+S.glacialimarina_strain_TZS-4_chromosome,_complete_genome	3
+S.vesiculosa_strain_M7_chromosome,_complete_genome	2
+S.xiamenensis_strain_CQ-Y1_chromosome,_complete_genome	3
+Shewanella.sp._JNE7_chromosome,_complete_genome	1
+Shewanella.sp._NFH-SH190041_complete,_complete_genome	1
+S.baltica_strain_11FHM2_chromosome,_complete_genome	3
+S.xiamenensis_strain_HD6416_chromosome,_complete_genome	2
+S.xiamenensis_strain_HD6452_chromosome,_complete_genome	2
+S.seohaensis_strain_KCTC_23556_chromosome,_complete_genome	1
+Shewanella.sp._MTB7_chromosome,_complete_genome	6
+S.oncorhynchi_strain_Z-P2_chromosome,_complete_genome	5
+S.oncorhynchi_strain_B_chromosome,_complete_genome	4
+S.xiamenensis_strain_8M38_chromosome,_complete_genome	3
+S.benthica_strain_DB21MT-2_chromosome_SHEWBE,_complete_sequence	1
+uncultured_Shewanella.sp._isolate_ae0cf98b-7678-43db-a020-567e09f3cda9_complete_1	4
