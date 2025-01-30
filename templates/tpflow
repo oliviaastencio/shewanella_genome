@@ -83,8 +83,8 @@ do
     fi
     done < $genome_analysis_path/transposon/executions/$id
     
-sed -i "1i ID\t$genome_name" $id
-sed -i "1i ID\t$genome_name" $id'_total'
+sed -i "1i category\t$genome_name" $id
+sed -i "1i category\t$genome_name" $id'_total'
 done 
 
 cat filtre)/tp_case/Total_tp | tr '\n' '\t' | cut -f 1,2 > Total_tp

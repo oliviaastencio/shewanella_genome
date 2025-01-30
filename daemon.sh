@@ -258,7 +258,7 @@ fi
 
 if [ "$1" == "results" ]; then  
 	
- 	results.sh $data_path $results_path $genome_analysis_path
+ 	results.sh $data_path $results_path $genome_analysis_path Shewanella 
 fi 
 ## REPORTING
 ####################################
@@ -272,21 +272,21 @@ if [ "$1" == "report" ]; then
 
 	#$results_path/Total_phage
 	paths=`echo -e "
-	$results_path/blast_16,
-	$results_path/Total_cog_table, 
-	$results_path/Total_cog_table_relative,
-	$results_path/pyani_identity,
-	$results_path/pyani_coverage,
-	$results_path/Total_absolute_final,
-	$results_path/Total_relative_final,
-	$results_path/Pdp11_tp,
-	$results_path/Tab_interrupt,
-	$results_path/Tab_transposase,
-	$results_path/specific_genes,
-	$results_path/GI_total_final,
-	$results_path/Total_enrichment_GI_cat,
-	$results_path/Total_enrichment_GI_cat_relative,
-	$results_path/Total_phage_final
+	$results_path/report_img/blast_16,
+	$results_path/report_img/report_Cog_table, 
+	$results_path/report_img/report_Cog_table_relative,
+	$results_path/report_img/pyani_matrix_identity,
+	$results_path/report_img/pyani_matrix_coverage,
+	$results_path/report_img/report_Total_tp_absolute,
+	$results_path/report_img/report_Total_tp_relative,
+	$results_path/report_img/Tp_Pdp11,
+	$results_path/report_img/report_Tp_interrupt,
+	$results_path/report_img/report_Tp_transposase,
+	$results_path/report_img/specific_genes,
+	$results_path/report_img/report_Total_GI,
+	$results_path/report_img/report_enrichment_GI,
+	$results_path/report_img/report_enrichment_GI_relative,
+	$results_path/report_img/report_Total_phage
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	
