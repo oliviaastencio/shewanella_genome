@@ -1,29 +1,34 @@
 #! /usr/bin/env bash
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=16G
-#SBATCH --time=1-00:00:00
+#SBATCH --mem=26G
+#SBATCH --time=5-00:00:00
 #SBATCH --constraint=cal
 #SBATCH --error=job.%J.err
 #SBATCH --output=job.%J.out
 
+# ##################################
+# ## Prophage by PHASTEST
+# ##################################
 data_path=$1
-output=$2  #genome_analysis_path/prophage
-rm $output/*/phage_number_tab
-while read genome 
-do 
-	cp $output/$genome/phage_number $output/$genome/phage_number_clean
-	sed -i "1i $genome" $output/$genome/phage_number_clean
-	cat $output/$genome/phage_number_clean | tr '\n' '\t' | cut -f 1,2 > $output/$genome/phage_number_tab
-done < $data_path/genome_name
+genome_analysis_path=$2
 
-while read genome 
-   do 
-    accession=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 2`
-    name=`grep "$genome" $data_path/total_genomes/classes.txt | cut -f 3`
-    cp $output/$accession.fna/phage_number $output/$accession.fna/phage_number_clean
-  	sed -i "1i $name" $output/$accession.fna/phage_number_clean 
- 	cat $output/$accession.fna/phage_number_clean | tr '\n' '\t' | cut -f 1,2 > $output/$accession.fna/phage_number_tab
-done < $data_path/RefSeq_Accession.tsv
+module load virsorter/2.2.4
+rm -r $genome_analysis_path/prophage
+mkdir -p $genome_analysis_path/prophage
 
-cat $output/*/phage_number_tab | sed s'/.fasta//g' | sed s'/e_Shewanella_putrefaciens_//g' | sed s'/e_//g' | sed s'/_micro12//g' | sed s'/_micro13//g' | sed s'/_micro9//g' | sed s'/_micro22//g' | sed s'/_micro1//g' | sed s'/_1//g' > $output/Total_phage
-cat $output/Total_phage | sed s'/ /_/g' | awk '{if ($2>0) {print $0}}' | sed s'/_/ /g' > $output/Total_phage_top
+	while read genome 
+	do 
+		length=`cat $genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser/$genome/length`
+
+		mkdir -p $genome_analysis_path/prophage/$genome
+		virsorter run -w  $genome_analysis_path/prophage/$genome -i $data_path/total_genomes/$genome  --min-length 1500 -j 4 all
+		grep -v -c "seqname" $genome_analysis_path/prophage/$genome/final-viral-score.tsv >  $genome_analysis_path/prophage/$genome/final_number
+		sed -i "1i $genome" $genome_analysis_path/prophage/$genome/final_number
+		cat $genome_analysis_path/prophage/$genome/final_number | tr '\n' '\t' > $genome_analysis_path/prophage/$genome/final_number_tab
+		awk '{ print $1 "\t" $2 "\t" '"$length"'}' $genome_analysis_path/prophage/$genome/final_number_tab | awk '{ print $1 "\t" $2 "\t" $3 "\t" $2*100/$3}' | cut -f 1,2 | sed s'/.fasta//g' > $genome_analysis_path/prophage/$genome/final_number_absolute
+		awk '{ print $1 "\t" $2 "\t" '"$length"'}' $genome_analysis_path/prophage/$genome/final_number_tab | awk '{ print $1 "\t" $2 "\t" $3 "\t" $2*100/$3}' | cut -f 1,4 | sed s'/.fasta//g' > $genome_analysis_path/prophage/$genome/final_number_relative
+	
+	done < $data_path/all_genome_list
+cat $genome_analysis_path/prophage/*/*final_number_absolute > $genome_analysis_path/prophage/Total_phage
+cat $genome_analysis_path/prophage/*/*final_number_relative > $genome_analysis_path/prophage/Total_phage_relative
+

@@ -46,60 +46,6 @@ do
     awk '{if ($3>=35) {print $0}}' tp_case/$folder/blast | cut -f 1,2,3,4,6,7,8,13,14 > tp_case/$folder/blast_summary
     cat tp_case/$folder/tp_finder_coordinate tp_case/$folder/blast_summary > tp_case/$folder/result_summary  
 done < tp_case/tp_transposons_finder_coordinates
-cat tp_case/*/interrupt_names > tp_case/all_interrupt_names
-cat tp_case/*/transposase_names > tp_case/all_transposase_names
 wc -l tp_case/tp_transposons_finder_coordinates | tr ' ' '\t' | cut -f 1 > tp_case/Total_tp
 sed -i "1i $genome_name" tp_case/Total_tp
-}
-
-matrix){
-
-cds=`cat $genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser/$genome_name/CDSs`
-cat $genome_analysis_path/transposon/executions/*/lista_to_fasta.rb_0000/tp_case/all_interrupt_names | sort -u  > $genome_analysis_path/transposon/executions/all_interrupt_names
-cat $genome_analysis_path/transposon/executions/*/lista_to_fasta.rb_0000/tp_case/all_transposase_names | sort -u > $genome_analysis_path/transposon/executions/all_transposase_names
-
-table=( 'all_interrupt_names' 'all_transposase_names' )
-
-for id in "${table[@]}"
-do 
-    ?
-    while read ID 
-    do
-    cero=0
-    uno=1
-    name=`echo $ID`
-    count=`grep -c "$ID" filtre)/tp_case/"$id"`
-        
-    if [ "$count" == "$cero" ];then 
-        echo "$name,$cero" | tr ',' '\t' >> $id
-    else         
-        echo "$name,$uno" | tr ',' '\t' >> $id
-    fi
-        
-    if [ "$count" > "$cero" ];then 
-        echo "$name,$count" | tr ',' '\t' >> $id'_total'
-    else         
-        echo "$name,$cero" | tr ',' '\t' >> $id'_total'
-    fi
-    done < $genome_analysis_path/transposon/executions/$id
-    
-sed -i "1i category\t$genome_name" $id
-sed -i "1i category\t$genome_name" $id'_total'
-done 
-
-cat filtre)/tp_case/Total_tp | tr '\n' '\t' | cut -f 1,2 > Total_tp
-awk '{ print $1 "\t" $2 "\t" '"$cds"'}' Total_tp | awk '{ print $1 "\t" $2 "\t" $3 "\t" $2*100/$3}' | cut -f 1,2 > Tp_absolute
-awk '{ print $1 "\t" $2 "\t" '"$cds"'}' Total_tp | awk '{ print $1 "\t" $2 "\t" $3 "\t" $2*100/$3}' | cut -f 1,4 > Tp_relative
-
-cat $genome_analysis_path/transposon/executions/*/while_0000/Tp_relative | sed s'/.fasta//g' | sort -u > $genome_analysis_path/transposon/executions/Total_relative
-cat $genome_analysis_path/transposon/executions/*/while_0000/Tp_absolute | sed s'/.fasta//g' | sort -u > $genome_analysis_path/transposon/executions/Total_absolute
-merge_tabular.rb $genome_analysis_path/transposon/executions/*/while_0000/all_interrupt_names | sed s'/.fasta//g' > $genome_analysis_path/transposon/executions/Tab_interrupt
-merge_tabular.rb $genome_analysis_path/transposon/executions/*/while_0000/all_interrupt_names_total | sed s'/.fasta//g' > $genome_analysis_path/transposon/executions/Tab_interrupt_number
-merge_tabular.rb $genome_analysis_path/transposon/executions/*/while_0000/all_transposase_names | sed s'/.fasta//g' > $genome_analysis_path/transposon/executions/Tab_transposase
-merge_tabular.rb $genome_analysis_path/transposon/executions/*/while_0000/all_transposase_names_total | sed s'/.fasta//g' > $genome_analysis_path/transposon/executions/Tab_transposase_number
-
-echo "Total_absolute --> number total of transposon in each strains" 
-echo "Total_absolute --> number total of transposon in each strains relative tu CDSs" 
-echo "Tab_transposase and Tab_interrupt --> absent (0) or present(1) of theses protein" 
-echo "Tab_transposase_number and Tab_interrupt_number --> number of protein repeated at differente genome coordinate"
 }

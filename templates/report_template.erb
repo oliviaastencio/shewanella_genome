@@ -1,10 +1,11 @@
-<h3> GENOME ANALYSIS REPORT </h3>
+<div style="width:90%; background-color:#ecf0f1; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#d6eaf8 ">GENOME ANALYSIS REPORT</h1>
 
 <h3> Data used in this analysis </h3>
 
 <p> In this experiment, the start set data are:
 	<ul>
-		<li> 	Problem genomes, that are complete genome for probiotic Shewanella. sp Pdp11 and scaffold for SdM1, SdM2, SH4, SH12, SH6, SH9 strains </li>
+		<li> 	Problem genomes, that are complete genome for probiotic <em>Shewanella</em> sp. Pdp11 and scaffold for SdM1, SdM2, SH4, SH12, SH6, SH9 strains </li>
 
 		<li>	16S RNA gene sequence (ab1 file) </li>
 	</ul>
@@ -18,7 +19,7 @@
 
 		<li> Complete genome annotation by Dfast Tool </li>
 
-		<li> Genome comparison with other complete Shewanella genomes described on NCBI assignation by Pyani (https://github.com/widdowquinn/pyani) and Synteny blocks comparison Sibelia </li>
+		<li> Genome comparison with other complete <em>Shewanella</em> genomes described on NCBI assignation by Pyani (https://github.com/widdowquinn/pyani) and Synteny blocks comparison Sibelia </li>
 
 		<li> Transposon identification (Tp) </li>
 
@@ -28,18 +29,29 @@
 	</ul>
 </p>
 <p>
-	The taxonomy identification of problem strains as Shewanella genus was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). The species was identified by blastn of 16S RNA gene and the problematic strain genomes comparison with 120 complete genomes described on NCBI database. The complete genome of Shewanella. sp Pdp11 and partial genome of pathogenic and saprophyte strains of Shewanella were annotated using the Dfast tool, by Clusters of Orthologous Groups (COG) and the number of genes associated with categories were determined. The transposons have been detected by the ISEScan tool (https://github.com/xiezhq/ISEScan) which was complemented with tp_finder workflow for transposase and disrupt protein identification. The genomic islands were identified using IslandViewer 4 software and the GI enrichment was analysed by DEgenes Hunter (https://github.com/seoanezonjic/ExpHunterSuite), by API option. The genome comparison of Shewanella.sp Pdp11 and pathogenic strains allow us to identify specific genes of pathogenic strains and their absence in probiotic strain.
+	The taxonomy identification of problematic strains as belonging to the <em>Shewanella</em> genus was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). Species identification was performed using blastn of the 16S rRNA gene and by comparing the genomes of problematic strains with 120 complete genomes available in the NCBI database.
+
+	The complete genome of <em>Shewanella</em> sp. Pdp11 and the partial genomes of pathogenic and saprophytic <em>Shewanella</em> strains were annotated using the DFAST tool. Functional annotation was performed based on Clusters of Orthologous Groups (COG), and the number of genes associated with each category was determined.
+
+	Transposons were detected using the ISEScan tool (https://github.com/xiezhq/ISEScan), complemented by the tp_finder workflow for the identification of transposases and disrupted proteins. Genomic islands and Prophage were identified using IslandViewer 4 and Virsorter (https://github.com/jiarong/VirSorter2), respectively, and the GI enrichment was analyzed using DEgenes Hunter (https://github.com/seoanezonjic/ExpHunterSuite).
+
+	Comparative genome analysis between <em>Shewanella</em>sp. Pdp11 and pathogenic strains allowed the identification of specific genes present in pathogenic strains but absent in the probiotic strain.
 </p>
+</div>
+
+<div style="width:90%; background-color:#ffe9ea; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#ffc2c5 "> <em>Shewanella</em> species assignation </h1>
 
 <h3> 16S RNA </h3>
 <p> The Table indicated the 16S RNA analysis of problem genomes was carried out by blatn. The top 10 for each strain with high identity and coverage value.  </p>
 <%=
 	table(id: 'blast_16', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
-		table.unshift(['Ref', 'strain', 'identity', 'coverage'])
+		table.unshift(['strain', 'identity', 'coverage', 'NCBI strain' ])
 	end
 %>
 <h3> Complete genome comparison </h3>
-<p> Heatmaps represent the calculation of the Average Nucleotide Identity (ANI) by MUMmer (NUCmer) to align the input sequences, giving us as results the specific nucleotide identity (first heatmap) and coverage (second heatmap) of 0 to 1 value, between our 8 strains studies and 129 complete genomes of the Shewanella genus available at NCBI. The probiotic Shewanella Pdp11 had a high identity and coverage with Shewanella baltica genus, SH4 and SH12 with Shewanella xiamenensis, while SH6, SH16, SH9 and SdM1 have similarity with Shewanella oncorhynchi </p>
+<p> Heatmaps represent the calculation of Average Nucleotide Identity (ANI) using MUMmer (NUCmer) to align the input sequences. The results provide the specific nucleotide identity (first heatmap) and coverage (second heatmap), both ranging from 0 to 1, between our eight studied strains and 129 complete genomes of the <em>Shewanella</em> genus available in NCBI. The probiotic <em>Shewanella</em> Pdp11 showed high identity and coverage with <em>Shewanella</em> baltica, while SH4 and SH12 were closely related to <em>Shewanella</em> xiamenensis. In contrast, SH6, SH16, SH9, and SdM1 exhibited similarity to <em>Shewanella</em> oncorhynchi.
+
 <div style="overflow: hidden">
 
 <%=
@@ -75,26 +87,56 @@
 		end
 	end 
 %>
-</div>
 
 <h3> Sybelia results </h3>
 
-<p> Synteny blocks of Shewanella Pdp 11 with S. baltica 128 (left) and S. putrefaciens 4H(right) </p>
+<p> The figures represent the synteny blocks of our studies strains and those with the highest identity. </p>
+
+<p> Pdp11 (uncultured <em>Shewanella</em> sp), SdM1 (<em>Shewanella</em> sp. WE21), SdM2 (<em>Shewanella</em> putrefaciens YZ-J) </p>
 
 <%=
-	embed_img('results/report_img/Shewanella_baltica_128.png', 'width="600" height="600"')
+	embed_img('results/report_img/Pdp11_uncultured_Shewanella_sp.png', 'width="400" height="400"')
 %>
 <%=
-	embed_img('results/report_img/Shewanella_putrefaciens_4H.png', 'width="600" height="600"')
+	embed_img('results/report_img/SdM1_Shewanella_sp._WE21_WE21.png', 'width="400" height="400"')
+%>
+<%=
+	embed_img('results/report_img/SdM2_Shewanella_putrefaciens_YZ-J.png', 'width="400" height="400"')
 %>
 
-<h3> Genome annotation </h3>
+<p> SH12 and SH4 (<em>Shewanella</em> xiamenensis 8M38) </p>
 
-<p> The Dfast tool (https://dfast.ddbj.nig.ac.jp/) was used for the 137 complete genomes COG annotation. The heatmaps represent the number of genes associated with a COG functional category (left heatmap) and the number of genes standardization with each genome's number of Coding Sequence (CDS) represented in genes percent (gene %) (right heatmap). </p>
+<%=
+	embed_img('results/report_img/SH12_Shewanella_xiamenensis_8M38.png', 'width="400" height="400"')
+%>
+<%=
+	embed_img('results/report_img/SH4_Shewanella_xiamenensis_8M38.png', 'width="400" height="400"')
+%>
+
+
+<p>  SH16, SH6 and SH9 (<em>Shewanella</em> oncorhynchi B) </p>
+
+<%=
+	embed_img('results/report_img/SH16_Shewanella_oncorhynchi_B.png', 'width="400" height="400"')
+%>
+<%=
+	embed_img('results/report_img/SH6_Shewanella_oncorhynchi_B.png', 'width="400" height="400"')
+%>
+<%=
+	embed_img('results/report_img/SH9_Shewanella_oncorhynchi_B.png', 'width="400" height="400"')
+%>
+
+</div>
+
+
+<div style="width:90%; background-color:#ffffd8; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#ffffab">Genome annotation</h1>
+
+<p> The DFAST tool (https://dfast.ddbj.nig.ac.jp/) was used for the COG annotation of 137 complete genomes. The heatmaps represent the number of genes associated with each COG functional category (left heatmap) and the standardized number of genes relative to the total number of coding sequences (CDS) in each genome, expressed as a percentage (gene %) (right heatmap). </p>
 <div style="overflow: hidden">
 
 <%=
-	heatmap(id: 'report_Cog_table', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", height: 500, config:{
+	heatmap(id: 'report_Total_cog_table', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", width: 600, height: 400, config:{
 		'variablesClustered' => false,
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
@@ -102,20 +144,23 @@
 %>
 
 <%=
-	heatmap(id: 'report_Cog_table_relative', transpose:true, header: true,var_attr:[1], row_names: true, x_label: 'genes %',  title: "Genome annotation", height: 500, config:{
+	heatmap(id: 'report_Total_cog_table_relative', transpose:true, header: true,var_attr:[1], row_names: true, x_label: 'genes %',  title: "Genome annotation", width: 600, height: 400, config:{
 		'variablesClustered' => false,
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
 	}) 
 %>
 </div>
+</div>
 
-<h3> Transposon </h3>
-<p> The Transposable elements (TEs) identification in 137 complete genomes was carried out by custom workflow using ISEScan(https://github.com/xiezhq/ISEScan) and Tp finder. The results showed the number of TEs identified in each genome (left barplot), the number of TEs standardized concerning several Coding Sequence (CDS) (right barplot ), as well as the repeat TEs inside the genome (Table). The presence or absence of disrupted proteins (left heatmap) and transposases (right Heatmap) at each genome was also determined, represented by a matrix of 0 and 1. </p>
+<div style="width:90%; background-color:#e9f9e9; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#bbecbb"> Transposon </h1>
+
+<p> The identification of transposable elements (TEs) in 137 complete genomes was performed using a custom workflow with ISEScan (https://github.com/xiezhq/ISEScan) and Tp finder. The results include the number of TEs identified in each genome (left bar plot), the standardized number of TEs relative to the number of coding sequences (CDS) (right bar plot), and the repeated TEs within each genome (Table). Additionally, the presence or absence of disrupted proteins (left heatmap) and transposases (right heatmap) in each genome was determined, represented by a binary matrix (0 and 1). </p>
 
 <div style="overflow: hidden">
 
-<%=barplot(id: 'report_Total_tp_absolute', header: true, smp_attr:[1], row_names: true, x_label: 'Transposable elements', title: "TEs elements", height: 400, config:{
+<%=barplot(id: 'report_Tp_absolute', header: true, smp_attr:[1], row_names: true, x_label: 'Transposable elements', title: "TEs elements", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
 			'colorBy' => " strains "
@@ -123,12 +168,11 @@
 
 %>
 
-<%=barplot(id: 'report_Total_tp_relative', header: true, smp_attr:[1], row_names: true, x_label: 'Transposable elements (%)', title: "TEs elements", height: 400, config:{
+<%=barplot(id: 'report_Tp_relative', header: true, smp_attr:[1], row_names: true, x_label: 'Transposable elements (%)', title: "TEs elements", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
 			'colorBy' => " strains "
-		})
-
+		}) 
 %>
 
 <%=
@@ -138,11 +182,33 @@
 %>
 
 <%=
-	heatmap(id: 'report_Tp_interrupt', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Modified protein", height: 600, config:{
+	heatmap(id: 'report_Tp_interrupt', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Interrupted protein", height: 600, config:{
 			'samplesClustered' => false,
 			'varOverlays' => ["strains"],
 			'sortData' => [["cat", "var", "strains"]]
-	})
+	}) do |table|
+
+  # Eliminar filas con max < 0.9
+  to_delete = []
+  table.each_with_index do |row, i|
+    if i > 0
+      max = row[1..-1].max
+      to_delete << i if max < 0.9
+    end
+  end
+  to_delete.reverse_each { |idx| table.delete_at(idx) }
+
+  # Eliminar columnas donde todos los valores son 0
+  col_to_delete = []
+  (1...table[0].size).each do |col_idx|  # Recorremos las columnas (saltando la primera si es un header)
+    all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
+    col_to_delete << col_idx if all_zeros
+  end
+
+  # Eliminar las columnas marcadas
+  table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
+end
+
 %>
 
 <%=
@@ -153,9 +219,13 @@
 	}) 
 %>
 </div>
+</div>
 
-<h3> Genomic Island  </h3>
-<p> The Mobilome analysis included the genomic island (GI) identification using IslandViewer4 (https://www.pathogenomics.sfu.ca/islandviewer/). Results shows the total of GIs identified at 137 research strains of Shewanella.sp. The Figure shows the number of genomic islands in which some functional categories are significant, determined by Dfast. The GIs were identified in 137 research strains of Shewanella.sp. Additionally, the COG categories functional enrichment was accomplished by ExpHunterSuite script clusters_to_enrichment.R, which is based on the clusterProfiler package, with FDR threshold (-p 0.05). The heatmap represents the number of GI included in COG categories (left) and this number was proportioned to the total of GI (GI %) (right). </p>
+<div style="width:90%; background-color:#ffe9ea; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#ffc2c5 "> Genomic Island </h1>
+
+<p> The mobilome analysis included the identification of genomic islands (GIs) using IslandViewer4 (https://www.pathogenomics.sfu.ca/islandviewer/). The results show the total number of GIs identified in 137 research strains of <em>Shewanella</em> sp. The figure illustrates the number of genomic islands in which certain functional categories, determined by DFAST, are significant. Additionally, functional enrichment of GIs was performed using the ExpHunterSuite script clusters_to_enrichment.R, which is based on the clusterProfiler package, with an FDR threshold of 0.05 (-p 0.05). The heatmap represents the number of GIs assigned to COG categories (left) and this number standardized to the total GIs (GI %) (right).
+
 
 <div style="overflow: hidden">
 
@@ -165,11 +235,18 @@
 			'colorBy' => " strains "
 		}) 
 %>
+
+<%=barplot(id: 'report_Total_GI_relative', header: true, smp_attr:[1], row_names: true, x_label: 'GIs (%)', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
+			'samplesClustered' => false,
+			'smpOverlays' => ["strains"],
+			'colorBy' => " strains "
+		}) 
+%>
 </div>
 
 <div style="overflow: hidden">
 <%=
-	heatmap(id: 'report_enrichment_GI', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GI number',  title: "Functional enrichment", height: 600, config:{
+	heatmap(id: 'report_enrichment_GI_category', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GI number',  title: "Functional enrichment", width: 600, height: 400, config:{
 			'variablesClustered' => true,
 			'varOverlays' => ["strains"],
 			'sortData' => [["cat", "var", "strains"]]
@@ -177,7 +254,7 @@
 %>
 
 <%=
-	heatmap(id: 'report_enrichment_GI_relative', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", height: 600, config:{
+	heatmap(id: 'report_enrichment_GI_category_relative', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", width: 600, height: 400, config:{
 			'variablesClustered' => true,
 			'varOverlays' => ["strains"],
 			'sortData' => [["cat", "var", "strains"]]
@@ -185,9 +262,12 @@
 %>
 
 </div>
+</div>
 
-<h3> Prophage </h3>
-<p> Prophage was analized using PHASTEST web. Prophages were identified in 74 complete genomes of Shewanella </p>
+<div style="width:90%; background-color:#ffffd8; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#ffffab"> Prophage </h1>
+
+<p> Prophage was analized using PHASTEST web. Prophages were identified in 74 complete genomes of <em>Shewanella</em> </p>
 
 <div style="overflow: hidden">
 
@@ -198,15 +278,23 @@
 		})
 
 %>
+<%=barplot(id: 'report_Total_phage_relative', header: true, smp_attr:[1], row_names: true, x_label: 'prophage (%)' , title: "Prophage", height: 400, config:{
+			'samplesClustered' => false,
+			'smpOverlays' => ["strains"],
+			'colorBy' => " strains "
+		})
 
+%>
+</div>
 </div>
 
-<h3> Probiotic and pathogenic strains comparison </h3>
+<div style="width:90%; background-color:#e9f9e9; margin:0 auto;">
+    <h1 style="text-align:center; background-color:#bbecbb"> Probiotic and pathogenic strains comparison </h1>
 <p> This analysis were focused on pathogenic and probiotic strains comparison by Tarsynflow, which identified the specific genes on pathogenic and their absent on probiotic strain. </p>
 <%=
 	table(id: 'specific_genes', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
 		table.unshift(['Entry', 'protein names', 'organism'])
 	end
 %>
-
+</div>
 

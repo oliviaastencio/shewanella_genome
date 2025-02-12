@@ -74,10 +74,10 @@ if [ "$1" == "ab1_clean" ]; then    ######LISTO
 	ab1_clean.sh $data_path
 fi
 
-if [ "$1" == "char" ]; then   ######LISTO TODO MENOS DFAST que lo hemos ejecutado con el dfast_clean.sh includo 
+if [ "$1" == "char" ]; then   ######LISTO pendiente pyani
 	. ~soft_bio_267/initializes/init_autoflow  
-	
-	 rm -r $genome_analysis_path/char/dfast_0000  #$genome_analysis_path/char/pyani_0000  $genome_analysis_path/char/Sibelia_0000 $data_path/total_genomes $data_path/all_genome_list
+
+	 rm -r  $genome_analysis_path/char/pyani_0000 $data_path/total_genomes $data_path/all_genome_list # $genome_analysis_path/char/dfast_0000 $genome_analysis_path/char/Sibelia_0000 
 	 mkdir -p $data_path/total_genomes 
 	 mkdir -p $genome_analysis_path/char
 	
@@ -88,14 +88,20 @@ if [ "$1" == "char" ]; then   ######LISTO TODO MENOS DFAST que lo hemos ejecutad
 
 	 ls $data_path/genomes_problem > $data_path/all_genome_list
 	 ls $data_path/genomes_down/genomes >> $data_path/all_genome_list
-	
+
+	current=`pwd`
+	cd $data_path/16S_NCBI/
+		module load blast_plus/2.15.0+
+		makeblastdb -in 16S_ribosomal_RNA.fasta -parse_seqids -dbtype nucl -out 16S_db
+	cd $current
+
 	vars=`echo "
 		\\$data_path=$project_path'/data',
 		\\$ab1_name=$data_path/ab1_name,
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "1-20:00:00" -o $genome_analysis_path/char
+	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "2-00:00:00" -o $genome_analysis_path/char
 	
 fi
 
@@ -111,6 +117,7 @@ fi
 if [ "$1" == "tp_case" ]; then  ######LISTO
 
 	. ~soft_bio_267/initializes/init_autoflow 
+
 	rm -r $genome_analysis_path/transposon/executions
 	output=$genome_analysis_path/transposon/executions
 
@@ -125,9 +132,15 @@ if [ "$1" == "tp_case" ]; then  ######LISTO
 			\\$prot_database=$data_path/tp_data
 			" | tr -d [:space:]`
 		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$genome $2
-	done < $data_path/all_genome_list
-	
+	done < $data_path/all_genome_list #all_genome_list
+
 fi 
+
+if [ "$1" == "tp_matrix" ]; then
+
+	sbatch $sh_file_path/Tp_matrix.sh $data_path $genome_analysis_path $genome_analysis_path/transposon/executions $genome_analysis_path/transposon/results
+
+fi
 
 ##################################
 ## TarSynFlow
@@ -171,89 +184,28 @@ fi
 ##################################
 
 
-if [ "$1"  == "GI" ]; then 
-	HTTP_API_token="b800318f-766a-e3ad-d20a-74b797db9969" 
-	input=$genome_analysis_path/char/dfast_0000/genome_annotation
-	output=$genome_analysis_path/genomic_island
+if [ "$1"  == "GI_up" ]; then 
 
-	mkdir -p $output
-	rm -r $output/Island_Viewer4_results
-	mkdir -p $output/Island_Viewer4_results
-
-	while read ref_genome
-	do 
-		genome=`echo $ref_genome | tr ' ' '\t'| cut -f 1` 
-		ref_num=`echo $ref_genome | tr ' ' '\t'| cut -f 2` 
-		curl -X POST -H '$HTTP_API_token' -Fref_accnum="$ref_num" -Fgenome_file=@$input/$genome'_file'/genome.gbk -Fgenome_name="$genome"_genome -Femail_addr="oliastenciogomez@gmail.com" -Fformat_type="GENBANK" https://www.pathogenomics.sfu.ca/islandviewer/rest/submit/ > $output/Island_Viewer4_results/"$genome"_submit
-		grep "token" $output/Island_Viewer4_results/"$genome"_submit | sed s'/    "token": "//g'| sed s'/"//g' > $output/Island_Viewer4_results/"$genome"_jobtoken
-	done < $data_path/ref_genome_GI
+	GI.sh UP $data_path  $genome_analysis_path
 fi 
 
-if [ "$1" == "GI_result" ]; then 
+if [ "$1" == "GI_result" ]; then ###PENDIENTE
 
-##Query the status of already submitted genomes. Job_token is a job ID, the number where upload de file. I'ts not the same to my token ID or HTTP API Token
-##curl https://www.pathogenomics.sfu.ca/islandviewer/rest/job/job_token/ -H 'X-authtoken:your_authentication_token'
-	output=$genome_analysis_path/genomic_island/Island_Viewer4_results
-
-	mkdir -p $output/file_scv
-	while read genome 
-	do
-		jobtoken=`head -n1 $output/"$genome"_jobtoken`
-		job_token=`echo $jobtoken`
-		curl https://www.pathogenomics.sfu.ca/islandviewer/rest/job/$jobtoken/download/csv/ -H '$HTTP_API_token' > $output/"$genome".csv
-		mv $output/"$genome".csv $output/file_scv
-	done < $data_path/all_genome_list
+	GI.sh result $data_path  $genome_analysis_path
 fi 
 
-if [ "$1" == "GI_clean" ]; then 
+if [ "$1" == "GI_clean" ]; then ###PENDIENTE
 
-	sbatch $sh_file_path/GI.sh $data_path  $genome_analysis_path
+	sbatch $sh_file_path/GI.sh clean $data_path  $genome_analysis_path
 	
 fi 
 
 ##################################
 ## Prophage by PHASTEST
 ##################################
+if [ "$1" == "phage_visorter" ]; then 
 
-# input the genome file in fasta format 
-if [ "$1" == "phage_input" ]; then 
-
-	output=$genome_analysis_path/prophage
-	rm -r $output
-	mkdir -p $output
-
-	while read genome 
-	do
-		mkdir -p $output/$genome
-		wget --post-file="$data_path/total_genomes/$genome" "https://phastest.ca/phastest_api" -O $output/$genome/submissions
-		cat $output/$genome/submissions | tr ',' '\t' | tr ':' '\t' | sed s'/"//g' | cut -f 2 > $output/$genome/job_id
-	done < $data_path/all_genome_list
-fi 
-
-# download the PHASTEST results
-
-if [ "$1" == "phage_output" ]; then 
-
-	output=$genome_analysis_path/prophage
-
-	rm $output/*/*.zip $output/*/*json $output/*/*fna $output/*/*txt $output/*/submissions
-	while read genome 
-	do 
-		while read job
-		do
-			wget "https://phastest.ca/submissions/$job.zip" -O $output/$genome/$job.zip
-			cd $output/$genome/
-			unzip $job.zip
-			cd ../../
-		done < $output/$genome/job_id
-	grep "region" -c $output/$genome/predicted_phage_regions.json > $output/$genome/phage_number
-	done < $data_path/all_genome_list
-fi 
-
-if [ "$1" == "phage_clean" ]; then  
-
-	phage.sh $data_path $genome_analysis_path/prophage
-	
+	sbatch $sh_file_path/phage.sh $data_path $genome_analysis_path
 fi 
 
 if [ "$1" == "results" ]; then  
@@ -273,22 +225,23 @@ if [ "$1" == "report" ]; then
 	#$results_path/Total_phage
 	paths=`echo -e "
 	$results_path/report_img/blast_16,
-	$results_path/report_img/report_Cog_table, 
-	$results_path/report_img/report_Cog_table_relative,
+	$results_path/report_img/report_Total_cog_table, 
+	$results_path/report_img/report_Total_cog_table_relative,
 	$results_path/report_img/pyani_matrix_identity,
 	$results_path/report_img/pyani_matrix_coverage,
-	$results_path/report_img/report_Total_tp_absolute,
-	$results_path/report_img/report_Total_tp_relative,
+	$results_path/report_img/report_Tp_absolute,
+	$results_path/report_img/report_Tp_relative,
 	$results_path/report_img/Tp_Pdp11,
 	$results_path/report_img/report_Tp_interrupt,
 	$results_path/report_img/report_Tp_transposase,
 	$results_path/report_img/specific_genes,
 	$results_path/report_img/report_Total_GI,
-	$results_path/report_img/report_enrichment_GI,
-	$results_path/report_img/report_enrichment_GI_relative,
-	$results_path/report_img/report_Total_phage
+	$results_path/report_img/report_Total_GI_relative,
+	$results_path/report_img/report_enrichment_GI_category,
+	$results_path/report_img/report_enrichment_GI_category_relative,
+	$results_path/report_img/report_Total_phage,
+	$results_path/report_img/report_Total_phage_relative
 	" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	
 fi
-

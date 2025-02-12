@@ -1,37 +1,45 @@
-Pdp11	NR 178284.1	99.580	100
-Pdp11	NR 113967.1	99.055	100
-Pdp11	NR 041296.1	99.160	100
-Pdp11	NR 108852.1	99.160	100
-Pdp11	NR 044863.1	98.950	100
-Pdp11	NR 119141.1	98.845	100
-Pdp11	NR 025267.1	98.847	100
-SdM1	NR 108852.1	99.483	100
-SdM1	NR 178284.1	99.353	100
-SdM1	NR 044863.1	99.224	100
-SdM1	NR 119141.1	98.965	100
-SdM1	NR 113967.1	98.706	100
-SdM1	NR 041296.1	98.836	100
-SdM1	NR 116732.1	98.708	100
-SdM2	NR 113582.1	99.107	100
-SdM2	NR 119141.1	99.106	100
-SdM2	NR 044863.1	99.018	100
-SdM2	NR 104770.1	98.839	100
-SH12	NR 116732.1	99.326	100
-SH12	NR 074798.1	99.038	100
-SH12	NR 036917.1	98.845	100
-SH12	NR 044863.1	98.847	100
-SH16	NR 044863.1	99.174	100
-SH16	NR 178284.1	99.174	100
-SH16	NR 119141.1	99.071	100
-SH16	NR 113582.1	98.762	100
-SH16	NR 116732.1	98.763	100
-SH4	NR 116732.1	99.217	100
-SH4	NR 074798.1	98.957	100
-SH4	NR 036917.1	98.783	100
-SH6	NR 044863.1	99.285	100
-SH6	NR 119141.1	99.081	100
-SH6	NR 178284.1	99.081	100
-SH6	NR 113582.1	98.774	100
-SH6	NR 116732.1	98.878	100
-SH9	NR 044863.1	99.106	100
-SH9	NR 119141.1	98.833	100
+Pdp11	99.580	100	Shewanella vaxholmensis strain SP1S1-4 16S ribosomal RNA, partial sequence
+Pdp11	99.580	100	Shewanella arctica (ex Qoura et al. 2014) (nom. illeg.) strain : 40-3 16S ribosomal RNA, partial sequence
+Pdp11	99.580	100	Shewanella scandinavica strain SP2S1-2 16S ribosomal RNA, partial sequence
+Pdp11	99.055	100	Shewanella hafniensis strain NBRC 100975 16S ribosomal RNA, partial sequence
+Pdp11	99.160	100	Shewanella hafniensis strain P010 16S ribosomal RNA, partial sequence
+Pdp11	99.160	100	Shewanella seohaensis strain S7-3 16S ribosomal RNA, partial sequence
+Pdp11	98.950	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+Pdp11	98.845	100	Shewanella putrefaciens strain ATCC 8071 16S ribosomal RNA, partial sequence
+Pdp11	98.847	100	Shewanella baltica strain 63 16S ribosomal RNA, partial sequence
+SdM1	99.483	100	Shewanella seohaensis strain S7-3 16S ribosomal RNA, partial sequence
+SdM1	99.353	100	Shewanella vaxholmensis strain SP1S1-4 16S ribosomal RNA, partial sequence
+SdM1	99.353	100	Shewanella arctica (ex Qoura et al. 2014) (nom. illeg.) strain : 40-3 16S ribosomal RNA, partial sequence
+SdM1	99.353	100	Shewanella scandinavica strain SP2S1-2 16S ribosomal RNA, partial sequence
+SdM1	99.224	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+SdM1	98.965	100	Shewanella putrefaciens strain ATCC 8071 16S ribosomal RNA, partial sequence
+SdM1	98.706	100	Shewanella hafniensis strain NBRC 100975 16S ribosomal RNA, partial sequence
+SdM1	98.836	100	Shewanella hafniensis strain P010 16S ribosomal RNA, partial sequence
+SdM1	98.708	100	Shewanella xiamenensis strain S4 16S ribosomal RNA, partial sequence
+SdM2	99.107	100	Shewanella putrefaciens strain NBRC 3908 16S ribosomal RNA, partial sequence
+SdM2	99.106	100	Shewanella putrefaciens strain ATCC 8071 16S ribosomal RNA, partial sequence
+SdM2	99.018	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+SdM2	98.839	100	Shewanella profunda strain LT13a 16S ribosomal RNA, partial sequence
+SH12	99.326	100	Shewanella xiamenensis strain S4 16S ribosomal RNA, partial sequence
+SH12	99.038	100	Shewanella oneidensis strain MR-1 16S ribosomal RNA, partial sequence
+SH12	98.845	100	Shewanella oneidensis strain MR-1 16S ribosomal RNA, partial sequence
+SH12	98.847	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+SH16	99.174	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+SH16	99.174	100	Shewanella arctica (ex Qoura et al. 2014) (nom. illeg.) strain : 40-3 16S ribosomal RNA, partial sequence
+SH16	99.174	100	Shewanella scandinavica strain SP2S1-2 16S ribosomal RNA, partial sequence
+SH16	99.071	100	Shewanella putrefaciens strain ATCC 8071 16S ribosomal RNA, partial sequence
+SH16	99.071	100	Shewanella vaxholmensis strain SP1S1-4 16S ribosomal RNA, partial sequence
+SH16	98.762	100	Shewanella putrefaciens strain NBRC 3908 16S ribosomal RNA, partial sequence
+SH16	98.763	100	Shewanella xiamenensis strain S4 16S ribosomal RNA, partial sequence
+SH4	99.217	100	Shewanella xiamenensis strain S4 16S ribosomal RNA, partial sequence
+SH4	98.957	100	Shewanella oneidensis strain MR-1 16S ribosomal RNA, partial sequence
+SH4	98.783	100	Shewanella oneidensis strain MR-1 16S ribosomal RNA, partial sequence
+SH6	99.285	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+SH6	99.081	100	Shewanella putrefaciens strain ATCC 8071 16S ribosomal RNA, partial sequence
+SH6	99.081	100	Shewanella vaxholmensis strain SP1S1-4 16S ribosomal RNA, partial sequence
+SH6	99.081	100	Shewanella arctica (ex Qoura et al. 2014) (nom. illeg.) strain : 40-3 16S ribosomal RNA, partial sequence
+SH6	99.081	100	Shewanella scandinavica strain SP2S1-2 16S ribosomal RNA, partial sequence
+SH6	98.774	100	Shewanella putrefaciens strain NBRC 3908 16S ribosomal RNA, partial sequence
+SH6	98.878	100	Shewanella xiamenensis strain S4 16S ribosomal RNA, partial sequence
+SH9	99.106	100	Shewanella putrefaciens strain Hammer 95 16S ribosomal RNA, partial sequence
+SH9	98.833	100	Shewanella putrefaciens strain ATCC 8071 16S ribosomal RNA, partial sequence

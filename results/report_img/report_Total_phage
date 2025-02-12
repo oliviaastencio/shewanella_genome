@@ -1,75 +1,79 @@
 Shewanella 	 strains 	 number
-S.acanthi strain FJAT-51860 chromosome, complete genome	Shewanella	1
-S.algae strain CECT-5071 chromosome, complete genome	Shewanella	1
-S.algae strain RQs-106 chromosome, complete genome	Shewanella	1
-S.algae strain TUM17382 chromosome, complete genome	Shewanella	1
-S.baltica BA175, complete sequence	Shewanella	1
-S.baltica strain 128 chromosome, complete genome	Shewanella	1
-S.benthica strain DB21MT-2 chromosome SHEWBE, complete sequence	Shewanella	1
-S.carassii strain TUM17387 chromosome, complete genome	Shewanella	1
-S.decolorationis strain Ni1-3 chromosome, complete genome	Shewanella	1
-S.denitrificans OS217, complete sequence	Shewanella	1
-S.eurypsychrophilus strain YLB-08 chromosome, complete genome	Shewanella	1
-S.halifaxensis HAW-EB4, complete sequence	Shewanella	1
-Shewanella sp.  Arc9-LZ chromosome, complete genome	Shewanella	1
-Shewanella sp.  FDAARGOS 354 chromosome, complete genome	Shewanella	1
-Shewanella sp.  FJAT-51649 chromosome, complete genome	Shewanella	1
-Shewanella sp.  JNE7 chromosome, complete genome	Shewanella	1
-Shewanella sp.  LZH-2 chromosome, complete genome	Shewanella	1
-Shewanella sp.  NFH-SH190041 complete, complete genome	Shewanella	1
-Shewanella sp.  Scap07 chromosome, complete genome	Shewanella	1
-Shewanella sp.  YLB-09 chromosome, complete genome	Shewanella	1
-S.khirikhana strain TH2012 chromosome, complete genome	Shewanella	1
-S.mangrovisoli strain FJAT-51754 chromosome, complete genome	Shewanella	1
-S.mesophila strain FJAT-53870 chromosome, complete genome	Shewanella	1
-S.piezotolerans WP3, complete sequence	Shewanella	1
-S.psychropiezotolerans strain YLB-06 chromosome, complete genome	Shewanella	1
-S.putrefaciens strain ATCC 8071 chromosome, complete genome	Shewanella	1
-S.putrefaciens strain CGMCC-1.6515 chromosome, complete genome	Shewanella	1
-S.putrefaciens strain WS13 chromosome, complete genome	Shewanella	1
-S.putrefaciens strain XY07 chromosome, complete genome	Shewanella	1
-S.putrefaciens strain YZ-J chromosome, complete genome	Shewanella	1
-Shewanella sp.SdM2	SdM	1
-S.sedimentimangrovi strain FJAT-52962 chromosome, complete genome	Shewanella	1
-S.sediminis HAW-EB3, complete sequence	Shewanella	1
-S.seohaensis strain KCTC 23556 chromosome, complete genome	Shewanella	1
-S.violacea DSS12, complete sequence	Shewanella	1
-S.xiamenensis strain NUITM-VS.chromosome, complete genome	Shewanella	1
-S.yunxiaonensis strain FJAT-54481 chromosome, complete genome	Shewanella	1
-S.algae strain ATCC 49138 chromosome, complete genome	Shewanella	2
-S.baltica OS223, complete sequence	Shewanella	2
-S.frigidimarina NCIMB 400, complete sequence	Shewanella	2
-Shewanella sp.  KX20019 chromosome, complete genome	Shewanella	2
-Shewanella sp.  LC6 chromosome, complete genome	Shewanella	2
-Shewanella sp.  MEBiC00475 chromosome, complete genome	Shewanella	2
-Shewanella sp.  Shewanella sp.Pdp11 chromosome, complete genome	Shewanella	2
-S.inventionis strain D1489 chromosome, complete genome	Shewanella	2
-Shewanella sp.Pdp11	Pdp	2
-S.polaris strain SM1901 chromosome, complete genome	Shewanella	2
-S.psychrotolerans strain FJAT-53749 chromosome, complete genome	Shewanella	2
-Shewanella sp.SdM1	SdM	2
-S.vesiculosa strain M7 chromosome, complete genome	Shewanella	2
-S.xiamenensis strain HD6416 chromosome, complete genome	Shewanella	2
-S.xiamenensis strain HD6452 chromosome, complete genome	Shewanella	2
-S.avicenniae strain FJAT-51800 chromosome, complete genome	Shewanella	3
-S.baltica OS117, complete sequence	Shewanella	3
-S.baltica OS155, complete sequence	Shewanella	3
-S.baltica strain 11FHM2 chromosome, complete genome	Shewanella	3
-S.glacialimarina strain TZS-4 chromosome, complete genome	Shewanella	3
-Shewanella sp.  W3-18-1, complete sequence	Shewanella	3
-S.psychrophila strain WP2 chromosome, complete genome	Shewanella	3
-Shewanella sp.SH16	SH	3
-Shewanella sp.SH6	SH	3
-Shewanella sp.SH9	SH	3
-S.xiamenensis strain 8M38 chromosome, complete genome	Shewanella	3
-S.xiamenensis strain CQ-Y1 chromosome, complete genome	Shewanella	3
-S.algae strain KC-Na-R1 chromosome, complete genome	Shewanella	4
-S.baltica OS678, complete sequence	Shewanella	4
-S.oncorhynchi strain B chromosome, complete genome	Shewanella	4
-S.oneidensis MR-1, complete sequence	Shewanella	4
-uncultured Shewanella sp.  isolate ae0cf98b-7678-43db-a020-567e09f3cda9 complete 1	Shewanella	4
-S.baltica OS195, complete sequence	Shewanella	5
-S.oncorhynchi strain Z-P2 chromosome, complete genome	Shewanella	5
-Shewanella sp.  MTB7 chromosome, complete genome	Shewanella	6
-Shewanella sp.  WE21 chromosome, complete genome	Shewanella	6
-S.baltica OS185, complete sequence	Shewanella	8
+Shewanella. acanthi FJAT-51860	Shewanella	1
+Shewanella. algae CECT-5071	Shewanella	1
+Shewanella. algae RQs-106	Shewanella	1
+Shewanella. algae TUM17378	Shewanella	1
+Shewanella. algae TUM17382	Shewanella	1
+Shewanella. baltica 128	Shewanella	1
+Shewanella. benthica DB21MT-2	Shewanella	1
+Shewanella. carassii TUM17387	Shewanella	1
+Shewanella. eurypsychrophilus YLB-08	Shewanella	1
+Shewanella. frigidimarina NCIMB 400 NCIMB 400	Shewanella	1
+Shewanella. goraebulensis DAU312	Shewanella	1
+Shewanella. halifaxensis HAW-EB4 HAW-EB4	Shewanella	1
+Shewanella. khirikhana TH2012	Shewanella	1
+Shewanella. mangrovisoli FJAT-51754	Shewanella	1
+Shewanella. maritima D4-2	Shewanella	1
+Shewanella. mesophila FJAT-53870	Shewanella	1
+Shewanella sp. Pdp11	Pdp	1
+Shewanella. piezotolerans WP3 WP3	Shewanella	1
+Shewanella. polaris SM1901	Shewanella	1
+Shewanella. putrefaciens ATCC 8071	Shewanella	1
+Shewanella. putrefaciens CGMCC-1.6515	Shewanella	1
+Shewanella. putrefaciens WS13	Shewanella	1
+Shewanella. putrefaciens XY07	Shewanella	1
+Shewanella. putrefaciens YZ-J	Shewanella	1
+Shewanella sp. SdM1	SdM	1
+Shewanella sp. SdM2	SdM	1
+Shewanella. sediminis HAW-EB3 HAW-EB3	Shewanella	1
+Shewanella. seohaensis KCTC 23556	Shewanella	1
+Shewanella sp. Arc9-LZ Arc9-LZ	Shewanella	1
+Shewanella sp. DAU305 DAU305	Shewanella	1
+Shewanella sp. FJAT-51649 FJAT-51649	Shewanella	1
+Shewanella sp. H8 H8	Shewanella	1
+Shewanella sp. LC6 LC6	Shewanella	1
+Shewanella sp. LZH-2 LZH-2	Shewanella	1
+Shewanella sp. NFH-SH190041	Shewanella	1
+Shewanella sp. Pdp11 Pdp11	Shewanella	1
+Shewanella sp. Scap07 Scap07	Shewanella	1
+Shewanella sp. WPAGA9 WPAGA9	Shewanella	1
+Shewanella sp. YLB-09 YLB-09	Shewanella	1
+Shewanella. violacea DSS12 DSS12	Shewanella	1
+Shewanella. xiamenensis NUITM-VS1	Shewanella	1
+Shewanella. yunxiaonensis FJAT-54481	Shewanella	1
+Shewanella. algae ATCC 49138	Shewanella	2
+Shewanella. algae B2215466	Shewanella	2
+Shewanella. algae HIDE	Shewanella	2
+Shewanella. avicenniae FJAT-51800	Shewanella	2
+Shewanella. baltica OS185 OS185	Shewanella	2
+Shewanella. baltica OS223 OS223	Shewanella	2
+Shewanella. inventionis D1489	Shewanella	2
+Shewanella. oncorhynchi B	Shewanella	2
+Shewanella. oncorhynchi Z-P2	Shewanella	2
+Shewanella. psychrophila WP2	Shewanella	2
+Shewanella. psychropiezotolerans YLB-06	Shewanella	2
+Shewanella sp. KX20019 KX20019	Shewanella	2
+Shewanella sp. MEBiC00475 MEBiC00475	Shewanella	2
+Shewanella sp. W3-18-1 W3-18-1	Shewanella	2
+Shewanella. xiamenensis CQ-Y1	Shewanella	2
+Shewanella. xiamenensis HD6416	Shewanella	2
+Shewanella. xiamenensis HD6452	Shewanella	2
+Shewanella. algae KC-Na-R1	Shewanella	3
+Shewanella. baltica 11FHM2	Shewanella	3
+Shewanella. baltica OS117 OS117	Shewanella	3
+Shewanella. baltica OS155 OS155	Shewanella	3
+Shewanella. baltica OS195 OS195	Shewanella	3
+Shewanella. baltica OS678 OS678	Shewanella	3
+Shewanella. denitrificans OS217 OS217	Shewanella	3
+Shewanella. oneidensis MR-1 MR-1	Shewanella	3
+Shewanella. psychrotolerans FJAT-53749	Shewanella	3
+Shewanella sp. SH16	SH	3
+Shewanella sp. SH6	SH	3
+Shewanella sp. SH9	SH	3
+Shewanella sp. uncultured	Shewanella	3
+Shewanella. xiamenensis 8M38	Shewanella	3
+Shewanella. dokdonensis DSM 23626	Shewanella	4
+Shewanella. glacialimarina TZS-4	Shewanella	4
+Shewanella sp. WE21 WE21	Shewanella	4
+Shewanella. baltica TMP1	Shewanella	5
+Shewanella sp. MTB7 MTB7	Shewanella	7

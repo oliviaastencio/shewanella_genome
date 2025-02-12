@@ -1,12 +1,10 @@
 16s_blastn){
-
 	. ~soft_bio_267/initializes/init_blast
 	mkdir -p blast_16S
-
 	while read -r ab1_file
 	do 
 		?
-		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'_1.fasta' -subject $data_path/gene_16S_ribosomal_RNA.fasta -outfmt "7 std slen qlen qcovhsp" > blast_16S/'blast_'$ab1_file
+		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'_1.fasta' -db $data_path/16S_NCBI/16S_db -outfmt "7 std slen qlen qcovhsp stitle" > blast_16S/'blast_'$ab1_file
 	done < $ab1_name
 }
 
@@ -25,6 +23,7 @@ genome_anotation_dfast){
 		dfast -g $data_path/total_genomes/$genome -o genome_annotation/$genome'_file' --force
 		dfast_parser.rb genome_annotation/$genome'_file'/genome.gbk genome_annotation/results_dfast_parser/$genome/dfast_parser.txt
 		grep "Number of CDSs" genome_annotation/$genome'_file'/statistics.txt | cut -f 2 > genome_annotation/results_dfast_parser/$genome/CDSs
+		grep "Total Sequence Length (bp)" genome_annotation/$genome'_file'/statistics.txt | cut -f 2 > genome_annotation/results_dfast_parser/$genome/length
 		grep -c "COG:" genome_annotation/$genome'_file'/genome.gff > genome_annotation/results_dfast_parser/$genome/COG_number
 		grep -c "TIGR" genome_annotation/$genome'_file'/genome.gff > genome_annotation/results_dfast_parser/$genome/TIGR_number
 		cd genome_annotation/results_dfast_parser

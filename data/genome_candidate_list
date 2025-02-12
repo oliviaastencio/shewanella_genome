@@ -10,6 +10,7 @@ Shewanella_algae_ATCC_49138.fasta
 Shewanella_algae_B2215466.fasta
 Shewanella_algae_CECT-5071.fasta
 Shewanella_algae_G1.fasta
+Shewanella_algae_HIDE.fasta
 Shewanella_algae_KC-Na-R1.fasta
 Shewanella_algae_MCCC_1A11468.fasta
 Shewanella_algae_RQs-106.fasta
@@ -90,7 +91,6 @@ Shewanella_sp._ANA-3_ANA-3.fasta
 Shewanella_sp._Arc9-LZ_Arc9-LZ.fasta
 Shewanella_spartinae_FJAT-53681.fasta
 Shewanella_sp._DAU305_DAU305.fasta
-Shewanella_sp._DAU334_DAU334.fasta
 Shewanella_sp._FDAARGOS_354_FDAARGOS_354.fasta
 Shewanella_sp._FJAT-51649_FJAT-51649.fasta
 Shewanella_sp._FJAT-52076_FJAT-52076.fasta
@@ -113,7 +113,6 @@ Shewanella_sp._W3-18-1_W3-18-1.fasta
 Shewanella_sp._WE21_WE21.fasta
 Shewanella_sp._WPAGA9_WPAGA9.fasta
 Shewanella_sp._YLB-09_YLB-09.fasta
-Shewanella_vesiculosa_M7.fasta
 Shewanella_violacea_DSS12_DSS12.fasta
 Shewanella_woodyi_ATCC_51908_ATCC_51908.fasta
 Shewanella_xiamenensis_8M34.fasta
@@ -124,6 +123,7 @@ Shewanella_xiamenensis_HD6416.fasta
 Shewanella_xiamenensis_HD6452.fasta
 Shewanella_xiamenensis_NUITM-VS1.fasta
 Shewanella_xiamenensis_NUITM-VS2.fasta
+Shewanella_youngdeokensis_DAU334.fasta
 Shewanella_yunxiaonensis_FJAT-54481.fasta
 Shewanella_zhangzhouensis_FJAT-52072.fasta
 uncultured_Shewanella_sp.fasta
