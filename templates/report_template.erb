@@ -1,7 +1,7 @@
 <div style="width:90%; background-color:#ecf0f1; margin:0 auto;">
     <h1 style="text-align:center; background-color:#d6eaf8 ">GENOME ANALYSIS REPORT</h1>
 
-<h3> Data used in this analysis </h3>
+<h3> <b> Data used in this analysis </b> </h3>
 
 <p> In this experiment, the start set data are:
 	<ul>
@@ -12,7 +12,7 @@
 
 </p>
 
-<h3> GENERAL DESCRIPTION </h3>
+<h3> <b> GENERAL DESCRIPTION </b> </h3>
 <p> This report shows all the genome analysis information including:
 	<ul>
 		<li> 16S RNA identification </li>
@@ -29,7 +29,7 @@
 	</ul>
 </p>
 <p>
-	The taxonomy identification of problematic strains as belonging to the <em>Shewanella</em> genus was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). Species identification was performed using blastn of the 16S rRNA gene and by comparing the genomes of problematic strains with 120 complete genomes available in the NCBI database.
+	The taxonomy identification of problematic strains as belonging to the <em>Shewanella</em> genus was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). Species identification was performed using blastn of the 16S rRNA gene and by comparing the genomes of problematic strains against 129 complete genomes available in the NCBI database.
 
 	The complete genome of <em>Shewanella</em> sp. Pdp11 and the partial genomes of pathogenic and saprophytic <em>Shewanella</em> strains were annotated using the DFAST tool. Functional annotation was performed based on Clusters of Orthologous Groups (COG), and the number of genes associated with each category was determined.
 
@@ -42,16 +42,17 @@
 <div style="width:90%; background-color:#ffe9ea; margin:0 auto;">
     <h1 style="text-align:center; background-color:#ffc2c5 "> <em>Shewanella</em> species assignation </h1>
 
-<h3> 16S RNA </h3>
+<h3> <b> 16S RNA </b> </h3>
 <p> The Table indicated the 16S RNA analysis of problem genomes was carried out by blatn. The top 10 for each strain with high identity and coverage value.  </p>
 <%=
 	table(id: 'blast_16', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
 		table.unshift(['strain', 'identity', 'coverage', 'NCBI strain' ])
 	end
 %>
-<h3> Complete genome comparison </h3>
-<p> Heatmaps represent the calculation of Average Nucleotide Identity (ANI) using MUMmer (NUCmer) to align the input sequences. The results provide the specific nucleotide identity (first heatmap) and coverage (second heatmap), both ranging from 0 to 1, between our eight studied strains and 129 complete genomes of the <em>Shewanella</em> genus available in NCBI. The probiotic <em>Shewanella</em> Pdp11 showed high identity and coverage with <em>Shewanella</em> baltica, while SH4 and SH12 were closely related to <em>Shewanella</em> xiamenensis. In contrast, SH6, SH16, SH9, and SdM1 exhibited similarity to <em>Shewanella</em> oncorhynchi.
+<h3> <b> Complete genome comparison </b> </h3>
 
+<h3> <b> Pyani </b> </h3>
+<p> Heatmaps represent the calculation of Average Nucleotide Identity (ANI) using MUMmer (NUCmer) to align the input sequences. The results provide the specific nucleotide identity (first heatmap) and coverage (second heatmap), both ranging from 0 to 1, between our eight studied strains and 129 complete genomes of the <em>Shewanella</em> genus available in NCBI. The probiotic <em>Shewanella</em> Pdp11 showed high identity and coverage with <em>Shewanella</em> baltica, while SH4 and SH12 were closely related to <em>Shewanella</em> xiamenensis. In contrast, SH6, SH16, SH9, and SdM1 exhibited similarity to <em>Shewanella</em> oncorhynchi.
 <div style="overflow: hidden">
 
 <%=
@@ -87,52 +88,80 @@
 		end
 	end 
 %>
+</div>
 
-<h3> Sybelia results </h3>
+<div style="overflow: hidden">
+<h3> <b> Sybelia results </b> </h3>
 
 <p> The figures represent the synteny blocks of our studies strains and those with the highest identity. </p>
 
-<p> Pdp11 (uncultured <em>Shewanella</em> sp), SdM1 (<em>Shewanella</em> sp. WE21), SdM2 (<em>Shewanella</em> putrefaciens YZ-J) </p>
-
+<p> <b> Synteny blocks of Pdp11 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and uncultured <em>Shewanella</em> (right) </b> </p>
 <%=
-	embed_img('results/report_img/Pdp11_uncultured_Shewanella_sp.png', 'width="400" height="400"')
+	embed_img('results/report_img/Pdp11_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
 %>
 <%=
-	embed_img('results/report_img/SdM1_Shewanella_sp._WE21_WE21.png', 'width="400" height="400"')
-%>
-<%=
-	embed_img('results/report_img/SdM2_Shewanella_putrefaciens_YZ-J.png', 'width="400" height="400"')
+	embed_img('results/report_img/Pdp11_uncultured_Shewanella_sp.png', 'width="600" height="600"')
 %>
 
-<p> SH12 and SH4 (<em>Shewanella</em> xiamenensis 8M38) </p>
-
+<p> <b> Synteny blocks SdM1 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella sp.</em> WE21 (right) </b> </p>
 <%=
-	embed_img('results/report_img/SH12_Shewanella_xiamenensis_8M38.png', 'width="400" height="400"')
+	embed_img('results/report_img/SdM1_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
 %>
 <%=
-	embed_img('results/report_img/SH4_Shewanella_xiamenensis_8M38.png', 'width="400" height="400"')
+	embed_img('results/report_img/SdM1_Shewanella_sp._WE21_WE21.png', 'width="600" height="600"')
 %>
-
-
-<p>  SH16, SH6 and SH9 (<em>Shewanella</em> oncorhynchi B) </p>
-
+<p> <b> Synteny blocks SdM2 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella putrefaciens</em> YZ-J (right) </b> </p>
 <%=
-	embed_img('results/report_img/SH16_Shewanella_oncorhynchi_B.png', 'width="400" height="400"')
+	embed_img('results/report_img/SdM2_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
 %>
 <%=
-	embed_img('results/report_img/SH6_Shewanella_oncorhynchi_B.png', 'width="400" height="400"')
+	embed_img('results/report_img/SdM2_Shewanella_putrefaciens_YZ-J.png', 'width="600" height="600"')
+%>
+<p> <b> Synteny blocks SH12 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella</em> xiamenensis 8M38 (right) </b> </p>
+<%=
+	embed_img('results/report_img/SH12_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
 %>
 <%=
-	embed_img('results/report_img/SH9_Shewanella_oncorhynchi_B.png', 'width="400" height="400"')
+	embed_img('results/report_img/SH12_Shewanella_xiamenensis_8M38.png', 'width="600" height="600"')
+%>
+<p> <b> Synteny blocks SH4 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella</em> xiamenensis 8M38 (right) </b> </p>
+<%=
+	embed_img('results/report_img/SH4_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
+%>
+<%=
+	embed_img('results/report_img/SH4_Shewanella_xiamenensis_8M38.png', 'width="600" height="600"')
+%>
+
+<p>  <b> Synteny blocks SH6 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella</em> oncorhynchi B (right) </p>
+<%=
+	embed_img('results/report_img/SH6_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
+%>
+<%=
+	embed_img('results/report_img/SH6_Shewanella_oncorhynchi_B.png', 'width="600" height="600"')
+%>
+
+<p> <b> Synteny blocks SH9 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella</em> oncorhynchi B (right) </p>
+<%=
+	embed_img('results/report_img/SH9_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
+%>
+<%=
+	embed_img('results/report_img/SH9_Shewanella_oncorhynchi_B.png', 'width="600" height="600"')
+%>
+<p> <b> Synteny blocks SH16 compared with <em>Shewanella putrefaciens</em> ATCC 8071 (left) and <em>Shewanella</em> oncorhynchi B (right) </p>
+<%=
+	embed_img('results/report_img/SH16_Shewanella_putrefaciens_ATCC_8071.png', 'width="600" height="600"')
+%>
+<%=
+	embed_img('results/report_img/SH16_Shewanella_oncorhynchi_B.png', 'width="600" height="600"')
 %>
 
 </div>
-
+</div>
 
 <div style="width:90%; background-color:#ffffd8; margin:0 auto;">
     <h1 style="text-align:center; background-color:#ffffab">Genome annotation</h1>
 
-<p> The DFAST tool (https://dfast.ddbj.nig.ac.jp/) was used for the COG annotation of 137 complete genomes. The heatmaps represent the number of genes associated with each COG functional category (left heatmap) and the standardized number of genes relative to the total number of coding sequences (CDS) in each genome, expressed as a percentage (gene %) (right heatmap). </p>
+<p> The DFAST tool (https://dfast.ddbj.nig.ac.jp/) was used for the COG annotation of 136 complete genomes. The heatmaps represent the number of genes associated with each COG functional category (left heatmap) and the standardized number of genes relative to the total number of coding sequences (CDS) in each genome, expressed as a percentage (gene %) (right heatmap). </p>
 <div style="overflow: hidden">
 
 <%=
@@ -156,7 +185,7 @@
 <div style="width:90%; background-color:#e9f9e9; margin:0 auto;">
     <h1 style="text-align:center; background-color:#bbecbb"> Transposon </h1>
 
-<p> The identification of transposable elements (TEs) in 137 complete genomes was performed using a custom workflow with ISEScan (https://github.com/xiezhq/ISEScan) and Tp finder. The results include the number of TEs identified in each genome (left bar plot), the standardized number of TEs relative to the number of coding sequences (CDS) (right bar plot), and the repeated TEs within each genome (Table). Additionally, the presence or absence of disrupted proteins (left heatmap) and transposases (right heatmap) in each genome was determined, represented by a binary matrix (0 and 1). </p>
+<p> The transposable elements (TEs) analized was performed using a custom workflow with ISEScan (https://github.com/xiezhq/ISEScan) and Tp finder. The results include the number of TEs identified in each genome (left bar plot), the standardized number of TEs relative to the number of coding sequences (CDS) (right bar plot), and the repeated TEs within each genome (Table). Additionally, the presence or absence of disrupted proteins (left heatmap) and transposases (right heatmap) in each genome was determined and represented by a binary matrix (0 and 1). The analysis identified the presence of TEs in 101 strains (more than 70% of the strains of this genus). </p>
 
 <div style="overflow: hidden">
 
@@ -224,7 +253,7 @@ end
 <div style="width:90%; background-color:#ffe9ea; margin:0 auto;">
     <h1 style="text-align:center; background-color:#ffc2c5 "> Genomic Island </h1>
 
-<p> The mobilome analysis included the identification of genomic islands (GIs) using IslandViewer4 (https://www.pathogenomics.sfu.ca/islandviewer/). The results show the total number of GIs identified in 137 research strains of <em>Shewanella</em> sp. The figure illustrates the number of genomic islands in which certain functional categories, determined by DFAST, are significant. Additionally, functional enrichment of GIs was performed using the ExpHunterSuite script clusters_to_enrichment.R, which is based on the clusterProfiler package, with an FDR threshold of 0.05 (-p 0.05). The heatmap represents the number of GIs assigned to COG categories (left) and this number standardized to the total GIs (GI %) (right).
+<p> The mobilome analysis included the identification of genomic islands (GIs) using IslandViewer4 (https://www.pathogenomics.sfu.ca/islandviewer/). The results show the total number of GIs identified in 134 research strains of <em>Shewanella</em> sp. The figure illustrates the number of genomic islands in which certain functional categories, determined by DFAST, are significant. Additionally, functional enrichment of GIs was performed using the ExpHunterSuite script clusters_to_enrichment.R, which is based on the clusterProfiler package, with an FDR threshold of 0.05 (-p 0.05). The heatmap represents the number of GIs assigned to COG categories (left) and this number standardized to the total GIs (GI %) (right).
 
 
 <div style="overflow: hidden">
@@ -242,6 +271,7 @@ end
 			'colorBy' => " strains "
 		}) 
 %>
+</div>
 </div>
 
 <div style="overflow: hidden">
@@ -267,7 +297,7 @@ end
 <div style="width:90%; background-color:#ffffd8; margin:0 auto;">
     <h1 style="text-align:center; background-color:#ffffab"> Prophage </h1>
 
-<p> Prophage was analized using PHASTEST web. Prophages were identified in 74 complete genomes of <em>Shewanella</em> </p>
+<p> Prophage was analized using Virsorter (https://github.com/jiarong/VirSorter2). Prophages were identified in 77 complete genomes of <em>Shewanella</em> </p>
 
 <div style="overflow: hidden">
 
@@ -296,5 +326,6 @@ end
 		table.unshift(['Entry', 'protein names', 'organism'])
 	end
 %>
+</div>
 </div>
 

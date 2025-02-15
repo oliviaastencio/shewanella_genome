@@ -210,7 +210,7 @@ fi
 
 if [ "$1" == "results" ]; then  
 	
- 	results.sh $data_path $results_path $genome_analysis_path Shewanella 
+ 	results.sh $data_path $results_path $genome_analysis_path Shewanella Shewanella_putrefaciens_ATCC_8071
 fi 
 ## REPORTING
 ####################################
@@ -221,27 +221,26 @@ if [ "$1" == "report" ]; then
 	########################################
 	############REPORT
 	########################################
-
-	#$results_path/Total_phage
+	
 	paths=`echo -e "
-	$results_path/report_img/blast_16,
-	$results_path/report_img/report_Total_cog_table, 
-	$results_path/report_img/report_Total_cog_table_relative,
-	$results_path/report_img/pyani_matrix_identity,
-	$results_path/report_img/pyani_matrix_coverage,
-	$results_path/report_img/report_Tp_absolute,
-	$results_path/report_img/report_Tp_relative,
-	$results_path/report_img/Tp_Pdp11,
-	$results_path/report_img/report_Tp_interrupt,
-	$results_path/report_img/report_Tp_transposase,
-	$results_path/report_img/specific_genes,
-	$results_path/report_img/report_Total_GI,
-	$results_path/report_img/report_Total_GI_relative,
-	$results_path/report_img/report_enrichment_GI_category,
-	$results_path/report_img/report_enrichment_GI_category_relative,
-	$results_path/report_img/report_Total_phage,
-	$results_path/report_img/report_Total_phage_relative
-	" | tr -d [:space:]`
+		$results_path/report_img/blast_16,
+		$results_path/report_img/report_Total_cog_table, 
+		$results_path/report_img/report_Total_cog_table_relative,
+		$results_path/report_img/pyani_matrix_identity,
+		$results_path/report_img/pyani_matrix_coverage,
+		$results_path/report_img/report_Tp_absolute,
+		$results_path/report_img/report_Tp_relative,
+		$results_path/report_img/Tp_Pdp11,
+		$results_path/report_img/report_Tp_interrupt,
+		$results_path/report_img/report_Tp_transposase,
+		$results_path/report_img/specific_genes,
+		$results_path/report_img/report_Total_GI,
+		$results_path/report_img/report_Total_GI_relative,
+		$results_path/report_img/report_enrichment_GI_category,
+		$results_path/report_img/report_enrichment_GI_category_relative,
+		$results_path/report_img/report_Total_phage,
+		$results_path/report_img/report_Total_phage_relative
+		" | tr -d [:space:]`
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	
 fi

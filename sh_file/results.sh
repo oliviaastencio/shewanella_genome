@@ -12,7 +12,7 @@ mkdir -p $results_path/report_img
 ####data clean##########################################
 genus=$4
 initial=$(echo "$genus" | cut -f 1)
-
+reference_genome=$5
 
 linea_num=0
 
@@ -29,12 +29,11 @@ for ((i=1; i<=linea_num; i++)); do
 done
 
 ###### Define the sed command correctly in a variable
-sed_command_space="sed -e 's/uncultured ${genus}.sp/    ${genus}.sp.uncultured/g' \
-                -e 's/${genus} /    ${initial}. /g' \
-                -e 's/${initial}.sp./${genus}.sp./g'"
+######renaming Shewanella unculture, naming all Shewanella strains by their initial "S"
 sed_command_lowbar="sed -e 's/uncultured_${genus}_sp/${genus}_sp._uncultured/g' \
                 -e 's/${genus}_/${initial}._/g' \
                 -e 's/${initial}._sp._/${genus}_sp._/g'"
+#####renaming our strains from "Shewanellas" to "Shewanella sp."
 sed_name="sed -e 's/${genus}.sp./${genus}_sp./g' \
 				-e 's/${initial}._${strain1}/${genus}_sp._${strain1}/g' \
 				-e 's/${initial}._${strain2}/${genus}_sp._${strain2}/g' \
@@ -97,6 +96,7 @@ do
 	col=`head $results_path/report_img/pyani_matrix_identity | tr '\t' '\n' | nl | grep "^.*$name" | awk '{print $1}'`
 	reference=`cat $results_path/pyani_matrix_identity | cut -f 1,$col | tr ':' '\t' | cut -f 1,3 | grep -Ev "${genus} strains|$strain1|$strain2|$strain3|$strain4|$strain5|$strain6|$strain7|$strain8" | sort -k 2 | tail -n 1 | cut -f 1 `
 	cp $genome_analysis_path/char/Sibelia_0000/$genome/*$reference'.fasta'/circos/circos.png  $results_path/report_img/$name'_'$reference'.png'
+	cp $genome_analysis_path/char/Sibelia_0000/$genome/$reference_genome'.fasta'/circos/circos.png  $results_path/report_img/$name'_'$reference_genome'.png'
 done < $data_path/genome_name
 
 ############################################
