@@ -12,7 +12,8 @@ mkdir -p $results_path/report_img
 ####data clean##########################################
 genus=$4
 initial=$(echo "$genus" | cut -f 1)
-reference_genome=$5
+reference_S_putrefaciens=$5
+reference_S_baltica=$6
 
 linea_num=0
 
@@ -96,9 +97,9 @@ do
 	col=`head $results_path/report_img/pyani_matrix_identity | tr '\t' '\n' | nl | grep "^.*$name" | awk '{print $1}'`
 	reference=`cat $results_path/pyani_matrix_identity | cut -f 1,$col | tr ':' '\t' | cut -f 1,3 | grep -Ev "${genus} strains|$strain1|$strain2|$strain3|$strain4|$strain5|$strain6|$strain7|$strain8" | sort -k 2 | tail -n 1 | cut -f 1 `
 	cp $genome_analysis_path/char/Sibelia_0000/$genome/*$reference'.fasta'/circos/circos.png  $results_path/report_img/$name'_'$reference'.png'
-	cp $genome_analysis_path/char/Sibelia_0000/$genome/$reference_genome'.fasta'/circos/circos.png  $results_path/report_img/$name'_'$reference_genome'.png'
 done < $data_path/genome_name
-
+	cp $genome_analysis_path/char/Sibelia_0000/'Shewanella_'$strain1'.fasta'/$reference_S_putrefaciens'.fasta'/circos/circos.png  $results_path/report_img/$strain1'_'$reference_S_putrefaciens'.png'
+	cp $genome_analysis_path/char/Sibelia_0000/'Shewanella_'$strain1'.fasta'/$reference_S_baltica'.fasta'/circos/circos.png  $results_path/report_img/$strain1'_'$reference_S_baltica'.png'
 ############################################
 ######### Genome annotation by DFAST #######
 ############################################

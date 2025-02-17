@@ -210,7 +210,7 @@ fi
 
 if [ "$1" == "results" ]; then  
 	
- 	results.sh $data_path $results_path $genome_analysis_path Shewanella Shewanella_putrefaciens_ATCC_8071
+ 	results.sh $data_path $results_path $genome_analysis_path Shewanella Shewanella_putrefaciens_ATCC_8071 Shewanella_baltica_OS678_OS678
 fi 
 ## REPORTING
 ####################################
