@@ -29,7 +29,7 @@
 	</ul>
 </p>
 <p>
-	The taxonomy identification of problematic strains as belonging to the <em>Shewanella</em> genus was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). Species identification was performed using blastn of the 16S rRNA gene and by comparing the genomes of problematic strains against 129 complete genomes available in the NCBI database.
+	The taxonomy identification of problematic strains as belonging to the <em>Shewanella</em> genus was based on Silva Taxonomy results (https://www.arb-silva.de/documentation/silva-taxonomy/). Species identification was performed using blastn of the 16S rRNA gene and by comparing the genomes of problematic strains against 128 complete genomes available in the NCBI database.
 
 	The complete genome of <em>Shewanella</em> sp. Pdp11 and the partial genomes of pathogenic and saprophytic <em>Shewanella</em> strains were annotated using the DFAST tool. Functional annotation was performed based on Clusters of Orthologous Groups (COG), and the number of genes associated with each category was determined.
 
@@ -52,12 +52,12 @@
 <h3> <b> Complete genome comparison </b> </h3>
 
 <h3> <b> Pyani </b> </h3>
-<p> Heatmaps represent the calculation of Average Nucleotide Identity (ANI) using MUMmer (NUCmer) to align the input sequences. The results provide the specific nucleotide identity (first heatmap) and coverage (second heatmap), both ranging from 0 to 1, between our eight studied strains and 129 complete genomes of the <em>Shewanella</em> genus available in NCBI. The probiotic <em>Shewanella</em> Pdp11 showed high identity and coverage with <em>Shewanella</em> baltica, while SH4 and SH12 were closely related to <em>Shewanella</em> xiamenensis. In contrast, SH6, SH16, SH9, and SdM1 exhibited similarity to <em>Shewanella</em> oncorhynchi.
+<p> Heatmaps represent the calculation of Average Nucleotide Identity (ANI) using MUMmer (NUCmer) to align the input sequences. The results provide the specific nucleotide identity (first heatmap) and coverage (second heatmap), both ranging from 0 to 1, between our eight studied strains and 128 complete genomes of the <em>Shewanella</em> genus available in NCBI. The probiotic <em>Shewanella</em> Pdp11 showed high identity and coverage with <em>Shewanella</em> baltica, while SH4 and SH12 were closely related to <em>Shewanella</em> xiamenensis. In contrast, SH6, SH16, SH9, and SdM1 exhibited similarity to <em>Shewanella</em> oncorhynchi.
 <div style="overflow: hidden">
 
 <%=
 	heatmap(id: 'pyani_matrix_identity', transpose:false, header: true, row_names: true, x_label: 'ANIm',  title: "Identity", height: 600, config:{
-			'variablesClustered' => true,
+			'variablesClustered' => true, 'varLabelRotate'=> 45, 'smpLabelScaleFontFactor' => 1, 'varLabelScaleFontFactor' => 1, 
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
@@ -74,7 +74,7 @@
 
 <%=
 	heatmap(id: 'pyani_matrix_coverage', transpose:false, header: true, row_names: true, x_label: 'ANIm',  title: "Coverage", height: 600,  config:{
-			'variablesClustered' => true,
+			'variablesClustered' => true, 'varLabelRotate'=> 45, 'smpLabelScaleFontFactor' => 1, 'varLabelScaleFontFactor' => 1, 
 	}) do |table|
 		to_delete = []
 		table.each_with_index do |row, i|
@@ -157,6 +157,9 @@
 <%=
 	heatmap(id: 'report_Total_cog_table', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'genes',  title: "Genome annotation", width: 600, height: 400, config:{
 		'variablesClustered' => false,
+		'varLabelRotate'=> 45,
+		'smpLabelScaleFontFactor' => 1, 
+		'varLabelScaleFontFactor' => 1, 
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
 	}) 
@@ -165,6 +168,9 @@
 <%=
 	heatmap(id: 'report_Total_cog_table_relative', transpose:true, header: true,var_attr:[1], row_names: true, x_label: 'genes %',  title: "Genome annotation", width: 600, height: 400, config:{
 		'variablesClustered' => false,
+		'varLabelRotate'=> 45, 
+		'smpLabelScaleFontFactor' => 1, 
+		'varLabelScaleFontFactor' => 1, 
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
 	}) 
@@ -182,15 +188,16 @@
 <%=barplot(id: 'report_Tp_absolute', header: true, smp_attr:[1], row_names: true, x_label: 'Transposable elements', title: "TEs elements", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
-			'colorBy' => " strains "
+			'colorBy' => " strains"
 		}) 
 
 %>
 
+
 <%=barplot(id: 'report_Tp_relative', header: true, smp_attr:[1], row_names: true, x_label: 'Transposable elements (%)', title: "TEs elements", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
-			'colorBy' => " strains "
+			'colorBy' => " strains"
 		}) 
 %>
 
@@ -203,6 +210,9 @@
 <%=
 	heatmap(id: 'report_Tp_interrupt', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Interrupted protein", height: 600, config:{
 			'samplesClustered' => false,
+			'varLabelRotate'=> 45, 
+			'smpLabelScaleFontFactor' => 1, 
+			'varLabelScaleFontFactor' => 1, 
 			'varOverlays' => ["strains"],
 			'sortData' => [["cat", "var", "strains"]]
 	}) do |table|
@@ -233,6 +243,9 @@ end
 <%=
 	heatmap(id: 'report_Tp_transposase', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Transposable protein", height: 600, config:{
 		'samplesClustered' => false,
+		'varLabelRotate'=> 45, 
+		'smpLabelScaleFontFactor' => 1, 
+		'varLabelScaleFontFactor' => 1, 
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
 	}) 
@@ -251,14 +264,14 @@ end
 <%=barplot(id: 'report_Total_GI', header: true, smp_attr:[1], row_names: true, x_label: 'GIs', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
-			'colorBy' => " strains "
+			'colorBy' => " strains"
 		}) 
 %>
 
 <%=barplot(id: 'report_Total_GI_relative', header: true, smp_attr:[1], row_names: true, x_label: 'GIs (%)', y_label: 'strains', title: "Genomic islands (GIs)", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
-			'colorBy' => " strains "
+			'colorBy' => " strains"
 		}) 
 %>
 </div>
@@ -269,6 +282,9 @@ end
 	heatmap(id: 'report_enrichment_GI_category', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GI number',  title: "Functional enrichment", width: 600, height: 400, config:{
 			'variablesClustered' => true,
 			'varOverlays' => ["strains"],
+			'varLabelRotate'=> 45, 
+			'smpLabelScaleFontFactor' => 1, 
+			'varLabelScaleFontFactor' => 1, 
 			'sortData' => [["cat", "var", "strains"]]
 		}) 
 %>
@@ -276,6 +292,9 @@ end
 <%=
 	heatmap(id: 'report_enrichment_GI_category_relative', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", width: 600, height: 400, config:{
 			'variablesClustered' => true,
+			'varLabelRotate'=> 45, 
+			'smpLabelScaleFontFactor' => 1, 
+			'varLabelScaleFontFactor' => 1, 
 			'varOverlays' => ["strains"],
 			'sortData' => [["cat", "var", "strains"]]
 		}) 
@@ -294,14 +313,14 @@ end
 <%=barplot(id: 'report_Total_phage', header: true, smp_attr:[1], row_names: true, x_label: 'prophage' , title: "Prophage", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
-			'colorBy' => " strains "
+			'colorBy' => " strains"
 		})
 
 %>
 <%=barplot(id: 'report_Total_phage_relative', header: true, smp_attr:[1], row_names: true, x_label: 'prophage (%)' , title: "Prophage", height: 400, config:{
 			'samplesClustered' => false,
 			'smpOverlays' => ["strains"],
-			'colorBy' => " strains "
+			'colorBy' => " strains"
 		})
 
 %>
