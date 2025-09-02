@@ -19,7 +19,7 @@ mkdir -p $output
 ##########################################################################
 
 if [ "$1"  == "UP" ]; then 
-	HTTP_API_token="b800318f-766a-e3ad-d20a-74b797db9969" 
+	HTTP_API_token="b344dbd6-9cf9-720b-c8b4-7b6723104ba8" 
 	input=$genome_analysis_path/char/dfast_0000/genome_annotation
 	output=$genome_analysis_path/genomic_island
 
@@ -47,7 +47,9 @@ if [ "$1" == "result" ]; then
 ##curl https://www.pathogenomics.sfu.ca/islandviewer/rest/job/job_token/ -H 'X-authtoken:your_authentication_token'
 	output=$genome_analysis_path/genomic_island/Island_Viewer4_results
 
+	rm -r $output/file_scv
 	mkdir -p $output/file_scv
+
 	while read genome 
 	do
 		jobtoken=`head -n1 $output/"$genome"_jobtoken`
@@ -68,7 +70,7 @@ strains_island=( `ls $input` )
 
 for strain in "${strains_island[@]}"
 do
-	
+	rm -r $output/$strain
 	mkdir -p $output/$strain
 	mkdir -p $output/$strain/GI
 
@@ -121,10 +123,14 @@ while read genome
 	 clusters_to_enrichment.R -i $genome'.csv_GI_LOCUS_list' --custom $genome.csv'_LOCUS_all' --funsys "" --gmt_id "" -k ""
 	 cd ../
 
-	 awk '{if ($10<0.05) {print $0}}' $output/$genome.csv/functional_enrichment/enr_cls_$genome'.csv_LOCUS_all.csv' > $output/$genome.csv/enr_cls_$genome'.csv_LOCUS_all'
+	if [[ -f "$output/$genome.csv/functional_enrichment/enr_cls_$genome.csv_LOCUS_all.csv" ]]; then
+    awk '{if ($10<0.05) {print $0}}' "$output/$genome.csv/functional_enrichment/enr_cls_$genome.csv_LOCUS_all.csv" > "$output/$genome.csv/enr_cls_$genome.csv_LOCUS_all"
+	else
+    	> "$output/$genome.csv/enr_cls_$genome.csv_LOCUS_all"
+	fi
 
-	 total_GI=`grep -c "GI_" $output/$genome.csv/enr_cls_$genome'.csv_LOCUS_all'`
-
+	total_GI=`grep -c "GI_" $output/$genome.csv/enr_cls_$genome'.csv_LOCUS_all'`
+	
 	############################################
 	### Tablet of enrichment and COG categories
 	while read line 
@@ -133,22 +139,22 @@ while read genome
 	 	echo $line't'$number | tr 't' '\t' >> $output/$genome.csv/'enrichment_GI_'$genome
 	done < $data_path/COG_categories
 
+	sed -i "1i category\t$genome" $output/$genome.csv/'enrichment_GI_'$genome
 	############################################
 	### Relative Tablet of enrichment and COG categories
 
-	 sed -i "1i category\t$genome" $output/$genome.csv/'enrichment_GI_'$genome
-	 grep -v "category" $output/$genome.csv/'enrichment_GI_'$genome | awk '{ print $1 "\t" $2 "\t" '"$total_GI"'}' | awk '{ print $1 "\t" $2 "\t" $2*100/$3}' | cut -f 1,3 > $output/$genome.csv/'relative_enrichment_GI_'$genome
-	 sed -i "1i category\t$genome" $output/$genome.csv/'relative_enrichment_GI_'$genome
+	grep -v "category" "$output/$genome.csv/enrichment_GI_$genome" | awk -v total="$total_GI" '{perc=(total==0?0:$2*100/total); print $1 "\t" $2 "\t" perc}' | cut -f 1,3 > "$output/$genome.csv/relative_enrichment_GI_$genome"
+	sed -i "1i category\t$genome" $output/$genome.csv/'relative_enrichment_GI_'$genome
 
 	############################################
-	### rm not necesary file
-	 rm -r $output/$genome.csv/GI $output/$genome.csv/$genome.csv* $output/$genome.csv/Total_genomic_island $output/$genome.csv/*LOCUS* $output/$genome.csv/*locus*
+	## rm not necesary file
+	rm -r $output/$genome.csv/GI $output/$genome.csv/$genome.csv* $output/$genome.csv/Total_genomic_island $output/$genome.csv/*LOCUS* $output/$genome.csv/*locus*
 
 done < $data_path/all_genome_list
 
 
-############################################
-### general TAB of all genomes
+###########################################
+## general TAB of all genomes
 
 merge_tabular.rb $output/*/enrichment_GI_* | sed s'/.fasta//g' > $output/enrichment_GI_category
 merge_tabular.rb $output/*/relative_enrichment_GI_* | sed s'/.fasta//g' > $output/enrichment_GI_category_relative

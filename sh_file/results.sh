@@ -99,7 +99,7 @@ table=( 'Total_cog_table' 'Total_cog_table_relative' )
 path="$genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser"
 
 for tab in "${table[@]}"; do
-  sed 's/.fasta//g' "$path/$tab" > "$results_path/$tab"
+  sed 's/.fasta//g' "$path/$tab" | sed "s/\t-/\t0/g" > "$results_path/$tab"
 done
 
 #################################################################
@@ -124,7 +124,7 @@ for tab in "${table[@]}"; do
   grep "category" "$path/$tab" > "$path/${tab}_name"
   grep -v "category" "$path/$tab" > "$path/${tab}_value"
   merge_tabular.rb "$data_path/COG_categories_all" "$path/${tab}_value" | cut -f 2-139 > "$path/enrichment_GI" &&
-  cat "$path/${tab}_name" "$path/enrichment_GI" > "$results_path/$tab" &&
+  cat "$path/${tab}_name" "$path/enrichment_GI" | sed "s/\t-/\t0/g" > "$results_path/$tab" &&
   rm "$path/${tab}_name" "$path/${tab}_value" "$path/enrichment_GI"
 done
 
@@ -152,7 +152,7 @@ assign_label() {
 for tab in "${tables[@]}"; do
   input="$results_path/$tab"
   if [[ $tab =~ ^(Total_phage|Total_phage_relative|Total_GI|Total_GI_relative|Tp_absolute|Tp_relative)$ ]]; then    ##### Total_phage Total_phage_relative Total_GI Total_GI_relative Tp_absolute Tp_relative
-    awk '$2>0' "$genome_analysis_path"/*/"$tab" | sed 's/ /_/g' | eval "$sed_command_all" > "$input"  
+     sed 's/ /_/g' "$genome_analysis_path"/*/"$tab" | eval "$sed_command_all" > "$input"   
     { echo -e "${genus} strains\t number"; cat "$input"; } > temp && mv temp "$input"
     grep -v "${genus} strains" "$input" | cut -f 1 > "$results_path/${tab}_name"
     : > "$results_path/number"
@@ -191,4 +191,17 @@ done
 ############################################
  
 grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Ref_specific_filtered_annotated_prots | cut -f 1,5,7 > $results_path/report_img/specific_genes
+
+
+#################################################
+#####Unification analysis 
+#################################################
+
+mkdir -p $results_path/integration
+
+merge_tabular.rb $results_path/Tp_relative $results_path/Total_GI_relative $results_path/Total_phage_relative | grep -v "Shewanella strains" > $results_path/Tp_GI_phage
+sed -i -e '1s/^/Shewanella strains\tTP number\tGI number\tPhage number\n/' $results_path/Tp_GI_phage
+ln -s $results_path/Tp_GI_phage $results_path/integration
+ln -s $results_path/Total_cog_table_relative $results_path/integration
+ln -s $results_path/enrichment_GI_category_relative $results_path/integration
 

@@ -196,7 +196,7 @@ fi
 
 if [ "$1" == "GI_clean" ]; then ###PENDIENTE
 
-	sbatch $sh_file_path/GI.sh clean $data_path  $genome_analysis_path
+	sbatch $sh_file_path/GI.sh clean $data_path  $genome_analysis_path  
 	
 fi 
 

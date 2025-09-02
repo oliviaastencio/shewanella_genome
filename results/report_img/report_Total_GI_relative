@@ -1,4 +1,5 @@
 Shewanella	 strains	 number
+S. aegi FJAT-53532	Shewanella	0
 S. halo FJAT-53555	Shewanella	2.14521e-05
 S. rhiz FJAT-53764	Shewanella	2.18402e-05
 S. dong LT17	Shewanella	4.07102e-05
@@ -22,6 +23,7 @@ S. mang FJAT-51754	Shewanella	0.000106093
 S. pola SM1901	Shewanella	0.000107561
 S. sp. SH12	SH	0.000108015
 S. cara TUM17387	Shewanella	0.000112245
+S. youn DAU334	Shewanella	0.000115111
 S. mari ECSMB14101	Shewanella	0.000115115
 S. sp. FJAT-52076	Shewanella	0.000115475
 S. sp. Scap07	Shewanella	0.000116967
@@ -69,6 +71,7 @@ S. sp. SNU	Shewanella	0.000196743
 S. sp. SH9	SH	0.000199199
 S. sp. H8	Shewanella	0.000200412
 S. onco B	Shewanella	0.000200595
+S. alga HIDE	Shewanella	0.000201988
 S. alga TUM17383	Shewanella	0.0002032
 S. alga TUM17386	Shewanella	0.000203606
 S. alga TUM17379	Shewanella	0.000203669

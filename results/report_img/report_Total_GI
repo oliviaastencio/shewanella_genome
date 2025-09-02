@@ -1,4 +1,5 @@
 Shewanella	 strains	 number
+S. aegi FJAT-53532	Shewanella	0
 S. halo FJAT-53555	Shewanella	1
 S. rhiz FJAT-53764	Shewanella	1
 S. alka FJAT-54031	Shewanella	2
@@ -24,6 +25,7 @@ S. sp. FJAT-52076	Shewanella	5
 S. sp. OMA3-2	Shewanella	5
 S. sp. SH12	SH	5
 S. sp. WPAGA9	Shewanella	5
+S. youn DAU334	Shewanella	5
 S. acan FJAT-51860	Shewanella	6
 S. aest PN3F2	Shewanella	6
 S. alga A59	Shewanella	6
@@ -68,6 +70,7 @@ S. sp. H8	Shewanella	9
 S. sp. KX20019	Shewanella	9
 S. xiam 8M34	Shewanella	9
 S. xiam 8M38	Shewanella	9
+S. alga HIDE	Shewanella	10
 S. alga TUM17379	Shewanella	10
 S. alga TUM17383	Shewanella	10
 S. alga TUM17386	Shewanella	10
