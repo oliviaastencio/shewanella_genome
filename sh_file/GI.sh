@@ -46,6 +46,8 @@ if [ "$1" == "result" ]; then
 ##Query the status of already submitted genomes. Job_token is a job ID, the number where upload de file. I'ts not the same to my token ID or HTTP API Token
 ##curl https://www.pathogenomics.sfu.ca/islandviewer/rest/job/job_token/ -H 'X-authtoken:your_authentication_token'
 	output=$genome_analysis_path/genomic_island/Island_Viewer4_results
+	HTTP_API_token="b344dbd6-9cf9-720b-c8b4-7b6723104ba8" 
+	
 
 	rm -r $output/file_scv
 	mkdir -p $output/file_scv

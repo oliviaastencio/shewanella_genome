@@ -62,8 +62,8 @@ export PATH=$script_path:$PATH
 export PATH=$script_path'/scripts_Tarsynflow:'$PATH
 export PATH=$sh_file_path:$PATH
 
-genome_analysis_path=$SCRATCH/genome_analysis
-transposon_analysis_path=$SCRATCH/transposon_result
+genome_analysis_path=$FSCRATCH/genome_analysis
+transposon_analysis_path=$FSCRATCH/transposon_result
 
 if [ "$1" == "down" ]; then  ######LISTO
 
@@ -74,10 +74,10 @@ if [ "$1" == "ab1_clean" ]; then    ######LISTO
 	ab1_clean.sh $data_path
 fi
 
-if [ "$1" == "char" ]; then   ######LISTO pendiente pyani
+if [ "$1" == "char" ]; then   ######LISTO 
 	. ~soft_bio_267/initializes/init_autoflow  
 
-	 rm -r  $genome_analysis_path/char/pyani_0000 $data_path/total_genomes $data_path/all_genome_list # $genome_analysis_path/char/dfast_0000 $genome_analysis_path/char/Sibelia_0000 
+	 rm -r  $data_path/total_genomes $data_path/all_genome_list $genome_analysis_path/char/dfast_0000 $genome_analysis_path/char/Sibelia_0000 $genome_analysis_path/char/blastn_0000 $genome_analysis_path/char/pyani_0000
 	 mkdir -p $data_path/total_genomes 
 	 mkdir -p $genome_analysis_path/char
 	
@@ -109,12 +109,12 @@ fi
 ## TP FLOW
 ##################################
 
-if [ "$1" == "protein_db" ]; then  ######LISTO
+if [ "$1" == "protein_db" ]; then  ###LISTO
 
-	protein_db.sh  $script_path $data_path $SCRATCH/genome_analysis "Shewanella"
+	protein_db.sh  $script_path $data_path $FSCRATCH/genome_analysis "Shewanella"
 fi 
 
-if [ "$1" == "tp_case" ]; then  ######LISTO
+if [ "$1" == "tp_case" ]; then  ###LISTO
 
 	. ~soft_bio_267/initializes/init_autoflow 
 
@@ -132,11 +132,11 @@ if [ "$1" == "tp_case" ]; then  ######LISTO
 			\\$prot_database=$data_path/tp_data
 			" | tr -d [:space:]`
 		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$genome $2
-	done < $data_path/all_genome_list #all_genome_list
+	done < $data_path/all_genome_list 
 
 fi 
 
-if [ "$1" == "tp_matrix" ]; then
+if [ "$1" == "tp_matrix" ]; then  ###LISTO
 
 	sbatch $sh_file_path/Tp_matrix.sh $data_path $genome_analysis_path $genome_analysis_path/transposon/executions $genome_analysis_path/transposon/results
 
@@ -146,7 +146,7 @@ fi
 ## TarSynFlow
 ##################################
 
-if [ "$1" == "genes" ]; then
+if [ "$1" == "genes" ]; then ###LISTO
 
 	output=$genome_analysis_path/genes_identification/Tarsynflow
 
@@ -157,23 +157,23 @@ if [ "$1" == "genes" ]; then
 
 fi
 
-if [ "$1" == "genes_comps" ]; then
+if [ "$1" == "genes_comps" ]; then  ###LISTO
 
 	make_all_comps.sh $data_path $script_path $genome_analysis_path $template_path
 
 fi
 
-if [ "$1" == "genes_results_protein" ]; then
+if [ "$1" == "genes_results_protein" ]; then ###LISTO
 
-	sbatch $sh_file_path/get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_protein
+	get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_protein # sbatch $sh_file_path/
 fi 
 
-if [ "$1" == "genes_results_annotation" ]; then
+if [ "$1" == "genes_results_annotation" ]; then ##PENDIENTE
 
 	get_all_results.sh $genome_analysis_path/genes_identification/Tarsynflow/results $data_path $genome_analysis_path/genes_identification/Tarsynflow/comps  $script_path get_annotations
 fi  
 
-if [ "$1" == "seqs" ]; then
+if [ "$1" == "seqs" ]; then ##PENDIENTE
 
 	extract_seqs.sh "$genome_analysis_path/genes_identification/Tarsynflow/comps/Shewanella_Pdp11.fasta/"`head -n 1 data/gen_refs`"/procompart_0000/coord_table_with_strand" $data_path/genomes_problem $genome_analysis_path/genes_identification/Tarsynflow $data_path $script_path 
 	
@@ -184,17 +184,17 @@ fi
 ##################################
 
 
-if [ "$1"  == "GI_up" ]; then 
+if [ "$1"  == "GI_up" ]; then ###LISTO
 
 	GI.sh UP $data_path  $genome_analysis_path
 fi 
 
-if [ "$1" == "GI_result" ]; then ###PENDIENTE
+if [ "$1" == "GI_result" ]; then ###LISTO
 
 	GI.sh result $data_path  $genome_analysis_path
 fi 
 
-if [ "$1" == "GI_clean" ]; then ###PENDIENTE
+if [ "$1" == "GI_clean" ]; then ###LISTO
 
 	sbatch $sh_file_path/GI.sh clean $data_path  $genome_analysis_path  
 	
@@ -203,7 +203,7 @@ fi
 ##################################
 ## Prophage by PHASTEST
 ##################################
-if [ "$1" == "phage_visorter" ]; then 
+if [ "$1" == "phage_visorter" ]; then   ###LISTO
 
 	sbatch $sh_file_path/phage.sh $data_path $genome_analysis_path
 fi 

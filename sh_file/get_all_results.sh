@@ -15,12 +15,38 @@
 
 
 function get_annotations { #$1 => protein_list $2 => min_count
-	prot_list=`awk '{
-	if ($2 >= '$2')
-		print $0;
-	}' $1'_freq_proteins' | cut -f 1 | sed 's/$/+OR+/g' | tr -d "\n" |sed 's/+OR+$//g'`
-	wget "https://rest.uniprot.org/uniprotkb/stream?=true&fields=accession,length,gene_names,reviewed,protein_name,ec,organism_name,go&format=tsv&query=accession:$prot_list" -O $1'_specific_filtered_annotated_prots'
+	prot_list=$(awk -v threshold="$2" '{ if ($2 >= threshold) print $1 }' "${1}_freq_proteins" | paste -sd "," -)
+
+	if [ -z "$prot_list" ]; then
+    echo "No se encontraron proteínas con el umbral especificado."
+    exit 1
+	fi
+
+	echo "Iniciando mapeo en UniProt..."
+
+# POST y obtener jobId
+	job_id=$(curl -s --request POST 'https://rest.uniprot.org/idmapping/run' \
+           --form "ids=$prot_list" \
+           --form 'from=UniProtKB_AC-ID' \
+           --form 'to="UniProtKB"' | jq -r '.jobId')
+
+	echo "Job ID generado: $job_id"
+
+# wait job finished
+	status=""
+	echo "Esperando a que termine el mapeo..."
+	while [ "$status" != "FINISHED" ]; do
+   	 	sleep 60  # esperar 3 segundos antes de chequear
+    	status=$(curl -s "https://rest.uniprot.org/idmapping/status/$job_id" | jq -r '.jobStatus')
+    	echo "Estado del trabajo: $status"
+	done
+
+# download TSV results
+	curl -s "https://rest.uniprot.org/idmapping/uniprotkb/results/stream/$job_id?fields=accession%2Creviewed%2Cid%2Cprotein_name%2Cgene_names%2Corganism_name%2Clength&format=tsv" -o $1'_specific_filtered_annotated_prots'
+	echo "$1'_specific_filtered_annotated_prots' generado con éxito."
 } 
+
+
 
 function get_filtered_list { #$1 => protein_list $2 => min_count $3 => output list
         awk '{

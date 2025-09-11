@@ -4,13 +4,13 @@
 	while read -r ab1_file
 	do 
 		?
-		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'_1.fasta' -db $data_path/16S_NCBI/16S_db -outfmt "7 std slen qlen qcovhsp stitle" > blast_16S/'blast_'$ab1_file
+		blastn -query $data_path/16S_file'/'$ab1_file'/'$ab1_file'.fasta' -db $data_path/16S_NCBI/16S_db -outfmt "7 std slen qlen qcovhsp stitle" > blast_16S/'blast_'$ab1_file
 	done < $ab1_name
 }
 
 genome_anotation_dfast){
 
-	module load dfast_core/1.2.18 
+	module load dfast_core/1.3.6 
 	module load ruby/2.4.1
 
 	mkdir -p genome_annotation/results_dfast_parser
