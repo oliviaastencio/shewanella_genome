@@ -6,7 +6,7 @@
   "description": "16S_ribosomal_RNA.fasta",
   "number-of-letters": 179696,
   "number-of-sequences": 123,
-  "last-updated": "2025-02-04T23:07:00",
+  "last-updated": "2025-09-05T21:24:00",
   "number-of-volumes": 1,
   "bytes-total": 125853,
   "bytes-to-cache": 47499,
