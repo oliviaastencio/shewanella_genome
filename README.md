@@ -30,10 +30,15 @@ project/
 # 🛠 Requirements
 
 Bash (Linux/macOS)
+
 Ruby ≥ 2.4.1
+
 Python 3.7+ (required for PCA and AutoFlow integration)
+
 AutoFlow
+
 BLAST+ (≥ 2.15.0)
+
 Genome files in FASTA format
 
 Optional: Circos for visualization
