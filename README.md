@@ -1,4 +1,4 @@
-#Shewanella Genome Analysis Pipeline 🧬
+# Shewanella Genome Analysis Pipeline 🧬
 
 [![Bash Script](https://img.shields.io/badge/bash-script-blue?logo=gnu-bash)](https://www.gnu.org/software/bash/)
 [![VirSorter2](https://img.shields.io/badge/VirSorter2-ready-success)](https://github.com/jiarong/VirSorter2)
@@ -8,23 +8,17 @@
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
 
-🚀 Features
+# 🚀 Features
 
-Automatic download of complete genomes and plasmids from NCBI.
+1- Automatic download of complete genomes and plasmids from NCBI.
+2- Gene identification and functional annotation using TarSynFlow.
+3- Transposon analysis and matrix generation.
+4- Detection and analysis of genomic islands.
+5- Prophage detection using PHASTEST.
+6- PCA analysis for genomic features.
+7- Fully automated HTML report generation.
 
-Gene identification and functional annotation using TarSynFlow.
-
-Transposon analysis and matrix generation.
-
-Detection and analysis of genomic islands.
-
-Prophage detection using PHASTEST.
-
-PCA analysis for genomic features.
-
-Fully automated HTML report generation.
-
-📂 Repository Structure
+# 📂 Repository Structure
 project/
 ├── genome_daemon.sh      # Main bash script to run analyses
 ├── data/                 # Input data (RefSeq.tsv, genome files, etc.)
@@ -33,33 +27,24 @@ project/
 ├── templates/            # AutoFlow templates and report templates
 └── results/              # Folder where final results and reports are saved
 
-🛠 Requirements
+# 🛠 Requirements
 
 Bash (Linux/macOS)
-
 Ruby ≥ 2.4.1
-
 Python 3.7+ (required for PCA and AutoFlow integration)
-
 AutoFlow
-
 BLAST+ (≥ 2.15.0)
-
-sbatch / SLURM environment
-
-wget, unzip
-
 Genome files in FASTA format
 
 Optional: Circos for visualization
 
-⚡ Usage
+# ⚡ Usage
 
 Run the main script with a specific mode:
 
-bash genome_daemon.sh <mode>
+```bash genome_daemon.sh <mode>```
 
-Modes
+# Usage
 Mode	Description
 down	Download and separate genomes and plasmids from NCBI.
 ab1_clean	Clean AB1 sequencing files.
