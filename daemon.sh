@@ -208,19 +208,57 @@ if [ "$1" == "phage_visorter" ]; then   ###LISTO
 	sbatch $sh_file_path/phage.sh $data_path $genome_analysis_path
 fi 
 
+########################################
+############Results
+########################################
+
 if [ "$1" == "results" ]; then  
 	
  	results.sh $data_path $results_path $genome_analysis_path Shewanella Shewanella_putrefaciens_ATCC_8071 Shewanella_baltica_OS678_OS678
 fi 
-## REPORTING
-####################################
-# /mnt/home/users/pab_001_uma/pedro/html_reporting/template
+
+########################################
+############PCA analysis
+########################################
+
+if [ "$1" == "PCA" ]; then 
+	
+	source ~soft_bio_267/initializes/init_python
+	source_path=/mnt/home/users/pab_001_uma/oliastencio/micro_lab3/Pdp11_genome_analysis/shewanella_genome/results/integration
+
+	mkdir -p $data_path/mfa/all
+	mkdir -p $data_path/mfa/filter
+
+	transpose_table  -i $source_path/GI_Functions -o $data_path/mfa/all/GI_Functions
+	transpose_table  -i $source_path/Whole_Genome_Functions -o $data_path/mfa/all/Whole_Genome_Functions
+	cp  $source_path/Relative_Mobilome_Number $data_path/mfa/all/Relative_Mobilome_Number
+
+	sbatch $sh_file_path/mfa_analysis_all.sh $data_path/mfa/all mfa
+fi 
+
+if [ "$1" == "PCA_filter" ]; then 
+
+mkdir -p /mnt/home/users/pab_001_uma/oliastencio/micro_lab3/Pdp11_genome_analysis/shewanella_genome/data/mfa/filter
+awk -F'\t' 'NR==1 || ($23 != 4 )' results/mfa/PCA_results/mfa_hcpc.txt | cut -f 24| grep -v "samples" > eliminar.tsv
+
+grep -vFf eliminar.tsv $data_path/mfa/all/GI_Functions > $data_path/mfa/filter/GI_Functions
+grep -vFf eliminar.tsv $data_path/mfa/all/Whole_Genome_Functions > $data_path/mfa/filter/Whole_Genome_Functions
+grep -vFf eliminar.tsv $data_path/mfa/all/Relative_Mobilome_Number > $data_path/mfa/filter/Relative_Mobilome_Number
+
+rm eliminar.tsv
+
+source ~soft_bio_267/initializes/init_python
+source_path=/mnt/home/users/pab_001_uma/oliastencio/micro_lab3/Pdp11_genome_analysis/shewanella_genome/results/integration
+sbatch $sh_file_path/mfa_analysis_all.sh $data_path/mfa/filter mfa_2
+
+fi
+
+########################################
+############REPORT
+########################################
+
 if [ "$1" == "report" ]; then 
 	. ~soft_bio_267/initializes/init_ruby
-	
-	########################################
-	############REPORT
-	########################################
 	
 	paths=`echo -e "
 		$results_path/report_img/blast_16,
@@ -244,3 +282,4 @@ if [ "$1" == "report" ]; then
 	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
 	
 fi
+

@@ -113,6 +113,17 @@ merge_tabular.rb $genome_analysis_path/transposon/executions/"$genus"_"$strain1"
 tp_parser.rb $genome_analysis_path/transposon/results/tab_interrupt_names $results_path/Tp_interrupt
 tp_parser.rb $genome_analysis_path/transposon/results/tab_transposase_names $results_path/Tp_transposase
 
+#####################################################
+######TP_interrupted ID rename ######################
+#####################################################
+
+#####we make a .tsv file
+source ~soft_bio_267/initializes/init_python
+python script/conver_fasta_tsv.py $data_path/tp_data/total_prots.fasta
+
+#### The protein IDs were changed to their respective functions. Since several proteins can have the same function, the second awk grouped them by function.  
+awk 'BEGIN{FS="[ \t]+";OFS="\t"} NR==FNR{map[$2]=$4;next} {$1=($1 in map?map[$1]:$1); print}' $data_path/tp_data/total_prots.tsv $genome_analysis_path/transposon/results/tab_interrupt_names | awk -F'\t' 'NR==1{print; next} {f=$1; for(i=2;i<=NF;i++) a[f,i]+=$i; funcs[f]=1; n=NF} END{for(f in funcs){printf f; for(i=2;i<=n;i++) printf "\t%s", a[f,i]+0; print ""}}' > $results_path/Tp_interrupt_name #$data_path/tp_data/total_prots.tsv $results_path/Tp_interrupt
+
 
 #################################################################
 ######### Genomic Island COG categories enrichment (absolute) ####
@@ -128,6 +139,8 @@ for tab in "${table[@]}"; do
   rm "$path/${tab}_name" "$path/${tab}_value" "$path/enrichment_GI"
 done
 
+
+
 ######################################################################################################################################################
 ######### Heading level 2: Genomic Island, Prophage and Transposon, COG annotation, GI enrichment, interrupted and transposed protein #######################
 ######################################################################################################################################################
@@ -137,7 +150,7 @@ for f in Tp_absolute Tp_relative; do
   sed 's/.fasta//g' "$genome_analysis_path/transposon/results/$f" > "$genome_analysis_path/transposon/$f"
 done
 
-tables=(Total_phage Total_phage_relative Total_GI Total_GI_relative Tp_absolute Tp_relative Total_cog_table Total_cog_table_relative enrichment_GI_category enrichment_GI_category_relative Tp_interrupt Tp_transposase)
+tables=(Total_phage Total_phage_relative Total_GI Total_GI_relative Tp_absolute Tp_relative Total_cog_table Total_cog_table_relative enrichment_GI_category enrichment_GI_category_relative Tp_interrupt Tp_interrupt_name Tp_transposase)
 strain_pdp=("${genus}_sp._${strain1}")
 strain_sh=("${genus}_sp._${strain7}" "${genus}_sp._${strain8}" "${genus}_sp._${strain4}" "${genus}_sp._${strain5}" "${genus}_sp._${strain6}")
 strain_sdm=("${genus}_sp._${strain2}" "${genus}_sp._${strain3}")
@@ -167,7 +180,7 @@ for tab in "${tables[@]}"; do
 
     grep -v number "$input" > "$results_path/${tab}_data"
     merge_tabular.rb "$results_path/number" "$results_path/${tab}_data" > "$results_path/${tab}_all"
-    cat "$results_path/${tab}_all" | grep -v "${genus} strains" | sed 's/ /_/g' | eval "$sed_command_all" | sort -k3,3g -n | eval "$awk_cmd"  > "$results_path/report_img/report_${tab}"  # 
+    cat "$results_path/${tab}_all" | grep -v "${genus} strains" | sed 's/ /_/g' | eval "$sed_command_all" | sort -k3,3g -n | eval "$awk_cmd" | sed s'/ /_/g' | awk '$3 > 0' | sed s'/_/ /g' > "$results_path/report_img/report_${tab}"  # 
     { echo -e "${genus}\t strains\t number"; cat "$results_path/report_img/report_${tab}"; } | sed 's/_/ /g' > temp && mv temp "$results_path/report_img/report_${tab}"  
     rm "$results_path/${tab}_name" "$results_path/number" "$results_path/${tab}_data" "$results_path/${tab}_all"
 
@@ -199,9 +212,9 @@ grep -v 'Entry' $genome_analysis_path/genes_identification/Tarsynflow/results/Re
 
 mkdir -p $results_path/integration
 
-merge_tabular.rb $results_path/Tp_relative $results_path/Total_GI_relative $results_path/Total_phage_relative | grep -v "Shewanella strains" > $results_path/Tp_GI_phage
-sed -i -e '1s/^/Shewanella strains\tTP number\tGI number\tPhage number\n/' $results_path/Tp_GI_phage
-ln -s $results_path/Tp_GI_phage $results_path/integration
-ln -s $results_path/Total_cog_table_relative $results_path/integration
-ln -s $results_path/enrichment_GI_category_relative $results_path/integration
-
+merge_tabular.rb $results_path/Tp_relative $results_path/Total_GI_relative $results_path/Total_phage_relative | eval "$awk_cmd" | grep -v "number"| sort -u > $results_path/integration/Relative_Mobilome_Number  
+sed -i -e '1s/^/Shewanella strains\tTP number\tGI number\tPhage number\n/' $results_path/integration/Relative_Mobilome_Number
+grep -v "Shewanella" $results_path/report_img/report_Total_cog_table_relative | cut -f 1-117,119-138 > $results_path/integration/Whole_Genome_Functions 
+grep -v "Shewanella" $results_path/report_img/report_enrichment_GI_category_relative  | cut -f 1-117,119-138 > $results_path/integration/GI_Functions
+#ln -s $results_path/Tp_interrupt_name $results_path/integration
+grep -v "Shewanella" $results_path/report_img/report_Tp_interrupt_name | cut -f 1-117,119-138 > $results_path/integration/Tp-interrupted_proteins

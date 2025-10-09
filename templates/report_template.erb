@@ -173,8 +173,33 @@
 		'varLabelScaleFontFactor' => 1, 
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
-	}) 
+	}) do |table|
+
+  num_cols = table[0].size
+  to_delete_cols = []
+
+  (1...num_cols).each do |col_idx|  
+    values = table[1..-1].map do |row|
+      begin
+        Float(row[col_idx])
+      rescue
+        nil
+      end
+    end.compact
+
+    next if values.empty?  
+    mean = values.sum / values.size
+
+    to_delete_cols << col_idx if mean < 1
+  end
+
+  to_delete_cols.reverse_each do |col_idx|
+    table.each { |row| row.delete_at(col_idx) }
+  end
+end
+
 %>
+
 </div>
 </div>
 
@@ -199,7 +224,8 @@
 			'smpOverlays' => ["strains"],
 			'colorBy' => " strains"
 		}) 
-%>
+%> 
+
 
 <%=
 	table(id: 'Tp_Pdp11', text: true, header: true, row_names: false, styled: 'dt', attrib: {'class' => 'table'}) do |table|
@@ -217,7 +243,6 @@
 			'sortData' => [["cat", "var", "strains"]]
 	}) do |table|
 
-  # Eliminar filas con max < 0.9
   to_delete = []
   table.each_with_index do |row, i|
     if i > 0
@@ -227,14 +252,12 @@
   end
   to_delete.reverse_each { |idx| table.delete_at(idx) }
 
-  # Eliminar columnas donde todos los valores son 0
   col_to_delete = []
-  (1...table[0].size).each do |col_idx|  # Recorremos las columnas (saltando la primera si es un header)
+  (1...table[0].size).each do |col_idx|  
     all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
     col_to_delete << col_idx if all_zeros
   end
 
-  # Eliminar las columnas marcadas
   table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
 end
 
@@ -297,7 +320,31 @@ end
 			'varLabelScaleFontFactor' => 1, 
 			'varOverlays' => ["strains"],
 			'sortData' => [["cat", "var", "strains"]]
-		}) 
+		}) do |table|
+
+  num_cols = table[0].size
+  to_delete_cols = []
+
+  (1...num_cols).each do |col_idx|  
+    values = table[1..-1].map do |row|
+      begin
+        Float(row[col_idx])
+      rescue
+        nil
+      end
+    end.compact
+
+    next if values.empty?  
+    mean = values.sum / values.size
+
+    to_delete_cols << col_idx if mean < 5
+  end
+
+  to_delete_cols.reverse_each do |col_idx|
+    table.each { |row| row.delete_at(col_idx) }
+  end
+end
+
 %>
 
 </div>
