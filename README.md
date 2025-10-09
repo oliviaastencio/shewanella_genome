@@ -1,4 +1,7 @@
-##Shewanella Genome Analysis Pipeline 🧬
+#Shewanella Genome Analysis Pipeline 🧬
+
+[![Bash Script](https://img.shields.io/badge/bash-script-blue?logo=gnu-bash)](https://www.gnu.org/software/bash/)
+[![VirSorter2](https://img.shields.io/badge/VirSorter2-ready-success)](https://github.com/jiarong/VirSorter2)
 
 
 
