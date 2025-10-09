@@ -1,4 +1,4 @@
-Shewanella Genome Analysis Pipeline 🧬
+##Shewanella Genome Analysis Pipeline 🧬
 
 
 
