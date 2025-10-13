@@ -93,7 +93,7 @@ Filter PCA results.
 Generate final HTML report with figures.
 
 Example Workflow
-# 1️⃣ Download genomes
+## 1️⃣ Download genomes
 bash genome_daemon.sh down
 
 # 2️⃣ Clean AB1 sequencing files
@@ -106,7 +106,7 @@ bash genome_daemon.sh char
 bash genome_daemon.sh genes
 bash genome_daemon.sh genes_comps
 
-# 5️⃣ Analyze transposons
+## 5️⃣ Analyze transposons
 bash genome_daemon.sh tp_case
 bash genome_daemon.sh tp_matrix
 
