@@ -92,17 +92,17 @@ Filter PCA results.
 ## report	
 Generate final HTML report with figures.
 
-Example Workflow
-## 1️⃣ Download genomes
+# Example Workflow
+### 1️⃣ Download genomes
 bash genome_daemon.sh down
 
-# 2️⃣ Clean AB1 sequencing files
+## 2️⃣ Clean AB1 sequencing files
 bash genome_daemon.sh ab1_clean
 
-# 3️⃣ Perform genome characterization and 16S analysis
+## 3️⃣ Perform genome characterization and 16S analysis
 bash genome_daemon.sh char
 
-# 4️⃣ Identify genes and compare across genomes
+## 4️⃣ Identify genes and compare across genomes
 bash genome_daemon.sh genes
 bash genome_daemon.sh genes_comps
 
@@ -110,12 +110,12 @@ bash genome_daemon.sh genes_comps
 bash genome_daemon.sh tp_case
 bash genome_daemon.sh tp_matrix
 
-# 6️⃣ Detect genomic islands and prophages
+## 6️⃣ Detect genomic islands and prophages
 bash genome_daemon.sh GI_up
 bash genome_daemon.sh GI_result
 bash genome_daemon.sh phage_visorter
 
-# 7️⃣ Integrate results and generate report
+## 7️⃣ Integrate results and generate report
 bash genome_daemon.sh results
 bash genome_daemon.sh report
 
