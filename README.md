@@ -15,7 +15,7 @@
 [![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)
 [![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)
 [![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
-[![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)  
+[![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)
 [![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/)
 [![ISEScan](https://img.shields.io/badge/ISEScan-transposase--detection-green)](https://github.com/xiezhq/ISEScan)
 [![CD-HIT](https://img.shields.io/badge/CD--HIT-clustering-lightblue)](http://weizhongli-lab.org/cd-hit/)
