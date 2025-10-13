@@ -50,7 +50,7 @@ Optional: Circos for visualization
 
 Run the main script with a specific mode:
 
-```bash genome_daemon.sh <mode>```
+`bash genome_daemon.sh <mode>`
 
 # Usage
 Mode	Description
