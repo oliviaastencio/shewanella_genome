@@ -31,6 +31,7 @@ This repository provides bash scripts for automated genome analysis of Shewanell
 
 # 📂 Repository Structure
 project/
+
 ├── genome_daemon.sh      # Main bash script to run analyses
 
 ├── data/                 # Input data (RefSeq.tsv, genome files, etc.)
@@ -67,6 +68,20 @@ Run the main script with a specific mode:
 
 ## Mode	Description
 ### 🧩 down	
+This module automatically retrieves complete Shewanella genomes and plasmids from the NCBI RefSeq database.
+It requires an input file named RefSeq.tsv located in the data/ directory.
+
+The file can be obtained directly from the NCBI Datasets portal using the following link:
+🔗 NCBI Datasets – Shewanella genomes (RefSeq, complete and annotated)
+
+This table contains metadata for each genome to be downloaded, including:
+- Organism name
+- Taxonomic ID
+- Assembly accession (GCF/GCA)
+- Strain name
+- FTP download path
+- 
+During execution, the script reads the RefSeq.tsv file, downloads each listed genome and plasmid from NCBI, and organizes them into structured directories for downstream analysis.
 Download and separate genomes and plasmids from NCBI.
 ### 🧩 ab1_clean	
 Clean AB1 sequencing files.
