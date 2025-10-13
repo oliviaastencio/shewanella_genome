@@ -15,6 +15,9 @@
 [![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)
 [![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)
 [![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
+[![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)  
+[![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/) 
+
 
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
@@ -90,7 +93,7 @@ This table contains metadata for each genome to be downloaded, including:
 During execution, the script reads the RefSeq.tsv file, downloads each listed genome and plasmid from NCBI, and organizes them into structured directories for downstream analysis.
 Download and separate genomes and plasmids from NCBI.
 
-### 🧩 ab1_clean--Clean AB1 sequencing files.
+### 🧩 ab1_clean -- Clean AB1 sequencing files.
 This module processes raw **AB1 Sanger sequencing files** to generate high-quality FASTQ and FASTA sequences suitable for downstream 16S or genomic analyses.
 
 **Required inputs:**
@@ -113,7 +116,7 @@ This module processes raw **AB1 Sanger sequencing files** to generate high-quali
 [![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)  
 [![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
-### 🧩 char--Reassign genomes using 16S, ANI, and annotation comparison.
+### 🧩 char -- Reassign genomes using 16S, ANI, and annotation comparison.
 This module performs a comprehensive characterization of genomes, including:
 
 1. **16S rRNA BLAST** comparison against the NCBI 16S database  
@@ -139,8 +142,27 @@ This module performs a comprehensive characterization of genomes, including:
 [![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)  
 [![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
 
-### 🧩 protein_db	
-Build a protein database for transposon analysis.
+### 🧩 protein_db	-- Build a protein database for transposon analysis.
+This module constructs a custom protein database from UniProt for Shewanella genomes.
+The database is later used for transposon identification and analysis in subsequent modules (tp_case and tp_matrix).
+
+**Required Inputs:**
+
+$script_path → folder containing scripts like make_user_db.rb
+$data_path → project data folder
+$transposon_analysis_path → folder to store transposon analysis results
+keyword → UniProt search term (e.g., Shewanella)
+
+
+**Outputs:**
+
+$data_path/tp_data/total_prots.fasta → downloaded protein sequences
+$data_path/tp_data/local_database/ → local protein database ready for transposon analysis
+
+**Dependencies:**
+[![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)  
+[![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/) 
+
 ### 🧩 tp_case	
 Analyze transposons per genome.
 ### 🧩 tp_matrix	
