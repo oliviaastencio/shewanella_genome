@@ -52,74 +52,74 @@ Run the main script with a specific mode:
 
 `bash genome_daemon.sh <mode>`
 
-# Mode	Description
-## down	
+## Mode	Description
+### down	
 Download and separate genomes and plasmids from NCBI.
-## ab1_clean	
+### ab1_clean	
 Clean AB1 sequencing files.
-## char	
+### char	
 Reassign genomes using 16S, ANI, and annotation comparison.
-## protein_db	
+### protein_db	
 Build a protein database for transposon analysis.
-## tp_case	
+### tp_case	
 Analyze transposons per genome.
-## tp_matrix	
+### tp_matrix	
 Generate transposon matrices.
-## genes	
+### genes	
 Identify genes with TarSynFlow.
-## genes_comps	
+### genes_comps	
 Compare gene presence across genomes.
-## genes_results_protein
+### genes_results_protein
 Extract protein results.
-## genes_results_annotation	
+### genes_results_annotation	
 Extract annotation results.
-## seqs	
+### seqs	
 Extract specific sequences.
-## GI_up	
+### GI_up	
 Detect genomic islands.
-## GI_result	
+### GI_result	
 Summarize genomic island results.
-## GI_clean	
+### GI_clean	
 Clean genomic island outputs.
-## phage_visorter	
+### phage_visorter	
 Identify prophages with PHASTEST.
-## results
+### results
 Integrate all analysis results.
-## PCA	
+### PCA	
 Run PCA on genomic features.
-## PCA_filter	
+### PCA_filter	
 Filter PCA results.
-## report	
+### report	
 Generate final HTML report with figures.
 
 # Example Workflow
 ### 1️⃣ Download genomes
 bash genome_daemon.sh down
 
-## 2️⃣ Clean AB1 sequencing files
+### 2️⃣ Clean AB1 sequencing files
 bash genome_daemon.sh ab1_clean
 
-## 3️⃣ Perform genome characterization and 16S analysis
+### 3️⃣ Perform genome characterization and 16S analysis
 bash genome_daemon.sh char
 
-## 4️⃣ Identify genes and compare across genomes
+### 4️⃣ Identify genes and compare across genomes
 bash genome_daemon.sh genes
 bash genome_daemon.sh genes_comps
 
-## 5️⃣ Analyze transposons
+### 5️⃣ Analyze transposons
 bash genome_daemon.sh tp_case
 bash genome_daemon.sh tp_matrix
 
-## 6️⃣ Detect genomic islands and prophages
+### 6️⃣ Detect genomic islands and prophages
 bash genome_daemon.sh GI_up
 bash genome_daemon.sh GI_result
 bash genome_daemon.sh phage_visorter
 
-## 7️⃣ Integrate results and generate report
+### 7️⃣ Integrate results and generate report
 bash genome_daemon.sh results
 bash genome_daemon.sh report
 
-🔗 References
+# 🔗 References
 
 NCBI Datasets API
 
