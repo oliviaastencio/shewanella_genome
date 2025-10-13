@@ -359,18 +359,174 @@ tp_case/Total_tp → total number of transposons per genome
 [![jq](https://img.shields.io/badge/jq-json--parsing-lightblue)](https://stedolan.github.io/jq/)  
 [![Ruby](https://img.shields.io/badge/Ruby-scripting-red)](https://www.ruby-lang.org/)
 
-### 🧩 genes_results_annotation	
-Extract annotation results.
-### 🧩 seqs	
-Extract specific sequences.
-### 🧩 GI_up	
-Detect genomic islands.
-### 🧩 GI_result	
-Summarize genomic island results.
-### 🧩 GI_clean	
-Clean genomic island outputs.
-### 🧩 phage_visorter	
-Identify prophages with PHASTEST.
+### 🧩 genes_results_annotation	-- Extract annotation results.
+
+#### This module:
+
+- Retrieves functional annotations for proteins identified in the gene analysis workflow.
+- Filters proteins by frequency and maps them to UniProt entries to get:
+    - Protein names
+    - Gene names
+    - Organism
+    - Sequence length
+    - Reviewed/unreviewed status
+
+#### Workflow / Steps:
+
+1) Calls get_all_results.sh with get_annotations mode.
+2) Iterates over query and reference genomes.
+3) Filters proteins by a minimum occurrence threshold (min_count).
+4) Maps filtered proteins to UniProt via the REST API and waits for job completion.
+5) Generates annotated TSV files for each protein set.
+6) Produces matrices and visualizations (heatmaps) for genome–protein annotation relationships.
+
+**Required Inputs:**
+
+- $genome_analysis_path/genes_identification/Tarsynflow/results/ → gene annotation results
+- $data_path/ → project data folder (gen_queries and gen_refs)
+- $genome_analysis_path/genes_identification/Tarsynflow/comps/ → genome comparison outputs
+- $script_path/ → supporting scripts (pairs2matrix.rb, plot_heatmap.R)
+
+**Outputs:**
+
+- $output/Query_specific_filtered_annotated_prots → annotated query proteins
+- $output/Ref_specific_filtered_annotated_prots → annotated reference proteins
+- Filtered protein lists for shared and non-matching proteins
+- Matrices and heatmaps summarizing annotations
+
+**Dependencies / Software required:**
+
+[![AutoFlow](https://img.shields.io/badge/AutoFlow-genome--synteny-orange)](https://github.com/linlabcode/AutoFlow)  
+[![R](https://img.shields.io/badge/R-data--visualization-blue)](https://www.r-project.org/)  
+[![UniProt API](https://img.shields.io/badge/UniProt-annotations-purple)](https://www.uniprot.org/help/api)  
+[![jq](https://img.shields.io/badge/jq-json--parsing-lightblue)](https://stedolan.github.io/jq/)  
+[![Ruby](https://img.shields.io/badge/Ruby-scripting-red)](https://www.ruby-lang.org/)
+
+### 🧩 seqs	-- Extract specific sequences.
+
+#### This module:
+
+- Extracts specific genomic sequences based on gene/protein annotations.
+- Works on both query and reference genomes, using coordinate tables generated in the gene comparison workflow.
+- Adds flanking regions (150 bp) around each feature for downstream analyses.
+
+#### Workflow / Steps:
+
+1) Prepare output folder: $output/extracted_seqs.
+2) Generate lists of query-specific and reference-specific proteins from filtered annotation results (Query_specific_filtered_annotated_prots and Ref_specific_filtered_annotated_prots).
+3) Extract the corresponding coordinates from the coordinate tables (coord_table_with_strand).
+4) Use get_seqs.rb to retrieve sequences from genome FASTA files, including 150 bp flanking regions.
+5) Repeat for each reference genome listed in $data/gen_refs.
+6) Output is organized per genome and per query/reference type.
+
+**Required Inputs:**
+
+- $coord_table → coordinates for query genome sequences
+- $genome_path → folder with genome FASTA files
+- $output → results folder for extracted sequences
+- $data → project data folder (gen_refs)
+- $script_path → supporting scripts (get_seqs.rb)
+
+**Outputs:**
+
+- Query sequences: $output/extracted_seqs/seqs_query.fasta
+- Reference sequences: $output/extracted_seqs/seqs_ref_<REF>.fasta
+- Coordinate tables used for extraction: $output/extracted_seqs/seqs_coords_*.txt
+- Lists of protein IDs used: $output/extracted_seqs/seqs_list_*.txt and $output/extracted_seqs/seqs_*.lst
+
+**Dependencies / Software required:**
+
+[![Ruby](https://img.shields.io/badge/Ruby-scripting-red)](https://www.ruby-lang.org/)  
+[![get_seqs.rb](https://img.shields.io/badge/get__seqs.rb-sequence--extraction-lightgrey)](path_to_scripts)  
+
+### 🧩 GI_up -- Detect genomic islands.
+
+This module uploads annotated genome files (GenBank format) to IslandViewer4 for genomic island prediction. For each genome, it generates a job token that can later be used to download the results.
+
+**Required Inputs:**
+
+- $data_path/ref_genome_GI → list of reference genomes and accession numbers
+- $genome_analysis_path/char/dfast_0000/genome_annotation/<genome>_file/genome.gbk → annotated genome files
+
+**Outputs:**
+
+- $genome_analysis_path/genomic_island/Island_Viewer4_results/<genome>_submit → submission response
+- $genome_analysis_path/genomic_island/Island_Viewer4_results/<genome>_jobtoken → job tokens for each genome
+
+ **Dependencies / Software required:** 
+[![curl](https://img.shields.io/badge/curl-command--line--tool-blue)](https://curl.se/)
+
+### 🧩 GI_result -- Summarize genomic island results.
+
+This module downloads the results of Genomic Island predictions from Island Viewer 4 for all submitted genomes. Using previously obtained job tokens, it queries the Island Viewer REST API and saves the CSV files containing genomic island coordinates and annotations.
+
+**Required Inputs:**
+
+- $data_path/all_genome_list → list of genomes to download
+- Job tokens from the GI_up module
+- $genome_analysis_path/genomic_island/Island_Viewer4_results/ → submission results folder
+
+**Outputs:**
+
+- $genome_analysis_path/genomic_island/Island_Viewer4_results/file_scv/<genome>.csv → raw CSV results per genome
+  
+**Dependencies / Software required:** 
+
+[![curl](https://img.shields.io/badge/curl-command--line--tool-blue)](https://curl.se/)
+
+### 🧩 GI_clean -- Clean genomic island outputs.
+
+This module processes the raw Genomic Island (GI) results downloaded from IslandViewer4. It performs:
+
+1) Cleaning GI data
+
+- Filters and formats GI tables (_Integrated, _LOCUS)
+- Counts total GI regions per genome
+- Generates GI locus lists for further analysis
+
+2) Enrichment analysis
+
+- Calculates relative GI sizes using genome length
+- Creates LOCUS lists for COG categories
+- Performs functional enrichment using clusters_to_enrichment.R
+- Generates relative enrichment tables per genome
+- Cleans temporary or intermediate files
+
+**Required Inputs:**
+
+- $genome_analysis_path/genomic_island/Island_Viewer4_results/file_scv/ → raw GI CSV files
+- $data_path/COG_categories → list of COG categories
+- $genome_analysis_path/char/dfast_0000/genome_annotation/results_dfast_parser/<genome>/length → genome lengths
+
+**Outputs:**
+
+- $genome_analysis_path/genomic_island/genomic_island_results/<genome>/* → cleaned GI tables, locus lists, and enrichment tables
+- Merged tables across all genomes: enrichment_GI_category, enrichment_GI_category_relative, Total_GI, Total_GI_relative
+
+**Dependencies / Software required:** 
+
+[![R](https://img.shields.io/badge/R-statistics--environment-blue)](https://www.r-project.org/)
+[![Ruby](https://img.shields.io/badge/Ruby-scripting-red)](https://www.ruby-lang.org/)
+
+### 🧩 phage_visorter -- Identify prophages with PHASTEST.
+
+This module identifies and quantifies prophages in all genomes using VirSorter. For each genome, it calculates the total number of prophages and generates both absolute and relative counts based on genome length.
+
+**Required Inputs:**
+
+- $data_path/total_genomes/*.fasta → genomes to analyze
+- $data_path/all_genome_list → list of genome filenames
+- 
+**Outputs:**
+
+- Per-genome prophage counts: prophage/<genome>/final_number, final_number_tab
+- Absolute and relative prophage counts: final_number_absolute, final_number_relative
+- Total across all genomes: prophage/Total_phage, Total_phage_relative
+
+**Dependencies / Software required:** 
+
+[![VirSorter](https://img.shields.io/badge/VirSorter-prophage--detection-purple)](https://github.com/simroux/VirSorter)
+
 ### 🧩 results
 Integrate all analysis results.
 ### 🧩 PCA	
