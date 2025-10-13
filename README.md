@@ -72,7 +72,7 @@ This module automatically retrieves complete Shewanella genomes and plasmids fro
 It requires an input file named RefSeq.tsv located in the data/ directory.
 
 The file can be obtained directly from the NCBI Datasets portal using the following link:
-🔗 NCBI Datasets – Shewanella genomes (RefSeq, complete and annotated)
+🔗 NCBI Datasets – Shewanella genomes (https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=22&annotated_only=true&refseq_annotation=true&assembly_level=2:3)
 
 This table contains metadata for each genome to be downloaded, including:
 - Organism name
@@ -80,9 +80,10 @@ This table contains metadata for each genome to be downloaded, including:
 - Assembly accession (GCF/GCA)
 - Strain name
 - FTP download path
-- 
+  
 During execution, the script reads the RefSeq.tsv file, downloads each listed genome and plasmid from NCBI, and organizes them into structured directories for downstream analysis.
 Download and separate genomes and plasmids from NCBI.
+
 ### 🧩 ab1_clean	
 Clean AB1 sequencing files.
 ### 🧩 char	
