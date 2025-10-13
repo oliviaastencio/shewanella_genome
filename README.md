@@ -136,7 +136,8 @@ This module performs a comprehensive characterization of genomes, including:
 - Synteny analysis results and Circos plots  
 - ANI matrices and visualizations: `genome_pyani_anim/`  
 
-**Dependencies:**
+**Dependencies / Software required:**
+
 [![DFAST](https://img.shields.io/badge/DFAST-functional--annotation-brightgreen)](https://dfast.nig.ac.jp/)  
 [![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)  
 [![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)  
@@ -159,7 +160,8 @@ keyword → UniProt search term (e.g., Shewanella)
 $data_path/tp_data/total_prots.fasta → downloaded protein sequences
 $data_path/tp_data/local_database/ → local protein database ready for transposon analysis
 
-**Dependencies:**
+**Dependencies / Software required:**
+
 [![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)  
 [![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/) 
 
