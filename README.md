@@ -52,28 +52,45 @@ Run the main script with a specific mode:
 
 `bash genome_daemon.sh <mode>`
 
-# Usage
-Mode	Description
-## 1- down	
+# Mode	Description
+## down	
 Download and separate genomes and plasmids from NCBI.
-ab1_clean	Clean AB1 sequencing files.
-char	Reassign genomes using 16S, ANI, and annotation comparison.
-protein_db	Build a protein database for transposon analysis.
-tp_case	Analyze transposons per genome.
-tp_matrix	Generate transposon matrices.
-genes	Identify genes with TarSynFlow.
-genes_comps	Compare gene presence across genomes.
-genes_results_protein	Extract protein results.
-genes_results_annotation	Extract annotation results.
-seqs	Extract specific sequences.
-GI_up	Detect genomic islands.
-GI_result	Summarize genomic island results.
-GI_clean	Clean genomic island outputs.
-phage_visorter	Identify prophages with PHASTEST.
-results	Integrate all analysis results.
-PCA	Run PCA on genomic features.
-PCA_filter	Filter PCA results.
-report	Generate final HTML report with figures.
+## ab1_clean	
+Clean AB1 sequencing files.
+## char	
+Reassign genomes using 16S, ANI, and annotation comparison.
+## protein_db	
+Build a protein database for transposon analysis.
+## tp_case	
+Analyze transposons per genome.
+## tp_matrix	
+Generate transposon matrices.
+## genes	
+Identify genes with TarSynFlow.
+## genes_comps	
+Compare gene presence across genomes.
+## genes_results_protein
+Extract protein results.
+## genes_results_annotation	
+Extract annotation results.
+## seqs	
+Extract specific sequences.
+## GI_up	
+Detect genomic islands.
+## GI_result	
+Summarize genomic island results.
+## GI_clean	
+Clean genomic island outputs.
+## phage_visorter	
+Identify prophages with PHASTEST.
+## results
+Integrate all analysis results.
+## PCA	
+Run PCA on genomic features.
+## PCA_filter	
+Filter PCA results.
+## report	
+Generate final HTML report with figures.
 
 Example Workflow
 # 1️⃣ Download genomes
