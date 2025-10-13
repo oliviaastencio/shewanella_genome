@@ -11,9 +11,9 @@
 [![EMBOSS](https://img.shields.io/badge/EMBOSS-installed-blue)](http://emboss.open-bio.org/)
 [![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)
 [![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-[![DFAST](https://img.shields.io/badge/DFAST-functional--annotation-brightgreen)](https://dfast.nig.ac.jp/)  
-[![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)  
-[![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)  
+[![DFAST](https://img.shields.io/badge/DFAST-functional--annotation-brightgreen)](https://dfast.nig.ac.jp/)
+[![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)
+[![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)
 [![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
 
 
