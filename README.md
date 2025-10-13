@@ -54,7 +54,8 @@ Run the main script with a specific mode:
 
 # Usage
 Mode	Description
-down	Download and separate genomes and plasmids from NCBI.
+## 1- down	
+Download and separate genomes and plasmids from NCBI.
 ab1_clean	Clean AB1 sequencing files.
 char	Reassign genomes using 16S, ANI, and annotation comparison.
 protein_db	Build a protein database for transposon analysis.
