@@ -32,10 +32,15 @@ This repository provides bash scripts for automated genome analysis of Shewanell
 # 📂 Repository Structure
 project/
 ├── genome_daemon.sh      # Main bash script to run analyses
+
 ├── data/                 # Input data (RefSeq.tsv, genome files, etc.)
+
 ├── script/               # Scripts for genome parsing and analysis
+
 ├── sh_file/              # sbatch scripts for HPC execution
+
 ├── templates/            # AutoFlow templates and report templates
+
 └── results/              # Folder where final results and reports are saved
 
 # 🛠 Requirements
@@ -61,43 +66,43 @@ Run the main script with a specific mode:
 `bash genome_daemon.sh <mode>`
 
 ## Mode	Description
-### down	
+### 🧩 down	
 Download and separate genomes and plasmids from NCBI.
-### ab1_clean	
+### 🧩 ab1_clean	
 Clean AB1 sequencing files.
-### char	
+### 🧩 char	
 Reassign genomes using 16S, ANI, and annotation comparison.
-### protein_db	
+### 🧩 protein_db	
 Build a protein database for transposon analysis.
-### tp_case	
+### 🧩 tp_case	
 Analyze transposons per genome.
-### tp_matrix	
+### 🧩 tp_matrix	
 Generate transposon matrices.
-### genes	
+### 🧩 genes	
 Identify genes with TarSynFlow.
-### genes_comps	
+### 🧩 genes_comps	
 Compare gene presence across genomes.
-### genes_results_protein
+### 🧩 genes_results_protein
 Extract protein results.
-### genes_results_annotation	
+### 🧩 genes_results_annotation	
 Extract annotation results.
-### seqs	
+### 🧩 seqs	
 Extract specific sequences.
-### GI_up	
+### 🧩 GI_up	
 Detect genomic islands.
-### GI_result	
+### 🧩 GI_result	
 Summarize genomic island results.
-### GI_clean	
+### 🧩 GI_clean	
 Clean genomic island outputs.
-### phage_visorter	
+### 🧩 phage_visorter	
 Identify prophages with PHASTEST.
-### results
+### 🧩 results
 Integrate all analysis results.
-### PCA	
+### 🧩 PCA	
 Run PCA on genomic features.
-### PCA_filter	
+### 🧩 PCA_filter	
 Filter PCA results.
-### report	
+### 🧩 report	
 Generate final HTML report with figures.
 
 # Example Workflow
