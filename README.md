@@ -19,10 +19,10 @@
 [![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/)
 [![ISEScan](https://img.shields.io/badge/ISEScan-transposase--detection-green)](https://github.com/xiezhq/ISEScan)
 [![CD-HIT](https://img.shields.io/badge/CD--HIT-clustering-lightblue)](http://weizhongli-lab.org/cd-hit/)
-[![merge_tabular.rb](https://img.shields.io/badge/merge_tabular.rb-local--Ruby--script-blueviolet)]()
-[![R](https://img.shields.io/badge/R-data--visualization-blue)](https://www.r-project.org/)  
-[![UniProt API](https://img.shields.io/badge/UniProt-annotations-purple)](https://www.uniprot.org/help/api)  
-[![jq](https://img.shields.io/badge/jq-json--parsing-lightblue)](https://stedolan.github.io/jq/)  
+[![merge_tabular.rb](https://img.shields.io/badge/merge_tabular.rb-local--Ruby--script-blueviolet)]
+[![R](https://img.shields.io/badge/R-data--visualization-blue)](https://www.r-project.org/)
+[![UniProt API](https://img.shields.io/badge/UniProt-annotations-purple)](https://www.uniprot.org/help/api)
+[![jq](https://img.shields.io/badge/jq-json--parsing-lightblue)](https://stedolan.github.io/jq/)
 [![Ruby](https://img.shields.io/badge/Ruby-scripting-red)](https://www.ruby-lang.org/)
 
 
