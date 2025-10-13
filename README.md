@@ -8,7 +8,6 @@
 [![BLAST+](https://img.shields.io/badge/BLAST+-≥2.15.0-lightgrey?logo=ncbi)](https://blast.ncbi.nlm.nih.gov/)
 [![PHASTEST](https://img.shields.io/badge/PHASTEST-prophage--detection-success)](https://phastest.ca/)
 [![TarSynFlow](https://img.shields.io/badge/TarSynFlow-functional--annotation-brightgreen)](https://github.com/RouxLab/TarSynFlow)
-[![Circos](https://img.shields.io/badge/Circos-optional-lightblue)](http://circos.ca/)
 [![EMBOSS](https://img.shields.io/badge/EMBOSS-installed-blue)](http://emboss.open-bio.org/)
 [![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)
 [![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
