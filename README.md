@@ -16,9 +16,9 @@
 [![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)
 [![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
 [![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)  
-[![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/) 
-
-
+[![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/)
+[![ISEScan](https://img.shields.io/badge/ISEScan-transposase--detection-green)](https://github.com/xiezhq/ISEScan)
+[![CD-HIT](https://img.shields.io/badge/CD--HIT-clustering-lightblue)](http://weizhongli-lab.org/cd-hit/)  
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
 
@@ -144,20 +144,24 @@ This module performs a comprehensive characterization of genomes, including:
 [![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
 
 ### 🧩 protein_db	-- Build a protein database for transposon analysis.
-This module constructs a custom protein database from UniProt for Shewanella genomes.
-The database is later used for transposon identification and analysis in subsequent modules (tp_case and tp_matrix).
+
+This module constructs a custom protein database from UniProt for Shewanella genomes. The database is later used for transposon identification and analysis in subsequent modules (tp_case and tp_matrix).
 
 **Required Inputs:**
 
 $script_path → folder containing scripts like make_user_db.rb
+
 $data_path → project data folder
+
 $transposon_analysis_path → folder to store transposon analysis results
+
 keyword → UniProt search term (e.g., Shewanella)
 
 
 **Outputs:**
 
 $data_path/tp_data/total_prots.fasta → downloaded protein sequences
+
 $data_path/tp_data/local_database/ → local protein database ready for transposon analysis
 
 **Dependencies / Software required:**
@@ -165,8 +169,39 @@ $data_path/tp_data/local_database/ → local protein database ready for transpos
 [![curl](https://img.shields.io/badge/curl-download-orange)](https://curl.se/)  
 [![make_user_db.rb](https://img.shields.io/badge/make_user_db.rb-local_database-blueviolet)](https://github.com/) 
 
-### 🧩 tp_case	
-Analyze transposons per genome.
+### 🧩 tp_case -- Analyze transposons per genome.
+Purpose:
+
+Performs comprehensive transposon analysis for each genome using the protein database from protein_db.
+
+Identifies transposases, analyzes their genomic environment, filters candidates, and generates summary tables for downstream analysis.
+
+**Required Inputs:**
+
+$data_path/all_genome_list → list of genome FASTA files to analyze
+
+$data_path/total_genomes/ → genome FASTA files
+
+$data_path/tp_data/ → protein database from protein_db
+
+**Outputs:**
+
+$genome_analysis_path/transposon/executions/<genome>/ → per-genome transposon analysis results
+
+tp_case/ subfolders for each transposon, containing:
+
+- proteins.fasta → clustered protein sequences
+- tp.fasta → transposon sequences
+- blast_summary → BLASTX results
+- result_summary → final transposon summary table
+  
+tp_case/Total_tp → total number of transposons per genome
+
+**Dependencies / Software required:**
+
+[![ISEScan](https://img.shields.io/badge/ISEScan-transposase--detection-green)](https://github.com/xiezhq/ISEScan)  
+[![CD-HIT](https://img.shields.io/badge/CD--HIT-clustering-lightblue)](http://weizhongli-lab.org/cd-hit/)  
+
 ### 🧩 tp_matrix	
 Generate transposon matrices.
 ### 🧩 genes	
