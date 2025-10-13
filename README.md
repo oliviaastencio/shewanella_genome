@@ -9,6 +9,9 @@
 [![PHASTEST](https://img.shields.io/badge/PHASTEST-prophage--detection-success)](https://phastest.ca/)
 [![TarSynFlow](https://img.shields.io/badge/TarSynFlow-functional--annotation-brightgreen)](https://github.com/RouxLab/TarSynFlow)
 [![Circos](https://img.shields.io/badge/Circos-optional-lightblue)](http://circos.ca/)
+[![EMBOSS](https://img.shields.io/badge/EMBOSS-installed-blue)](http://emboss.open-bio.org/)
+[![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)
+[![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
@@ -84,8 +87,29 @@ This table contains metadata for each genome to be downloaded, including:
 During execution, the script reads the RefSeq.tsv file, downloads each listed genome and plasmid from NCBI, and organizes them into structured directories for downstream analysis.
 Download and separate genomes and plasmids from NCBI.
 
-### 🧩 ab1_clean	
-Clean AB1 sequencing files.
+### 🧩 ab1_clean--Clean AB1 sequencing files.
+This module processes raw **AB1 Sanger sequencing files** to generate high-quality FASTQ and FASTA sequences suitable for downstream 16S or genomic analyses.
+
+**Required inputs:**
+1. `$data_path/ab1/` — folder containing `.ab1` files (one per sample).  
+2. `$data_path/ab1_name` — plain text file listing AB1 filenames without extension
+   **Workflow steps:**
+- Convert AB1 → FASTQ → FASTA using **EMBOSS seqret**  
+- Perform quality trimming with **BBDuk** (`qtrim=rl`, `trimq=20`)  
+- Generate FASTA files with proper headers  
+- Run **FastQC** to create quality control reports in an `analysis/` folder
+
+**Outputs:**
+- Cleaned FASTQ: `$data_path/16S_file/<sample>/<sample>clean.fastq`  
+- FASTA: `$data_path/16S_file/<sample>/<sample>.fasta`  
+- FastQC reports: `$data_path/16S_file/<sample>/analysis/`
+
+**Dependencies / Software required:**
+
+[![EMBOSS](https://img.shields.io/badge/EMBOSS-installed-blue)](http://emboss.open-bio.org/)  
+[![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)  
+[![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+
 ### 🧩 char	
 Reassign genomes using 16S, ANI, and annotation comparison.
 ### 🧩 protein_db	
