@@ -3,19 +3,22 @@
 [![Bash Script](https://img.shields.io/badge/bash-script-blue?logo=gnu-bash)](https://www.gnu.org/software/bash/)
 [![VirSorter2](https://img.shields.io/badge/VirSorter2-ready-success)](https://github.com/jiarong/VirSorter2)
 
-
-
-
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
 
 # 🚀 Features
 
 1- Automatic download of complete genomes and plasmids from NCBI.
+
 2- Gene identification and functional annotation using TarSynFlow.
+
 3- Transposon analysis and matrix generation.
+
 4- Detection and analysis of genomic islands.
+
 5- Prophage detection using PHASTEST.
+
 6- PCA analysis for genomic features.
+
 7- Fully automated HTML report generation.
 
 # 📂 Repository Structure
