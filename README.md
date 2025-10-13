@@ -12,6 +12,10 @@
 [![EMBOSS](https://img.shields.io/badge/EMBOSS-installed-blue)](http://emboss.open-bio.org/)
 [![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)
 [![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+[![DFAST](https://img.shields.io/badge/DFAST-functional--annotation-brightgreen)](https://dfast.nig.ac.jp/)  
+[![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)  
+[![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)  
+[![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
 
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
@@ -110,8 +114,32 @@ This module processes raw **AB1 Sanger sequencing files** to generate high-quali
 [![BBMap](https://img.shields.io/badge/BBMap-installed-lightgrey)](https://sourceforge.net/projects/bbmap/)  
 [![FastQC](https://img.shields.io/badge/FastQC-installed-green)](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
-### 🧩 char	
-Reassign genomes using 16S, ANI, and annotation comparison.
+### 🧩 char--Reassign genomes using 16S, ANI, and annotation comparison.
+This module performs a comprehensive characterization of genomes, including:
+
+1. **16S rRNA BLAST** comparison against the NCBI 16S database  
+2. **Genome annotation** using DFAST (CDS, genome length, COG/TIGR counts)  
+3. **Synteny analysis** with Sibelia and Circos visualization  
+4. **Average Nucleotide Identity (ANI)** calculation using pyANI
+
+**Required Inputs:**
+- `$data_path/total_genomes/*.fasta` → genomes to analyze  
+- `$data_path/genomes_problem/*.fasta` → any problematic genomes  
+- `$data_path/16S_file/` → 16S sequences  
+- `$data_path/16S_NCBI/16S_ribosomal_RNA.fasta` → 16S reference database  
+
+**Outputs:**
+- 16S BLAST results: `blast_16S/blast_<sample>`  
+- Annotated genomes and DFAST parser tables: `genome_annotation/results_dfast_parser/`  
+- Synteny analysis results and Circos plots  
+- ANI matrices and visualizations: `genome_pyani_anim/`  
+
+**Dependencies:**
+[![DFAST](https://img.shields.io/badge/DFAST-functional--annotation-brightgreen)](https://dfast.nig.ac.jp/)  
+[![Sibelia](https://img.shields.io/badge/Sibelia-genome--synteny-lightblue)](https://github.com/medvedevgroup/Sibelia)  
+[![Circos](https://img.shields.io/badge/Circos-visualization-purple)](http://circos.ca/)  
+[![pyANI](https://img.shields.io/badge/pyANI-ANI--calculation-yellow)](https://github.com/widdowquinn/pyani)
+
 ### 🧩 protein_db	
 Build a protein database for transposon analysis.
 ### 🧩 tp_case	
