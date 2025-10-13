@@ -104,19 +104,24 @@ bash genome_daemon.sh char
 
 ### 4️⃣ Identify genes and compare across genomes
 bash genome_daemon.sh genes
+
 bash genome_daemon.sh genes_comps
 
 ### 5️⃣ Analyze transposons
 bash genome_daemon.sh tp_case
+
 bash genome_daemon.sh tp_matrix
 
 ### 6️⃣ Detect genomic islands and prophages
 bash genome_daemon.sh GI_up
+
 bash genome_daemon.sh GI_result
+
 bash genome_daemon.sh phage_visorter
 
 ### 7️⃣ Integrate results and generate report
 bash genome_daemon.sh results
+
 bash genome_daemon.sh report
 
 # 🔗 References
