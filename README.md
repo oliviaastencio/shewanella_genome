@@ -2,6 +2,14 @@
 
 [![Bash Script](https://img.shields.io/badge/bash-script-blue?logo=gnu-bash)](https://www.gnu.org/software/bash/)
 [![VirSorter2](https://img.shields.io/badge/VirSorter2-ready-success)](https://github.com/jiarong/VirSorter2)
+[![Ruby](https://img.shields.io/badge/Ruby-%E2%89%A52.4.1-red?logo=ruby)](https://www.ruby-lang.org/)
+[![Python](https://img.shields.io/badge/Python-%E2%89%A53.7-blue?logo=python)](https://www.python.org/)
+[![AutoFlow](https://img.shields.io/badge/AutoFlow-integrated-orange)](https://github.com/linlabcode/AutoFlow)
+[![BLAST+](https://img.shields.io/badge/BLAST+-≥2.15.0-lightgrey?logo=ncbi)](https://blast.ncbi.nlm.nih.gov/)
+[![PHASTEST](https://img.shields.io/badge/PHASTEST-prophage--detection-success)](https://phastest.ca/)
+[![TarSynFlow](https://img.shields.io/badge/TarSynFlow-functional--annotation-brightgreen)](https://github.com/RouxLab/TarSynFlow)
+[![Circos](https://img.shields.io/badge/Circos-optional-lightblue)](http://circos.ca/)
+
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
 
