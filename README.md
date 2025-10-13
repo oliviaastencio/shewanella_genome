@@ -24,6 +24,9 @@
 [![UniProt API](https://img.shields.io/badge/UniProt-annotations-purple)](https://www.uniprot.org/help/api)
 [![jq](https://img.shields.io/badge/jq-json--parsing-lightblue)](https://stedolan.github.io/jq/)
 [![Ruby](https://img.shields.io/badge/Ruby-scripting-red)](https://www.ruby-lang.org/)
+[![Python](https://img.shields.io/badge/Python-script-blue)]
+[![transpose_table](https://img.shields.io/badge/transpose_table-tool-lightgrey)]
+[![Slurm](https://img.shields.io/badge/Slurm-job_scheduler-orange)]
 
 
 This repository provides bash scripts for automated genome analysis of Shewanella and related bacteria. It integrates genome download, gene identification, transposon analysis, genomic islands, prophage detection, PCA analysis, and report generation.
@@ -527,14 +530,162 @@ This module identifies and quantifies prophages in all genomes using VirSorter. 
 
 [![VirSorter](https://img.shields.io/badge/VirSorter-prophage--detection-purple)](https://github.com/simroux/VirSorter)
 
-### 🧩 results
-Integrate all analysis results.
-### 🧩 PCA	
-Run PCA on genomic features.
-### 🧩 PCA_filter	
-Filter PCA results.
-### 🧩 report	
-Generate final HTML report with figures.
+### 🧩 results -- Integrate all analysis results.
+The results module centralizes and compiles the final outputs from the genomic workflow. It integrates multiple analyses, including 16S rRNA BLAST, whole-genome comparisons, synteny visualization, gene annotation, mobile elements detection (transposons and prophages), and genomic island enrichment. The module standardizes strain and gene names and generates visualization-ready tables and figures.
+
+### Workflow Steps:
+
+1) Directory Setup:
+Cleans and creates the results_path and report_img directories for organized outputs.
+
+2) Strain Name Standardization:
+Reformats genome and strain identifiers for consistent visualization. Replaces uncultured or incomplete labels with standardized names.
+
+3) 16S rRNA BLAST Processing:
+Filters hits by identity and coverage thresholds and prepares tables for downstream comparison.
+
+4) Whole Genome Comparison:
+Processes pyANI results for identity and coverage matrices, selects reference genomes for synteny analysis, and extracts Sibelia synteny images for the highest-identity genome pairs.
+
+5) Genome Annotation and Functional Analysis:
+Processes DFAST outputs, generating COG functional annotation tables and genomic island enrichment data.
+
+6) Mobile Element Analysis:
+Handles transposons and prophages. Aggregates absolute and relative counts, identifies interrupted proteins, and generates unified tables for comparison across strains.
+
+7) Integration and Report Generation:
+Combines Genomic Islands, prophages, and transposons into integrated tables. Generates strain-specific and functional summary tables in integration/ and visualization-ready outputs in report_img/.
+
+**Required Inputs:**
+
+- Genome sequences
+- DFAST annotation results
+- Transposon and prophage analysis results
+- Genomic island enrichment results
+- pyANI and Sibelia synteny outputs
+- External Dependencies:
+
+#### Notes:
+
+- Outputs are standardized for cross-strain comparison.
+- Produces both absolute counts and normalized percentages for mobile elements and genomic islands.
+- Visualization-ready tables and figures are generated for reporting or downstream analysis.
+  
+### 🧩 PCA -- Run PCA on genomic features.
+
+The PCA module performs a principal component analysis (PCA) on genomic features for all strains. It consolidates genomic feature tables, transposes them for proper input formatting, and runs a multivariate analysis workflow to identify patterns of similarity or divergence among strains.
+
+#### Workflow Steps:
+
+1) Data Preparation:
+
+- Collects integrated genomic features from previous modules:
+- GI_Functions – COG functions of genomic islands
+- Whole_Genome_Functions – COG functions across the whole genome
+- Relative_Mobilome_Number – counts of transposons, genomic islands, and prophages
+- Transposes tables to have strains as rows and features as columns.
+
+2) Analysis Execution:
+
+- Submits the preprocessed tables to the PCA workflow via mfa_analysis_all.sh.
+- PCA is run to identify major axes of variation and relationships among strains.
+
+3) Visualization and Interpretation:
+   
+- Produces PCA plots for visual comparison of strains.
+- Can help highlight clustering based on genomic content or mobile element patterns.
+
+**Required Inputs:**
+
+- GI_Functions
+- Whole_Genome_Functions
+- Relative_Mobilome_Number
+
+**Dependencies / Software required:** 
+
+[![Python](https://img.shields.io/badge/Python-script-blue)]
+[![transpose_table](https://img.shields.io/badge/transpose_table-tool-lightgrey)]
+[![Slurm](https://img.shields.io/badge/Slurm-job_scheduler-orange)]
+
+#### Notes:
+
+- Tables are preprocessed and transposed for PCA.
+- Output includes both PCA scores and plots for strain comparison.
+  
+### 🧩 PCA_filter -- Filter and run PCA on genomic features
+
+The PCA_filter module performs filtering of genomic features based on clustering results and prepares the dataset for PCA (Principal Component Analysis) or MFA (Multiple Factor Analysis). This step ensures that only relevant samples and features are included in the downstream analysis.
+
+#### Workflow
+
+1) Filtering Samples
+
+- Reads the clustering results from results/mfa/PCA_results/mfa_hcpc.txt.
+- Removes samples assigned to cluster 4 ($23 != 4).
+- Creates a list of samples to exclude (eliminar.tsv).
+
+2) Filtering Features
+
+- Removes the excluded samples from the following datasets:
+    - GI_Functions
+    - Whole_Genome_Functions
+    - Relative_Mobilome_Number
+- Stores filtered datasets in $data_path/mfa/filter.
+
+3) Run PCA/MFA
+
+- Sources Python environment (~soft_bio_267/initializes/init_python).
+- Submits mfa_analysis_all.sh using sbatch on the filtered datasets.
+
+**Dependencies / Software required:** 
+
+[![Python](https://img.shields.io/badge/Python-script-blue)]
+[![transpose_table](https://img.shields.io/badge/transpose_table-tool-lightgrey)]
+[![Slurm](https://img.shields.io/badge/Slurm-job_scheduler-orange)]
+
+### 🧩 report -- Generate final HTML report with figures.
+
+This module generates a comprehensive genome analysis report in HTML format using the report_html Ruby tool and the template report_template.erb. The report integrates all the results produced by previous modules, visualizing the genomic features, annotations, and comparisons of Shewanella strains.
+
+#### Functionality
+
+1) Input data:
+
+- Precomputed results from previous modules:
+    - 16S RNA BLAST results
+    - Complete genome annotation (DFAST)
+    - Pyani genome comparisons (ANI and coverage)
+    - Synteny blocks (Sibelia)
+    - Transposon identification (Tp)
+    - Genomic islands (GIs) and enrichment analysis
+    - Prophage identification
+    - Tarsynflow-specific gene analysis for probiotic/pathogenic strains
+
+2) Report structure:
+
+- Header: Project title and general experiment description.
+- 16S RNA Analysis: Table of top 16S RNA hits.
+- Genome Comparisons:
+    - Pyani heatmaps (identity and coverage)
+    - Sibelia synteny block visualizations
+    - Custom comparisons between reference genomes and target strains
+- Genome Annotation:
+    - Heatmaps for COG functional categories (absolute and relative values)
+- Transposon Analysis:
+  - Absolute and relative TE counts
+  - Heatmaps for transposases and interrupted proteins
+- Genomic Islands:
+  - Total GIs per strain
+  - GI functional enrichment (absolute and relative)
+- Prophage Analysis:
+  - Total and relative counts per strain
+- Pathogenic vs Probiotic Comparison:
+  - Table of specific genes identified by Tarsynflow
+
+3) Output:
+
+- HTML report located at: $results_path/project_report
+- Embedded heatmaps, barplots, and tables for interactive exploration.
 
 # Example Workflow
 ### 1️⃣ Download genomes
@@ -570,8 +721,13 @@ bash genome_daemon.sh report
 
 # 🔗 References
 
-NCBI Datasets API
-
-PHASTEST
-
-Roux et al., 2021. TarSynFlow: Genome-wide gene and mobile element analysis.
+- **NCBI Datasets API** – For downloading and managing genomic datasets.  
+- **PHASTEST** – For prophage identification in bacterial genomes.  
+- **Roux et al., 2021** – *TarSynFlow: Genome-wide gene and mobile element analysis*.  
+- **DFAST** – Genome annotation and COG functional assignment.  
+- **Pyani** – Average Nucleotide Identity (ANI) calculations for genome comparisons. [https://github.com/widdowquinn/pyani](https://github.com/widdowquinn/pyani)  
+- **Sibelia** – Synteny block identification for genome structure comparisons.  
+- **ISEScan** – Detection of transposable elements. [https://github.com/xiezhq/ISEScan](https://github.com/xiezhq/ISEScan)  
+- **IslandViewer4** – Genomic island identification. [https://www.pathogenomics.sfu.ca/islandviewer/](https://www.pathogenomics.sfu.ca/islandviewer/)  
+- **ExpHunterSuite** – Functional enrichment analysis for genomic islands. [https://github.com/seoanezonjic/ExpHunterSuite](https://github.com/seoanezonjic/ExpHunterSuite)  
+- **VirSorter2** – Prophage detection in bacterial genomes. [https://github.com/jiarong/VirSorter2](https://github.com/jiarong/VirSorter2)  
