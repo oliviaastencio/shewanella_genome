@@ -206,7 +206,13 @@ end
 <div style="width:90%; background-color:#e9f9e9; margin:0 auto;">
     <h1 style="text-align:center; background-color:#bbecbb"> Transposon </h1>
 
-<p> The transposable elements (TEs) analized was performed using a custom workflow with ISEScan (https://github.com/xiezhq/ISEScan) and Tp finder. The results include the number of TEs identified in each genome (left bar plot), the standardized number of TEs relative to the number of coding sequences (CDS) (right bar plot), and the repeated TEs within each genome (Table). Additionally, the presence or absence of disrupted proteins (left heatmap) and transposases (right heatmap) in each genome was determined and represented by a binary matrix (0 and 1). The analysis identified the presence of TEs in 101 strains (more than 70% of the strains of this genus). </p>
+<p> The analysis of transposable elements (TEs) was performed using a custom workflow integrating ISEScan (https://github.com/xiezhq/ISEScan) and Tp Finder. The results include the total number of TEs identified in each genome (left bar chart), the number of TEs normalized to the total number of coding sequences (CDSs) (right bar chart), and the number of repeated TEs per genome (Table).
+
+Additionally, the presence or absence of altered proteins (left heatmap) and transposases (right heatmap) was assessed for each genome, as well as specifically for strains harboring more than 9 TEs and for those containing between 2 and 9 TEs. These data are represented as a binary matrix (0 and 1), indicating absence or presence, respectively.
+
+The analysis detected TEs in 101 strains, representing more than 70% of the strains within this genus.
+
+</p>
 
 <div style="overflow: hidden">
 
@@ -235,7 +241,7 @@ end
 
 <%=
 	heatmap(id: 'report_Tp_interrupt', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Interrupted protein", height: 600, config:{
-			'samplesClustered' => false,
+			'samplesClustered' => true,
 			'varLabelRotate'=> 45, 
 			'smpLabelScaleFontFactor' => 1, 
 			'varLabelScaleFontFactor' => 1, 
@@ -265,15 +271,154 @@ end
 
 <%=
 	heatmap(id: 'report_Tp_transposase', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Transposable protein", height: 600, config:{
-		'samplesClustered' => false,
+		'samplesClustered' => true,
 		'varLabelRotate'=> 45, 
 		'smpLabelScaleFontFactor' => 1, 
 		'varLabelScaleFontFactor' => 1, 
 		'varOverlays' => ["strains"],
 		'sortData' => [["cat", "var", "strains"]]
-	}) 
+	}) do |table|
+
+  to_delete = []
+  table.each_with_index do |row, i|
+    if i > 0
+      max = row[1..-1].max
+      to_delete << i if max < 0.9
+    end
+  end
+  to_delete.reverse_each { |idx| table.delete_at(idx) }
+
+  col_to_delete = []
+  (1...table[0].size).each do |col_idx|  
+    all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
+    col_to_delete << col_idx if all_zeros
+  end
+
+  table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
+end
+
 %>
-</div>
+
+<%=
+	heatmap(id: 'report_Tp_interrupt_filtred', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Interrupted protein from strains harboring more than 9 transposons", height: 600, config:{
+			'samplesClustered' => true,
+			'varLabelRotate'=> 45, 
+			'smpLabelScaleFontFactor' => 1, 
+			'varLabelScaleFontFactor' => 1, 
+			'varOverlays' => ["strains"],
+			'sortData' => [["cat", "var", "strains"]]
+	}) do |table|
+
+  to_delete = []
+  table.each_with_index do |row, i|
+    if i > 0
+      max = row[1..-1].max
+      to_delete << i if max < 0.9
+    end
+  end
+  to_delete.reverse_each { |idx| table.delete_at(idx) }
+
+  col_to_delete = []
+  (1...table[0].size).each do |col_idx|  
+    all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
+    col_to_delete << col_idx if all_zeros
+  end
+
+  table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
+end
+
+%>
+
+<%=
+	heatmap(id: 'report_Tp_transposase_filtred', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Transposable protein from Strains Harboring More Than 9 Transposons", height: 600, config:{
+		'samplesClustered' => true,
+		'varLabelRotate'=> 45, 
+		'smpLabelScaleFontFactor' => 1, 
+		'varLabelScaleFontFactor' => 1, 
+		'varOverlays' => ["strains"],
+		'sortData' => [["cat", "var", "strains"]]
+	}) do |table|
+
+  to_delete = []
+  table.each_with_index do |row, i|
+    if i > 0
+      max = row[1..-1].max
+      to_delete << i if max < 0.9
+    end
+  end
+  to_delete.reverse_each { |idx| table.delete_at(idx) }
+
+  col_to_delete = []
+  (1...table[0].size).each do |col_idx|  
+    all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
+    col_to_delete << col_idx if all_zeros
+  end
+
+  table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
+end
+	
+%>
+
+<%=
+	heatmap(id: 'report_Tp_interrupt_filtred_2', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Interrupted protein from Strains Harboring Between 2 and 9 Transposons", height: 600, config:{
+			'samplesClustered' => true,
+			'varLabelRotate'=> 45, 
+			'smpLabelScaleFontFactor' => 1, 
+			'varLabelScaleFontFactor' => 1, 
+			'varOverlays' => ["strains"],
+			'sortData' => [["cat", "var", "strains"]]
+	}) do |table|
+
+  to_delete = []
+  table.each_with_index do |row, i|
+    if i > 0
+      max = row[1..-1].max
+      to_delete << i if max < 0.9
+    end
+  end
+  to_delete.reverse_each { |idx| table.delete_at(idx) }
+
+  col_to_delete = []
+  (1...table[0].size).each do |col_idx|  
+    all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
+    col_to_delete << col_idx if all_zeros
+  end
+
+  table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
+end
+
+%>
+
+<%=
+	heatmap(id: 'report_Tp_transposase_filtred_2', transpose: true, header: true, var_attr:[1], row_names: true, x_label: 'number',  title: "Transposable protein from Strains Harboring Between 2 and 9 Transposons", height: 600, config:{
+		'samplesClustered' => true,
+		'varLabelRotate'=> 45, 
+		'smpLabelScaleFontFactor' => 1, 
+		'varLabelScaleFontFactor' => 1, 
+		'varOverlays' => ["strains"],
+		'sortData' => [["cat", "var", "strains"]]
+	})  do |table|
+
+  to_delete = []
+  table.each_with_index do |row, i|
+    if i > 0
+      max = row[1..-1].max
+      to_delete << i if max < 0.9
+    end
+  end
+  to_delete.reverse_each { |idx| table.delete_at(idx) }
+
+  col_to_delete = []
+  (1...table[0].size).each do |col_idx|  
+    all_zeros = table[1..-1].all? { |row| row[col_idx] == 0 }
+    col_to_delete << col_idx if all_zeros
+  end
+
+  table.each { |row| col_to_delete.reverse_each { |col_idx| row.delete_at(col_idx) } }
+end
+
+%>
+
 </div>
 
 <div style="width:90%; background-color:#ffe9ea; margin:0 auto;">
@@ -314,7 +459,7 @@ end
 
 <%=
 	heatmap(id: 'report_enrichment_GI_category_relative', transpose:true, header: true, var_attr:[1], row_names: true, x_label: 'GIs (%)',  title: "Functional enrichment", width: 600, height: 400, config:{
-			'variablesClustered' => true,
+			'variablesClustered' => false,
 			'varLabelRotate'=> 45, 
 			'smpLabelScaleFontFactor' => 1, 
 			'varLabelScaleFontFactor' => 1, 

@@ -5,9 +5,10 @@
 ##################################################
 data_path=$1
 
-source ~soft_bio_267/initializes/init_emboss
-module load bbmap/38.50b
+#source ~soft_bio_267/initializes/init_emboss
 module load fastqc/0.11.9
+module load emboss/6.6.0  ## quitar
+module load bbmap/38.50b
 
 rm -r $data_path/16S_file
 mkdir -p $data_path/16S_file

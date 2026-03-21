@@ -8,6 +8,8 @@ rm -r $results_path
 mkdir -p $results_path
 mkdir -p $results_path/report_img
 
+module load ruby/2.7.2
+
 ########################################################
 ####data clean##########################################
 genus=$4
@@ -118,7 +120,8 @@ tp_parser.rb $genome_analysis_path/transposon/results/tab_transposase_names $res
 #####################################################
 
 #####we make a .tsv file
-source ~soft_bio_267/initializes/init_python
+#source ~soft_bio_267/initializes/init_python
+module load python/3.14.3
 python script/conver_fasta_tsv.py $data_path/tp_data/total_prots.fasta
 
 #### The protein IDs were changed to their respective functions. Since several proteins can have the same function, the second awk grouped them by function.  
@@ -198,6 +201,26 @@ for tab in "${tables[@]}"; do
   fi
 done
 
+######################################################################################################################################################
+######### subset: interrupted and transposed protein #######################
+######################################################################################################################################################
+
+##### interrupted an transposable protein from Strains Harboring More Than 9 Transposons
+cat $results_path/report_img/report_Tp_absolute | sed s'/ /_/g' | awk -F'\t' '$3>8 {print $1}' > $results_path/strain_Tp_filtre.txt
+cat $results_path/report_img/report_Tp_interrupt | sed s'/ /_/g' > $results_path/Tp_interrupt_filtre
+cat $results_path/report_img/report_Tp_transposase | sed s'/ /_/g' > $results_path/Tp_transposase_filtre
+awk 'NR==FNR{c[$1]; next} FNR==1{for(i=1;i<=NF;i++) if(i==1 || $i in c) col[i]} {k=0; for(i=1;i<=NF;i++) if(i in col){k++; printf "%s%s",$i,(k==length(col)?ORS:FS)}}' $results_path/strain_Tp_filtre.txt $results_path/Tp_interrupt_filtre | awk 'NR==1 {print; next} {all_zero=1; for(i=2;i<=NF;i++) if($i!=0) all_zero=0; if(!all_zero) print}' | tr ' ' '\t' | tr '_' ' ' > $results_path/report_img/report_Tp_interrupt_filtred
+awk 'NR==FNR{c[$1]; next} FNR==1{for(i=1;i<=NF;i++) if(i==1 || $i in c) col[i]} {k=0; for(i=1;i<=NF;i++) if(i in col){k++; printf "%s%s",$i,(k==length(col)?ORS:FS)}}' $results_path/strain_Tp_filtre.txt $results_path/Tp_transposase_filtre | awk 'NR==1 {print; next} {all_zero=1; for(i=2;i<=NF;i++) if($i!=0) all_zero=0; if(!all_zero) print}' | tr ' ' '\t' | tr '_' ' ' > $results_path/report_img/report_Tp_transposase_filtred
+rm $results_path/strain_Tp_filtre.txt $results_path/Tp_transposase_filtre $results_path/Tp_interrupt_filtre
+
+
+#### Interrupted protein from Strains Harboring Between 2 and 9 Transposons
+cat $results_path/report_img/report_Tp_absolute | sed s'/ /_/g' | awk -F'\t' '$3 >= 2 && $3 <= 9 {print $1}' > $results_path/strain_Tp_filtre.txt
+cat $results_path/report_img/report_Tp_interrupt | sed s'/ /_/g' > $results_path/Tp_interrupt_filtre
+cat $results_path/report_img/report_Tp_transposase | sed s'/ /_/g' > $results_path/Tp_transposase_filtre
+awk 'NR==FNR{c[$1]; next} FNR==1{for(i=1;i<=NF;i++) if(i==1 || $i in c) col[i]} {k=0; for(i=1;i<=NF;i++) if(i in col){k++; printf "%s%s",$i,(k==length(col)?ORS:FS)}}' $results_path/strain_Tp_filtre.txt $results_path/Tp_interrupt_filtre | awk 'NR==1 {print; next} {all_zero=1; for(i=2;i<=NF;i++) if($i!=0) all_zero=0; if(!all_zero) print}' | tr ' ' '\t' | tr '_' ' ' > $results_path/report_img/report_Tp_interrupt_filtred_2
+awk 'NR==FNR{c[$1]; next} FNR==1{for(i=1;i<=NF;i++) if(i==1 || $i in c) col[i]} {k=0; for(i=1;i<=NF;i++) if(i in col){k++; printf "%s%s",$i,(k==length(col)?ORS:FS)}}' $results_path/strain_Tp_filtre.txt $results_path/Tp_transposase_filtre | awk 'NR==1 {print; next} {all_zero=1; for(i=2;i<=NF;i++) if($i!=0) all_zero=0; if(!all_zero) print}' | tr ' ' '\t' | tr '_' ' ' > $results_path/report_img/report_Tp_transposase_filtred_2
+rm $results_path/strain_Tp_filtre.txt $results_path/Tp_transposase_filtre $results_path/Tp_interrupt_filtre
 
 ############################################
 ######### Tarsynflow #######################
@@ -218,3 +241,9 @@ grep -v "Shewanella" $results_path/report_img/report_Total_cog_table_relative | 
 grep -v "Shewanella" $results_path/report_img/report_enrichment_GI_category_relative  | cut -f 1-117,119-138 > $results_path/integration/GI_Functions
 #ln -s $results_path/Tp_interrupt_name $results_path/integration
 grep -v "Shewanella" $results_path/report_img/report_Tp_interrupt_name | cut -f 1-117,119-138 > $results_path/integration/Tp-interrupted_proteins
+
+#### count all interrupted protein 
+
+cat $results_path/Tp_interrupt | tr ' ' '_' | awk 'NR==1{for(i=2;i<=NF;i++)h[i]=$i} NR>2{c=0;l=""; for(i=2;i<=NF;i++){if($i==1){c++; l=(l==""?h[i]:l";"h[i])}}; print $1,c,l}' | sort -k 2 -n -r > $results_path/Tp_interrupt_all 
+
+
