@@ -6,13 +6,17 @@
 #SBATCH --error=job.%J.err
 #SBATCH --output=job.%J.out
 
-
+##################################################
+######necessary files
+##################################################
+##### data file (ab1_name--> rename file; RefSeq.tsv --> NCBI genome list to download; COG_categories_all--> COG categories; genome_name --> list of problem strains; gen_queries --> Tarsynflow querie; gen_refs --> Tarsynflow reference; ref_genome_GI--> reference list for GI)
+##### data folder (16S_NCBI/ --> 16S file from NCBI; ab1/ --> ab1 file of our problem strains; genomes_problem/ --> our problem strains FASTA File)
 ##################################################
 ######Complete genomes database
 #################################################
 function genomes_database {
 	output=$1
-	module load ruby/2.4.1 
+	module load ruby/2.7.2
 	rm -r $output/genomes_down
 	mkdir -p $output/genomes_down/sequence_download
 
@@ -75,7 +79,12 @@ if [ "$1" == "ab1_clean" ]; then    ######LISTO
 fi
 
 if [ "$1" == "char" ]; then   ######LISTO 
-	. ~soft_bio_267/initializes/init_autoflow  
+
+	 . ~soft_bio_267/initializes/init_autoflow
+	 # module load ruby/2.7.2
+	 # module load graphviz/2.49.2
+	 # module load autoflow/last 
+
 
 	 rm -r  $data_path/total_genomes $data_path/all_genome_list $genome_analysis_path/char/dfast_0000 $genome_analysis_path/char/Sibelia_0000 $genome_analysis_path/char/blastn_0000 $genome_analysis_path/char/pyani_0000
 	 mkdir -p $data_path/total_genomes 
@@ -195,7 +204,7 @@ if [ "$1" == "GI_result" ]; then ###LISTO
 fi 
 
 if [ "$1" == "GI_clean" ]; then ###LISTO
-
+	cut -f 1 $data_path/COG_categories_all > $data_path/COG_categories
 	sbatch $sh_file_path/GI.sh clean $data_path  $genome_analysis_path  
 	
 fi 
@@ -259,7 +268,7 @@ fi
 
 if [ "$1" == "report" ]; then 
 	. ~soft_bio_267/initializes/init_ruby
-	
+	module load ruby/2.7.2
 	paths=`echo -e "
 		$results_path/report_img/blast_16,
 		$results_path/report_img/report_Total_cog_table, 
@@ -271,6 +280,10 @@ if [ "$1" == "report" ]; then
 		$results_path/report_img/Tp_Pdp11,
 		$results_path/report_img/report_Tp_interrupt,
 		$results_path/report_img/report_Tp_transposase,
+		$results_path/report_img/report_Tp_interrupt_filtred,
+		$results_path/report_img/report_Tp_transposase_filtred,
+		$results_path/report_img/report_Tp_interrupt_filtred_2,
+		$results_path/report_img/report_Tp_transposase_filtred_2,
 		$results_path/report_img/specific_genes,
 		$results_path/report_img/report_Total_GI,
 		$results_path/report_img/report_Total_GI_relative,
@@ -278,8 +291,7 @@ if [ "$1" == "report" ]; then
 		$results_path/report_img/report_enrichment_GI_category_relative,
 		$results_path/report_img/report_Total_phage,
 		$results_path/report_img/report_Total_phage_relative
-		" | tr -d [:space:]`
-	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report
-	
+		" | tr -d [:space:] `
+	report_html -t $template_path/report_template.erb -d $paths -o $results_path/project_report  
 fi
 
