@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
-#SBATCH --time=1-00:00:00
+#SBATCH --time=4-00:00:00
 #SBATCH --constraint=cal
 #SBATCH --error=job.%J.err
 #SBATCH --output=job.%J.out
@@ -80,23 +80,19 @@ fi
 
 if [ "$1" == "char" ]; then   ######LISTO 
 
-	 . ~soft_bio_267/initializes/init_autoflow
-	 # module load ruby/2.7.2
-	 # module load graphviz/2.49.2
-	 # module load autoflow/last 
+	. ~soft_bio_267/initializes/init_python
 
-
-	 rm -r  $data_path/total_genomes $data_path/all_genome_list $genome_analysis_path/char/dfast_0000 $genome_analysis_path/char/Sibelia_0000 $genome_analysis_path/char/blastn_0000 $genome_analysis_path/char/pyani_0000
-	 mkdir -p $data_path/total_genomes 
-	 mkdir -p $genome_analysis_path/char
+	rm -r  $data_path/total_genomes $data_path/all_genome_list $genome_analysis_path/
+	mkdir -p $data_path/total_genomes 
+	mkdir -p $genome_analysis_path/char
 	
-	 ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
-	 ln -s $data_path/genomes_down/genomes/*.fasta $data_path/total_genomes
+	ln -s $data_path/genomes_problem/*fasta $data_path/total_genomes
+	ln -s $data_path/genomes_down/genomes/*.fasta $data_path/total_genomes
 
-	 ls $data_path/genomes_down/genomes > $data_path/genome_candidate_list
+	ls $data_path/genomes_down/genomes > $data_path/genome_candidate_list
 
-	 ls $data_path/genomes_problem > $data_path/all_genome_list
-	 ls $data_path/genomes_down/genomes >> $data_path/all_genome_list
+	ls $data_path/genomes_problem > $data_path/all_genome_list
+	ls $data_path/genomes_down/genomes >> $data_path/all_genome_list
 
 	current=`pwd`
 	cd $data_path/16S_NCBI/
@@ -110,7 +106,7 @@ if [ "$1" == "char" ]; then   ######LISTO
 		\\$scripts_path=$script_path
 		" | tr -d [:space:]`
 
-	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "2-00:00:00" -o $genome_analysis_path/char
+	AutoFlow -c 1 -s -w $template_path/genome_analysis.af -V $vars -t "4-00:00:00" -o $genome_analysis_path/char
 	
 fi
 
@@ -125,7 +121,7 @@ fi
 
 if [ "$1" == "tp_case" ]; then  ###LISTO
 
-	. ~soft_bio_267/initializes/init_autoflow 
+	. ~soft_bio_267/initializes/init_python
 
 	rm -r $genome_analysis_path/transposon/executions
 	output=$genome_analysis_path/transposon/executions
@@ -140,8 +136,8 @@ if [ "$1" == "tp_case" ]; then  ###LISTO
 			\\$genome_seq=$data_path/total_genomes/$genome,
 			\\$prot_database=$data_path/tp_data
 			" | tr -d [:space:]`
-		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -o "$output/"$genome $2
-	done < $data_path/all_genome_list 
+		AutoFlow -c 1 -s -w $template_path/tpflow -V $vars -t "4-00:00:00" -o "$output/"$genome
+	done < $data_path/Pdp11_genome_list      #all_genome_list 
 
 fi 
 

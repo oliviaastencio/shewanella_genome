@@ -10,7 +10,7 @@
 
 genome_anotation_dfast){
 
-	module load dfast_core/1.3.6 
+	module load dfast_core/1.3.8
 	module load ruby/2.4.1
 
 	mkdir -p genome_annotation/results_dfast_parser
@@ -27,7 +27,7 @@ genome_anotation_dfast){
 		grep -c "COG:" genome_annotation/$genome'_file'/genome.gff > genome_annotation/results_dfast_parser/$genome/COG_number
 		grep -c "TIGR" genome_annotation/$genome'_file'/genome.gff > genome_annotation/results_dfast_parser/$genome/TIGR_number
 		cd genome_annotation/results_dfast_parser
-		mv cog_table.txt $genome/cog_table.txt
+		##mv cog_table.txt $genome/cog_table.txt
 		sed -i "1i category\t$genome" $genome/cog_table.txt
 		cd ../..
 
@@ -80,18 +80,23 @@ sibelia){
 }
 
 pyani_db){
+	module unload openmpi_gcc/5.0.9_gcc15
+	module load fastANI/1.34
 	module load blast_plus/2.2.30+
-	module load mummer/3.22
-	module load pyani
+	module load mummer/3.23
+
+	export PATH=/mnt/home/users/pab_001_uma/oliastencio/.local/bin:$PATH
+	export PYTHONPATH=/mnt/home/users/pab_001_uma/oliastencio/.local/lib/python3.11/site-packages:$PYTHONPATH
 	
-	mkdir -p genome_pyani_anim
+	pyani-plus --help
+	mkdir -p results_pyani_anim
+
 	?
-	pyani index -i $data_path/total_genomes --labels labels.txt --classes classes.txt
-	pyani createdb
-	pyani anim --workers 8 -i $data_path/total_genomes -o genome_pyani_anim  -v -l anim.log --labels $data_path/total_genomes/labels.txt --classes $data_path/total_genomes/classes.txt
-	pyani report -v --runs -o genome_pyani_anim --formats excel 
-	pyani report -o genome_pyani_anim --formats stdout --run_matrices 1 
-	pyani plot -o genome_pyani_anim --run_id 1 -v --formats pdf 
+	pyani-plus anim $data_path/total_genomes --database genome_pyani_anim.db --create-db --name "ANIm run"
+	pyani-plus list-runs --database genome_pyani_anim.db 
+	pyani-plus export-run --database genome_pyani_anim.db --outdir results_pyani_anim --run-id 1
+	pyani-plus plot-run --database genome_pyani_anim.db --outdir graficos/ --run-id 1
+
 }
 
 
